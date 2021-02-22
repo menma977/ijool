@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 
 class HttpController extends Controller
 {
-  static private $key = "12650d1e50194d789bf03d22f90ecebe";
+  static private $key = "98a1783c323940e193acfbf7ff4b0aa2";
 
   /**
    * @param $action
@@ -35,6 +35,13 @@ class HttpController extends Controller
         $data = [
           'code' => 401,
           'message' => 'client error code 401',
+          'data' => [],
+        ];
+        break;
+      case $post->status() === 408:
+        $data = [
+          'code' => 408,
+          'message' => 'Timeout',
           'data' => [],
         ];
         break;
@@ -119,6 +126,13 @@ class HttpController extends Controller
         $data = [
           'code' => 400,
           'message' => 'key you provided is invalid',
+          'data' => [],
+        ];
+        break;
+      case str_contains($post->body(), 'error ') === true:
+        $data = [
+          'code' => 400,
+          'message' => 'Party Error',
           'data' => [],
         ];
         break;
