@@ -25,6 +25,8 @@ class User extends Authenticatable implements MustVerifyEmail
 {
   use HasFactory, Notifiable, SoftDeletes, HasApiTokens;
 
+  protected $with = ["profile", "doge"];
+
   /**
    * The attributes that are mass assignable.
    *
@@ -57,4 +59,14 @@ class User extends Authenticatable implements MustVerifyEmail
   protected $casts = [
     'email_verified_at' => 'datetime',
   ];
+
+  public function profile()
+  {
+    return $this->hasOne(Profile::class, "user_id", "id");
+  }
+
+  public function doge()
+  {
+    return $this->hasOne(Doge::class, "user_id", "id");
+  }
 }

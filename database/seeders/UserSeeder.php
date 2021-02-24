@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
     $user->username = "ijool";
     $user->email = "ijool@ijool.com";
     $user->password = Hash::make("ijoolAdmin");
+    $user->code = "ijool@admin";
     $user->email_verified_at = Carbon::now();
     $user->save();
   }

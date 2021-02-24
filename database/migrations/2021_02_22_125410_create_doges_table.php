@@ -14,8 +14,8 @@ class CreateDogesTable extends Migration
   public function up()
   {
     Schema::create('doges', function (Blueprint $table) {
-      $table->uuid("id");
-      $table->bigInteger("user_id");
+      $table->uuid("id")->primary();
+      $table->unsignedBigInteger("user_id");
       $table->foreign('user_id')->references('id')->on('users');
       $table->string("username");
       $table->string("password");
