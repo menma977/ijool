@@ -9,7 +9,7 @@ trait Uuid
   /**
    * Boot function from Laravel.
    */
-  protected static function boot()
+  protected static function boot(): void
   {
     parent::boot();
     static::creating(function ($model) {
@@ -24,7 +24,7 @@ trait Uuid
    *
    * @return bool
    */
-  public function getIncrementing()
+  public function getIncrementing(): bool
   {
     return false;
   }
@@ -34,7 +34,7 @@ trait Uuid
    *
    * @return string
    */
-  public function getKeyType()
+  public function getKeyType(): string
   {
     return 'string';
   }
