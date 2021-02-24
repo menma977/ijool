@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProfilesTable extends Migration
+class CreateSubscribesTable extends Migration
 {
   /**
    * Run the migrations.
@@ -13,14 +13,14 @@ class CreateProfilesTable extends Migration
    */
   public function up(): void
   {
-    Schema::create('profiles', function (Blueprint $table) {
-      $table->uuid("id")->primary();
+    Schema::create('subscribes', function (Blueprint $table) {
+      $table->id();
       $table->unsignedBigInteger("user_id");
       $table->foreign('user_id')->references('id')->on('users');
-      $table->text("image")->nullable();
-      $table->text("country")->nullable();
-      $table->text("city")->nullable();
+      $table->integer("price")->default(0);
+      $table->boolean("is_finished")->default(false);
       $table->timestamps();
+      $table->date("expired_at");
     });
   }
 
@@ -31,6 +31,6 @@ class CreateProfilesTable extends Migration
    */
   public function down(): void
   {
-    Schema::dropIfExists('profiles');
+    Schema::dropIfExists('subscribes');
   }
 }

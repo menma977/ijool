@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -23,7 +23,7 @@ use Laravel\Passport\HasApiTokens;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
-  use HasFactory, Notifiable, SoftDeletes, HasApiTokens;
+  use HasFactory, Notifiable, HasApiTokens;
 
   protected $with = ["profile", "doge"];
 
@@ -60,12 +60,18 @@ class User extends Authenticatable implements MustVerifyEmail
     'email_verified_at' => 'datetime',
   ];
 
-  public function profile()
+  /**
+   * @return HasOne
+   */
+  public function profile(): HasOne
   {
     return $this->hasOne(Profile::class, "user_id", "id");
   }
 
-  public function doge()
+  /**
+   * @return HasOne
+   */
+  public function doge(): HasOne
   {
     return $this->hasOne(Doge::class, "user_id", "id");
   }

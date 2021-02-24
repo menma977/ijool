@@ -10,20 +10,20 @@ use Illuminate\Http\Response;
 
 class EmailVerificationNotificationController extends Controller
 {
-    /**
-     * Send a new email verification notification.
-     *
-     * @param Request $request
-     * @return RedirectResponse|Response
-     */
-    public function store(Request $request)
-    {
-        if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(RouteServiceProvider::HOME);
-        }
-
-        $request->user()->sendEmailVerificationNotification();
-
-        return back()->with('status', 'verification-link-sent');
+  /**
+   * Send a new email verification notification.
+   *
+   * @param Request $request
+   * @return RedirectResponse|Response
+   */
+  public function store(Request $request)
+  {
+    if ($request->user()->hasVerifiedEmail()) {
+      return redirect()->intended(RouteServiceProvider::HOME);
     }
+
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('status', 'verification-link-sent');
+  }
 }

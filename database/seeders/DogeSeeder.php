@@ -13,7 +13,7 @@ class DogeSeeder extends Seeder
    *
    * @return void
    */
-  public function run()
+  public function run(): void
   {
     $doge = new Doge();
     $doge->user_id = User::first()->id;

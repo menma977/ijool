@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProfilesTable extends Migration
+class CreateLinesTable extends Migration
 {
   /**
    * Run the migrations.
@@ -13,13 +13,11 @@ class CreateProfilesTable extends Migration
    */
   public function up(): void
   {
-    Schema::create('profiles', function (Blueprint $table) {
+    Schema::create('lines', function (Blueprint $table) {
       $table->uuid("id")->primary();
-      $table->unsignedBigInteger("user_id");
-      $table->foreign('user_id')->references('id')->on('users');
-      $table->text("image")->nullable();
-      $table->text("country")->nullable();
-      $table->text("city")->nullable();
+      $table->bigInteger("user_id");
+      $table->bigInteger("mate");
+      $table->boolean("is_verified")->default(false);
       $table->timestamps();
     });
   }
@@ -31,6 +29,6 @@ class CreateProfilesTable extends Migration
    */
   public function down(): void
   {
-    Schema::dropIfExists('profiles');
+    Schema::dropIfExists('lines');
   }
 }

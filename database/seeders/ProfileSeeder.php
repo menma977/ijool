@@ -13,7 +13,7 @@ class ProfileSeeder extends Seeder
    *
    * @return void
    */
-  public function run()
+  public function run(): void
   {
     $profile = new Profile();
     $profile->user_id = User::first()->id;

@@ -5,21 +5,19 @@ namespace App\Models;
 use App\Providers\Uuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class Doge
+ * Class Subscribe
  * @package App\Models
  * @property string id
  * @property integer user_id
- * @property string username
- * @property string password
- * @property string wallet
- * @property string cookie
+ * @property integer price
+ * @property boolean is_finished
  * @property string created_at
  * @property string updated_at
+ * @property string expired_at
  */
-class Doge extends Model
+class Subscribe extends Model
 {
   use HasFactory, Uuid;
 
@@ -27,21 +25,12 @@ class Doge extends Model
 
   protected $fillable = [
     'user_id',
-    'username',
-    'wallet',
-    'cookie',
+    'price',
+    'is_finished',
+    'expired_at',
   ];
 
   protected $hidden = [
-    'id',
-    'password',
+    'id'
   ];
-
-  /**
-   * @return BelongsTo
-   */
-  public function user(): BelongsTo
-  {
-    return $this->belongsTo(User::class, "user_id", "id");
-  }
 }

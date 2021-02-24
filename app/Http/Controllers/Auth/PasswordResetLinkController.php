@@ -8,7 +8,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class PasswordResetLinkController extends Controller
@@ -30,7 +29,7 @@ class PasswordResetLinkController extends Controller
    * @return RedirectResponse
    *
    */
-  public function store(Request $request)
+  public function store(Request $request): RedirectResponse
   {
     $request->validate([
       'email' => 'required|email',
