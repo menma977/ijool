@@ -15,7 +15,7 @@ class HttpController extends Controller
    * @param false $needKey
    * @return Collection
    */
-  public static function post($action, $body, $needKey = false)
+  public static function post($action, $body, $needKey = false): Collection
   {
     $body["a"] = $action;
     if ($needKey) {
@@ -151,7 +151,7 @@ class HttpController extends Controller
   /**
    * @return Collection
    */
-  public static function price()
+  public static function price(): Collection
   {
     $get = Http::get("https://indodax.com/api/ticker/dogeidr");
 
