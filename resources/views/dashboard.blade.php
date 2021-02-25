@@ -1,17 +1,24 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@extends("layouts.app")
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    You're logged in!
-                </div>
-            </div>
-        </div>
+@section("title")
+  <nav aria-label="breadcrumb" class="col-sm-4 order-sm-last mb-3 mb-sm-0 p-0 ">
+    <ol class="breadcrumb d-inline-flex font-weight-600 fs-13 bg-white mb-0 float-sm-right">
+      <li class="breadcrumb-item"><a href="#">Home</a></li>
+      <li class="breadcrumb-item"><a href="#">Page</a></li>
+      <li class="breadcrumb-item active">Blank</li>
+    </ol>
+  </nav>
+  <div class="col-sm-8 header-title p-0">
+    <div class="media">
+      <div class="header-icon text-success mr-3"><i class="typcn typcn-puzzle-outline"></i></div>
+      <div class="media-body">
+        <h1 class="font-weight-bold">Blank Page</h1>
+        <small>From now on you will start your activities.</small>
+      </div>
     </div>
-</x-app-layout>
+  </div>
+@endsection
+
+@section("content")
+
+@endsection

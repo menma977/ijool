@@ -1,56 +1,46 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+@extends("layouts.guest")
 
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
-
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
-        <form method="POST" action="{{ route('login') }}">
+@section("content")
+  <div class="d-flex align-items-center justify-content-center text-center h-100vh">
+    <div class="form-wrapper m-auto">
+      <div class="form-container my-4">
+        <div class="register-logo text-center mb-4">
+          <img src="{{ asset("dist/img/logo.png") }}" alt="ijool" style="width: 20%">
+        </div>
+        <div class="panel">
+          <div class="panel-header text-center mb-3">
+            <h3 class="fs-24">Sign into your account!</h3>
+            <p class="text-muted text-center mb-0">Nice to see you! Please log in with your account.</p>
+          </div>
+          <form class="register-form" action="{{ route('login') }}" method="post">
             @csrf
-
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('username')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autofocus />
+            <div class="form-group">
+              <input type="text" class="form-control @error('username') is-invalid @enderror" id="_username" name="username" placeholder="Enter username" value="{{ old("username") }}" autofocus>
+              @error('username')
+              <div class="invalid-feedback text-left">{{ $message }}</div>
+              @enderror
             </div>
-
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
-
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
+            <div class="form-group">
+              <input type="password" class="form-control @error('password') is-invalid @enderror" id="_password" name="password" placeholder="Password">
+              @error('password')
+              <div class="invalid-feedback text-left">{{ $message }}</div>
+              @enderror
             </div>
-
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
+            <div class="custom-control custom-checkbox mb-3">
+              <input type="checkbox" class="custom-control-input" id="remember_me" name="remember">
+              <label class="custom-control-label" for="remember_me">Remember me next time </label>
             </div>
-
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-
-                <x-button class="ml-3">
-                    {{ __('Login') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+            <button type="submit" class="btn btn-success btn-block">Sign in</button>
+          </form>
+        </div>
+        <div class="bottom-text text-center my-3">
+          Don't have an account? <a href="{{ route("register") }}" class="font-weight-500">Sign Up</a>
+          @if (Route::has('password.request'))
+            <br>
+            Remind <a href="{{ route('password.request') }}" class="font-weight-500">Password</a>
+          @endif
+        </div>
+      </div>
+    </div>
+  </div>
+@endsection

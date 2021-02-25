@@ -18,7 +18,11 @@ Route::get('/', function () {
   return view('welcome');
 });
 
-Route::middleware(['auth'])->group(static function () {
+Route::get("terms_of_service", function () {
+  return view("rule");
+})->name("rule");
+
+Route::middleware(['auth', 'verified'])->group(static function () {
   Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
     Route::get("", [DashboardController::class, 'index'])->name('index');
   });

@@ -12,7 +12,6 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -40,8 +39,13 @@ class RegisteredUserController extends Controller
   {
     $request->validate([
       'name' => 'required|string|max:255',
+      'code' => 'required|string|min:6|unique:users',
+      'username' => 'required|string|max:255|unique:users',
       'email' => 'required|string|email|max:255|unique:users',
-      'password' => 'required|string|confirmed|min:8',
+      'password' => 'required|string|confirmed|min:6',
+      'city' => 'required|string',
+      'country' => 'required|string',
+      'image' => 'nullable|string|min:6',
     ]);
 
     $user = new User();
@@ -62,12 +66,7 @@ class RegisteredUserController extends Controller
       $profile->image = $imageName;
       ImageController::profile($request->input("image"), $imageName);
     }
-
-    Auth::login($user = User::create([
-      'name' => $request->name,
-      'email' => $request->email,
-      'password' => Hash::make($request->password),
-    ]));
+    $profile->save();
 
     event(new Registered($user));
 

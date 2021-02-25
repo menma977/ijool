@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\Verified;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -74,5 +75,10 @@ class User extends Authenticatable implements MustVerifyEmail
   public function doge(): HasOne
   {
     return $this->hasOne(Doge::class, "user_id", "id");
+  }
+
+  public function sendEmailVerificationNotification()
+  {
+    $this->notify(new Verified());
   }
 }
