@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 class HttpController extends Controller
@@ -13,9 +12,9 @@ class HttpController extends Controller
    * @param $action
    * @param $body
    * @param false $needKey
-   * @return Collection
+   * @return object
    */
-  public static function post($action, $body, $needKey = false): Collection
+  public static function post($action, $body, $needKey = false): object
   {
     $body["a"] = $action;
     if ($needKey) {
@@ -140,41 +139,11 @@ class HttpController extends Controller
         $data = [
           'code' => 200,
           'message' => 'successful',
-          'data' => collect($post->json()),
+          'data' => (object)$post->json(),
         ];
         break;
     }
 
-    return collect($data);
-  }
-
-  /**
-   * @return Collection
-   */
-  public static function price(): Collection
-  {
-    $get = Http::get("https://indodax.com/api/ticker/dogeidr");
-
-    if ($get->serverError()) {
-      $data = [
-        "code" => 500,
-        "message" => 'server error code 500',
-        "data" => 0
-      ];
-    } else if ($get->clientError()) {
-      $data = [
-        "code" => 401,
-        "message" => 'client error code 401',
-        "data" => 0
-      ];
-    } else {
-      $data = [
-        "code" => 200,
-        "message" => 'successful',
-        "data" => $get["ticker"]["buy"],
-      ];
-    }
-
-    return collect($data);
+    return (object)$data;
   }
 }

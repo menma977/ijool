@@ -25,6 +25,7 @@ Route::get("terms_of_service", function () {
 Route::middleware(['auth', 'verified'])->group(static function () {
   Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
     Route::get("", [DashboardController::class, 'index'])->name('index');
+    Route::get("candle", [DashboardController::class, 'candle'])->name('candle');
   });
 });
 

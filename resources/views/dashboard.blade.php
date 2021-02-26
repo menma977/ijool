@@ -20,5 +20,58 @@
 @endsection
 
 @section("content")
+  <div class="card mb-4">
+    <div class="card-body">
+      <div id="apexCandlestickCharts"></div>
+    </div>
+  </div>
+@endsection
 
+@section("addJs")
+  <script src="{{ asset("plugins/apexcharts/dist/apexcharts.min.js") }}"></script>
+  <script>
+    const oldData = @json($marketPrice);
+    $(function () {
+      const defaultData = {
+        chart: {
+          height: 350,
+          type: 'candlestick'
+        },
+        series: [{
+          data: oldData
+        }],
+        title: {
+          text: 'Doge Price',
+          align: 'left'
+        },
+        yaxis: {
+          tooltip: {
+            enabled: true
+          }
+        },
+      };
+
+      const chart = new ApexCharts(document.querySelector("#apexCandlestickCharts"), defaultData);
+      chart.render();
+
+      setInterval(async function () {
+        await fetch("{{ route("dashboard.candle", null) }}", {
+          method: 'GET',
+          headers: new Headers({
+            'Content-Type': 'application/x-www-form-urlencoded',
+            "X-CSRF-TOKEN": $("input[name='_token']").val()
+          })
+        }).then((response) => response.json()).then((response) => {
+          oldData.shift();
+          oldData.push(response);
+          chart.updateSeries([{
+            data: oldData
+          }]);
+        }).catch((e) => {
+          console.log(e);
+        })
+      }, 10000);
+    })
+    ;
+  </script>
 @endsection
