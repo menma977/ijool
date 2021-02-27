@@ -22,7 +22,7 @@
   <link href="{{ asset("dist/css/style.css") }}" rel="stylesheet">
   @yield("addCss")
 </head>
-<body class="fixed">
+<body id="app" class="fixed">
 <!-- Page Loader -->
 <div class="page-loader-wrapper">
   <div class="loader">
