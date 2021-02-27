@@ -18,6 +18,8 @@
 @endsection
 
 @section("content")
+<button id="startChart" type="button"
+  class="btn btn-warning-soft btn-block rounded-pill w-100p mb-2 mr-1">Start</button>
 <div class="row">
   <div class="col-md-12">
     <div class="card mb-4">
@@ -105,6 +107,7 @@
   const last = @json($last);
     const buy = @json($buy);
     const sell = @json($sell);
+    $(() => {
       const liveChart = new Chart($("#livePriceChart"), {
         type: 'line',
         data: {
@@ -161,7 +164,6 @@
       });
 
       setInterval(function () {
-        console.log("A");
         $.ajax("{{ route("dashboard.candle", null) }}", {
           method: 'GET',
           headers: new Headers({
@@ -193,6 +195,6 @@
           console.log(e);
         })
       }, 1000);
-    ;
+    });
 </script>
 @endsection

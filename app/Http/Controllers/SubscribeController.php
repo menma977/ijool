@@ -9,9 +9,7 @@ use App\Models\Subscribe;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class SubscribeController extends Controller
 {
@@ -20,13 +18,13 @@ class SubscribeController extends Controller
    */
   public function subscribe(): RedirectResponse
   {
-//    return back()->with(["error" => "Your subscription has been stopped."]);
+
     $user = User::find(Auth::id());
     if ($user->subscribe) {
       $user->subscribe = false;
       $user->save();
       Subscribe::where('is_finished', false)->update(["is_finished" => true]);
-      return back()->with(["message" => "Your subscription has been stopped."]);
+      return back()->with(["warning" => "Your subscription has been stopped."]);
     }
 
     $onSubscribe = self::onSubscribe($user);
