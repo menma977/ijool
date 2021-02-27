@@ -105,7 +105,6 @@
   const last = @json($last);
     const buy = @json($buy);
     const sell = @json($sell);
-    $("body").on("load", e => {
       const liveChart = new Chart($("#livePriceChart"), {
         type: 'line',
         data: {
@@ -162,7 +161,8 @@
       });
 
       setInterval(function () {
-        fetch("{{ route("dashboard.candle", null) }}", {
+        console.log("A");
+        $.ajax("{{ route("dashboard.candle", null) }}", {
           method: 'GET',
           headers: new Headers({
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -170,7 +170,8 @@
             "pragma": 'no-cache',
             "cache-control": 'no-cache',
           })
-        }).then((response) => response.json()).then((response) => {
+        }).done(async function(response) {
+          response = await response
           last.shift();
           last.push(response.last);
           buy.shift();
@@ -188,11 +189,10 @@
           $("#progress").html(response.last + " DOGE (" + progress.toFixed(2) + "%)").width(progress + "%");
           $("#high").html('<span class="text-size-2 ">' + response.high + '</span> DOGE');
           $("#low").html('<span class="text-size-2 ">' + response.low + '</span> DOGE');
-        }).catch((e) => {
+        }).fail((e) => {
           console.log(e);
         })
       }, 1000);
-    })
     ;
 </script>
 @endsection
