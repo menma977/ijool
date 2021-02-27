@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SubscribeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
   return view('welcome');
-});
+})->name("welcome");
 
 Route::get("terms_of_service", function () {
   return view("rule");
@@ -26,6 +27,10 @@ Route::middleware(['auth', 'verified'])->group(static function () {
   Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
     Route::get("", [DashboardController::class, 'index'])->name('index');
     Route::get("candle", [DashboardController::class, 'candle'])->name('candle');
+  });
+
+  Route::group(['prefix' => 'subscribe', 'as' => 'subscribe.'], function () {
+    Route::get("agree", [SubscribeController::class, 'subscribe'])->name('agree');
   });
 });
 

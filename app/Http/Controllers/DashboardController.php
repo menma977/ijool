@@ -17,20 +17,29 @@ class DashboardController extends Controller
    */
   public function index()
   {
-    $marketPrice = MarketPrice::orderBy("created_at", "asc")->get();
+    $xIndex = [];
+    $buy = [];
+    $sell = [];
+    $last = [];
+    $high = [];
+    $low = [];
+    $marketPrice = MarketPrice::orderBy("created_at", "asc")->take(50)->get();
     foreach ($marketPrice as $index => $item) {
-      $this->jsonDataMarket[$index] = [
-        "x" => Carbon::parse($item->created_at)->format("H:i:s"),
-        "y" => [
-          $item->last,
-          $item->high,
-          $item->low,
-          $item->sell
-        ]
-      ];
+      $xIndex[$index] = $index + 1;
+      $buy[$index] = round(($item->buy * 1500) / 10 ** 8, 8);
+      $sell[$index] = round(($item->sell * 1500) / 10 ** 8, 8);
+      $last[$index] = round(($item->last * 1500) / 10 ** 8, 8);
+      $high[$index] = round(($item->high * 1500) / 10 ** 8, 8);
+      $low[$index] = round(($item->low * 1500) / 10 ** 8, 8);
     }
     $data = [
       "marketPrice" => $this->jsonDataMarket,
+      "index" => $xIndex,
+      "buy" => $buy,
+      "sell" => $sell,
+      "last" => $last,
+      "high" => $high,
+      "low" => $low,
     ];
 
     return view("dashboard", $data);
@@ -44,18 +53,21 @@ class DashboardController extends Controller
     $marketPrice = MarketPrice::orderBy("created_at", "desc")->first();
     if ($marketPrice) {
       return [
-        "x" => Carbon::parse($marketPrice->created_at)->format("H:i:s"),
-        "y" => [
-          $marketPrice->last,
-          $marketPrice->high,
-          $marketPrice->low,
-          $marketPrice->sell
-        ]
+        "index" => 100,
+        "buy" => round(($marketPrice->buy * 1500) / 10 ** 8, 8),
+        "sell" => round(($marketPrice->sell * 1500) / 10 ** 8, 8),
+        "last" => round(($marketPrice->last * 1500) / 10 ** 8, 8),
+        "high" => round(($marketPrice->high * 1500) / 10 ** 8, 8),
+        "low" => round(($marketPrice->low * 1500) / 10 ** 8, 8),
       ];
     }
     return [
-      "x" => Carbon::now()->format("H:i:s"),
-      "y" => [0, 0, 0, 0]
+      "index" => 100,
+      "buy" => 0,
+      "sell" => 0,
+      "last" => 0,
+      "high" => 0,
+      "low" => 0,
     ];
   }
 }

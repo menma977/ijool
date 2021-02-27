@@ -3,82 +3,144 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use Illuminate\Support\Collection;
 
 class DogeController extends Controller
 {
   /**
-   * @return Collection
+   * @return object
    */
-  public static function createAccount(): Collection
+  public static function createAccount(): object
   {
     $post = HttpController::post("CreateAccount", [], true);
     if ($post->code === 200) {
-      return collect([
+      return (object)[
         "code" => 200,
         "message" => "successfully created account",
-        "data" => $post->data->SessionCookie,
-      ]);
+        "data" => (object)[
+          "cookie" => $post->data->SessionCookie
+        ],
+      ];
     }
 
-    return collect([
+    return (object)[
       "code" => 400,
       "message" => "create account failed. please try again",
-      "data" => null,
-    ]);
+      "data" => [],
+    ];
   }
 
   /**
    * @param $cookie
-   * @return Collection
+   * @return object
    */
-  public static function wallet($cookie): Collection
+  public static function wallet($cookie): object
   {
     $data = [
       "s" => $cookie,
       'Currency' => "doge"
     ];
-    $post = HttpController::post("GetDepositAddress", $data, true);
+    $post = HttpController::post("GetDepositAddress", $data);
     if ($post->code === 200) {
-      return collect([
-        "code" => 200,
-        "message" => "successfully created wallet",
-        "data" => $post->data->Address,
-      ]);
+      return (object)[
+        "code" => $post->code,
+        "message" => $post->message,
+        "data" => (object)[
+          "wallet" => $post->data->Address
+        ],
+      ];
     }
 
-    return collect([
-      "code" => 400,
-      "message" => "create wallet failed. please try again",
-      "data" => null,
-    ]);
+    return (object)[
+      "code" => $post->code,
+      "message" => $post->message,
+      "data" => [],
+    ];
   }
 
   /**
    * @param $cookie
    * @param $username
    * @param $password
-   * @return Collection
+   * @return object
    */
-  public static function createUser($cookie, $username, $password): Collection
+  public static function createUser($cookie, $username, $password): object
   {
     $data = [
       "s" => $cookie,
       "Username" => $username,
       "Password" => $password,
     ];
-    $post = HttpController::post("CreateUser", $data, true);
+    $post = HttpController::post("CreateUser", $data);
     if ($post->code === 200) {
-      return collect([
-        "code" => 200,
-        "message" => "successfully created user",
-      ]);
+      return (object)[
+        "code" => $post->code,
+        "message" => $post->message,
+      ];
     }
 
-    return collect([
-      "code" => 400,
-      "message" => "create user failed.",
-    ]);
+    return (object)[
+      "code" => $post->code,
+      "message" => $post->message,
+    ];
+  }
+
+
+  /**
+   * @param $username
+   * @param $password
+   * @return object
+   */
+  public static function login($username, $password): object
+  {
+    $data = [
+      "Username" => $username,
+      "Password" => $password,
+    ];
+    $post = HttpController::post("Login", $data, true);
+    if ($post->code === 200) {
+      return (object)[
+        "code" => $post->code,
+        "message" => $post->message,
+        "data" => (object)[
+          "cookie" => $post->data->SessionCookie,
+          "balance" => $post->data->Doge["Balance"],
+        ],
+      ];
+    }
+
+    return (object)[
+      "code" => $post->code,
+      "message" => $post->message,
+      "data" => []
+    ];
+  }
+
+  /**
+   * @param $cookie
+   * @return object
+   */
+  public static function balance($cookie): object
+  {
+    $data = [
+      "s" => $cookie,
+      "Currency" => "doge"
+    ];
+    $post = HttpController::post("GetBalance", $data);
+    if ($post->code === 200) {
+      return (object)[
+        "code" => $post->code,
+        "message" => $post->message,
+        "data" => (object)[
+          "balance" => $post->balance,
+        ],
+      ];
+    }
+
+    return (object)[
+      "code" => $post->code,
+      "message" => $post->message,
+      "data" => [],
+    ];
   }
 
   /**

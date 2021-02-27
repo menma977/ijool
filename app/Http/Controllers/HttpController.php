@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class HttpController extends Controller
 {
@@ -21,6 +22,8 @@ class HttpController extends Controller
       $body["Key"] = self::$key;
     }
     $post = Http::asForm()->post("https://www.999doge.com/api/web.aspx", $body);
+    Log::info($body);
+    Log::info($post);
 
     switch ($post) {
       case $post->serverError():
@@ -48,6 +51,13 @@ class HttpController extends Controller
         $data = [
           'code' => 500,
           'message' => 'server has been blocked',
+          'data' => [],
+        ];
+        break;
+      case str_contains($post->body(), 'Invalid session') === true:
+        $data = [
+          'code' => 400,
+          'message' => 'Invalid session.',
           'data' => [],
         ];
         break;

@@ -17,7 +17,7 @@ class CreateSubscribesTable extends Migration
       $table->id();
       $table->unsignedBigInteger("user_id");
       $table->foreign('user_id')->references('id')->on('users');
-      $table->integer("price")->default(0);
+      $table->string("price")->default(0);
       $table->boolean("is_finished")->default(false);
       $table->timestamps();
       $table->date("expired_at");

@@ -9,7 +9,7 @@
   <meta name="author" content="IJOOL">
   <title>IJOOL</title>
   <!-- App favicon -->
-  <link rel="shortcut icon" href="{{ asset("dist/img/favicon.png") }}">
+  <link rel="shortcut icon" href="{{ asset("dist/img/logo_bg.png") }}">
   <!--Global Styles(used by all pages)-->
   <link href="{{ asset("plugins/bootstrap/css/bootstrap.min.css") }}" rel="stylesheet">
   <link href="{{ asset("plugins/metisMenu/metisMenu.min.css") }}" rel="stylesheet">
@@ -17,7 +17,7 @@
   <link href="{{ asset("plugins/typicons/src/typicons.min.css") }}" rel="stylesheet">
   <link href="{{ asset("plugins/themify-icons/themify-icons.min.css") }}" rel="stylesheet">
   <!--Third party Styles(used by this page)-->
-
+  <link href="{{ asset("plugins/toastr/toastr.css") }}" rel="stylesheet">
   <!--Start Your Custom Style Now-->
   <link href="{{ asset("dist/css/style.css") }}" rel="stylesheet">
   @yield("addCss")
@@ -77,7 +77,7 @@
 <script src="{{ asset("plugins/metisMenu/metisMenu.min.js") }}"></script>
 <script src="{{ asset("plugins/perfect-scrollbar/dist/perfect-scrollbar.min.js") }}"></script>
 <!-- Third Party Scripts(used by this page)-->
-
+<script src="{{ asset("plugins/toastr/toastr.min.js") }}"></script>
 <!--Page Active Scripts(used by this page)-->
 
 <!--Page Scripts(used by all page)-->
@@ -88,6 +88,28 @@
       event.preventDefault();
       document.getElementById('logout-form').submit();
     });
+
+    @if(session()->has("message"))
+    toastr.success("{{ session()->get("message") }}");
+    @endif
+
+    @if(session()->has("info"))
+    toastr.info("{{ session()->get("info") }}");
+    @endif
+
+    @if(session()->has("warning"))
+    toastr.warning("{{ session()->get("warning") }}");
+    @endif
+
+    @if(session()->has("error"))
+    toastr.error("{{ session()->get("error") }}");
+    @endif
+
+    @if ($errors->any())
+    @foreach ($errors->all() as $error)
+    toastr.error("{{ $error }}");
+    @endforeach
+    @endif
   });
 </script>
 

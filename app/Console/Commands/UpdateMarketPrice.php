@@ -28,12 +28,12 @@ class UpdateMarketPrice extends Command
    */
   public function handle()
   {
-    for ($i = 0; $i < 6; $i++) {
-      sleep(10);
+    for ($i = 0; $i < 60; $i++) {
+      sleep(1);
       $price = IndodaxController::price();
       if ($price->code === 200) {
         $sizeMarketPrice = MarketPrice::count();
-        if ($sizeMarketPrice >= 60) {
+        if ($sizeMarketPrice >= 200) {
           MarketPrice::orderBy("created_at", "asc")->first()->delete();
         }
 

@@ -13,11 +13,14 @@ use Laravel\Passport\HasApiTokens;
 /**
  * Class User
  * @package App\Models
+ * @property string role
  * @property string name
  * @property string code
  * @property string username
  * @property string email
  * @property string password
+ * @property int suspend
+ * @property int subscribe
  * @property string email_verified_at
  * @property string created_at
  * @property string updated_at
@@ -34,11 +37,14 @@ class User extends Authenticatable implements MustVerifyEmail
    * @var array
    */
   protected $fillable = [
+    'role',
     'name',
     'code',
     'username',
     'email',
     'password',
+    'suspend',
+    'subscribe',
   ];
 
   /**
