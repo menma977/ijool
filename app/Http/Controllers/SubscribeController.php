@@ -24,7 +24,7 @@ class SubscribeController extends Controller
       $user->subscribe = false;
       $user->save();
       Subscribe::where('is_finished', false)->update(["is_finished" => true]);
-      return back()->with(["message" => "Your subscription has been stopped."]);
+      return back()->with(["warning" => "Your subscription has been stopped."]);
     }
 
     $onSubscribe = self::onSubscribe($user);
