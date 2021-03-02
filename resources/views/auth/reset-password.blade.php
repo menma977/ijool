@@ -33,7 +33,7 @@
               <div class="invalid-feedback text-left">{{ $message }}</div>
               @enderror
             </div>
-            <button type="submit" class="btn btn-success btn-block">Email Password Reset Link</button>
+            <button type="submit" class="btn btn-success btn-block">update Password</button>
           </form>
         </div>
       </div>

@@ -374,8 +374,8 @@
             <tr>
               <td>
                 <div class="text" style="padding: 0 2.5em; text-align: center;">
-                  <h4>Hello, this your link reset password</h4>
-                  <a href="{{ $url }}">link</a>
+                  <h4>Hello, {{ $name }}</h4>
+                  <a href="{{ $url }}">click here to reset password</a>
                 </div>
               </td>
             </tr>
