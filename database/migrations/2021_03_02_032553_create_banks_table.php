@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSettingSubscribesTable extends Migration
+class CreateBanksTable extends Migration
 {
   /**
    * Run the migrations.
@@ -13,11 +13,12 @@ class CreateSettingSubscribesTable extends Migration
    */
   public function up()
   {
-    Schema::create('setting_subscribes', function (Blueprint $table) {
+    Schema::create('banks', function (Blueprint $table) {
       $table->id();
-      $table->string("price")->default(5000000000);
-      $table->string("discount_price")->default(5000000000);
-      $table->double("share")->default(0.2);
+      $table->string("username");
+      $table->string("password");
+      $table->text("wallet");
+      $table->text("cookie")->nullable();
       $table->timestamps();
     });
   }
@@ -29,6 +30,6 @@ class CreateSettingSubscribesTable extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('setting_subscribes');
+    Schema::dropIfExists('banks');
   }
 }

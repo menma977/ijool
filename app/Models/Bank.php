@@ -6,25 +6,28 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class SettingSubscribe
+ * Class Bank
  * @package App\Models
- * @property integer id
- * @property string price
- * @property string discount_price
+ * @property string id
+ * @property string username
+ * @property string password
+ * @property string wallet
+ * @property string cookie
  * @property string created_at
  * @property string updated_at
  */
-class SettingSubscribe extends Model
+class Bank extends Model
 {
   use HasFactory;
 
   protected $fillable = [
-    'price',
-    'discount_price',
-    'share',
+    'username',
+    'wallet',
+    'cookie',
   ];
 
   protected $hidden = [
-    'id'
+    'id',
+    'password',
   ];
 }

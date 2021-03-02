@@ -131,8 +131,38 @@ class DogeController extends Controller
         "code" => $post->code,
         "message" => $post->message,
         "data" => (object)[
-          "balance" => $post->balance,
+          "balance" => $post->data->Balance,
         ],
+      ];
+    }
+
+    return (object)[
+      "code" => $post->code,
+      "message" => $post->message,
+      "data" => [],
+    ];
+  }
+
+  /**
+   * @param $cookie
+   * @param $wallet
+   * @param $amount
+   * @return object
+   */
+  public static function withdraw($cookie, $wallet, $amount): object
+  {
+    $data = [
+      "s" => $cookie,
+      "Address" => $wallet,
+      "Amount" => $amount,
+      "Currency" => "doge",
+    ];
+    $post = HttpController::post("Withdraw", $data);
+    if ($post->code === 200) {
+      return (object)[
+        "code" => $post->code,
+        "message" => $post->message,
+        "data" => [],
       ];
     }
 

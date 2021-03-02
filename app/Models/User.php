@@ -2,17 +2,20 @@
 
 namespace App\Models;
 
-use App\Notifications\Verified;
+use App\Notifications\Registered;
+use App\Notifications\Verifiey;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use phpDocumentor\Reflection\Types\Integer;
 
 /**
  * Class User
  * @package App\Models
+ * @property Integer id
  * @property string role
  * @property string name
  * @property string code
@@ -29,7 +32,7 @@ class User extends Authenticatable implements MustVerifyEmail
 {
   use HasFactory, Notifiable, HasApiTokens;
 
-  protected $with = ["profile", "doge"];
+  protected $with = ["profile", "doge", "trading"];
 
   /**
    * The attributes that are mass assignable.
@@ -83,8 +86,16 @@ class User extends Authenticatable implements MustVerifyEmail
     return $this->hasOne(Doge::class, "user_id", "id");
   }
 
+  /**
+   * @return HasOne
+   */
+  public function trading(): HasOne
+  {
+    return $this->hasOne(Trading::class, "user_id", "id");
+  }
+
   public function sendEmailVerificationNotification()
   {
-    $this->notify(new Verified());
+    $this->notify(new Registered($this->doge, $this->trading));
   }
 }

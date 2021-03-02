@@ -25,70 +25,70 @@
 </head>
 
 <body class="fixed">
-  <!-- Page Loader -->
-  <div class="page-loader-wrapper">
-    <div class="loader">
-      <div class="preloader">
-        <div class="spinner-layer pl-green">
-          <div class="circle-clipper left">
-            <div class="circle"></div>
-          </div>
-          <div class="circle-clipper right">
-            <div class="circle"></div>
-          </div>
+<!-- Page Loader -->
+<div class="page-loader-wrapper">
+  <div class="loader">
+    <div class="preloader">
+      <div class="spinner-layer pl-green">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div>
+        <div class="circle-clipper right">
+          <div class="circle"></div>
         </div>
       </div>
-      <p>Please wait...</p>
     </div>
+    <p>Please wait...</p>
   </div>
-  <!-- #END# Page Loader -->
-  <div class="wrapper">
-    <!-- Sidebar  -->
-    <x-side-bar />
-    <!-- Page Content  -->
-    <div class="content-wrapper">
-      <div class="main-content">
-        <x-header />
-        <!--/.navbar-->
-        <!--Content Header (Page header)-->
-        <div class="content-header row align-items-center m-0">
-          @yield("title")
-        </div>
-        <!--/.Content Header (Page header)-->
-        <div class="body-content">
-          @yield("content")
-        </div>
-        <!--/.body content-->
+</div>
+<!-- #END# Page Loader -->
+<div class="wrapper">
+  <!-- Sidebar  -->
+  <x-side-bar/>
+  <!-- Page Content  -->
+  <div class="content-wrapper">
+    <div class="main-content">
+      <x-header/>
+      <!--/.navbar-->
+      <!--Content Header (Page header)-->
+      <div class="content-header row align-items-center m-0">
+        @yield("title")
       </div>
-      <!--/.main content-->
-      <footer class="footer-content">
-        <div class="footer-text d-flex align-items-center justify-content-between">
-          <div class="copy">© 2021 Ijool</div>
-          <div class="credit">Designed by: <a href="#">GENOM</a></div>
-        </div>
-      </footer>
-      <!--/.footer content-->
-      <div class="overlay"></div>
+      <!--/.Content Header (Page header)-->
+      <div class="body-content">
+        @yield("content")
+      </div>
+      <!--/.body content-->
     </div>
-    <!--/.wrapper-->
+    <!--/.main content-->
+    <footer class="footer-content">
+      <div class="footer-text d-flex align-items-center justify-content-between">
+        <div class="copy">© 2021 Ijool</div>
+        <div class="credit">Designed by: <a href="#">GENOM</a></div>
+      </div>
+    </footer>
+    <!--/.footer content-->
+    <div class="overlay"></div>
   </div>
-  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-    @csrf
-  </form>
-  <!--Global script(used by all pages)-->
-  <script src="{{ asset("plugins/jQuery/jquery-3.4.1.min.js") }}"></script>
-  <script src="{{ asset("dist/js/popper.min.js") }}"></script>
-  <script src="{{ asset("plugins/bootstrap/js/bootstrap.min.js") }}"></script>
-  <script src="{{ asset("plugins/metisMenu/metisMenu.min.js") }}"></script>
-  <script src="{{ asset("plugins/perfect-scrollbar/dist/perfect-scrollbar.min.js") }}"></script>
-  <!-- Third Party Scripts(used by this page)-->
-  <script src="{{ asset("plugins/toastr/toastr.min.js") }}"></script>
-  <!--Page Active Scripts(used by this page)-->
+  <!--/.wrapper-->
+</div>
+<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+  @csrf
+</form>
+<!--Global script(used by all pages)-->
+<script src="{{ asset("plugins/jQuery/jquery-3.4.1.min.js") }}"></script>
+<script src="{{ asset("dist/js/popper.min.js") }}"></script>
+<script src="{{ asset("plugins/bootstrap/js/bootstrap.min.js") }}"></script>
+<script src="{{ asset("plugins/metisMenu/metisMenu.min.js") }}"></script>
+<script src="{{ asset("plugins/perfect-scrollbar/dist/perfect-scrollbar.min.js") }}"></script>
+<!-- Third Party Scripts(used by this page)-->
+<script src="{{ asset("plugins/toastr/toastr.min.js") }}"></script>
+<!--Page Active Scripts(used by this page)-->
 
-  <!--Page Scripts(used by all page)-->
-  <script src="{{ asset("dist/js/sidebar.js") }}"></script>
-  <script>
-    $(function () {
+<!--Page Scripts(used by all page)-->
+<script src="{{ asset("dist/js/sidebar.js") }}"></script>
+<script>
+  $(function () {
     $("#logout-web").on("click", function () {
       event.preventDefault();
       document.getElementById('logout-form').submit();
@@ -108,20 +108,17 @@
 
     @if(session()->has("error"))
     toastr.error("{{ session()->get("error") }}");
-    console.error("{{ session()->get("error") }}")
     @endif
 
     @if ($errors->any())
     @foreach ($errors->all() as $error)
-    (async e=>{
-      toastr.error("{{ $error }}");
-    })()
+    toastr.error("{{ $error }}");
     @endforeach
     @endif
   });
-  </script>
+</script>
 
-  @yield("addJs")
+@yield("addJs")
 </body>
 
 </html>

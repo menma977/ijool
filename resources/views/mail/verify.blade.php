@@ -374,7 +374,7 @@
             <tr>
               <td>
                 <div class="text" style="padding: 0 2.5em; text-align: center;">
-                  <h4>Hello, this your link reset password</h4>
+                  <h4>Hello, this your link verify your account</h4>
                   <a href="{{ $url }}">link</a>
                 </div>
               </td>

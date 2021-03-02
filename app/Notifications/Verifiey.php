@@ -10,7 +10,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
 
-class Verified extends Notification
+class Verifiey extends Notification
 {
   use Queueable;
 
@@ -42,7 +42,7 @@ class Verified extends Notification
     $verificationUrl = $this->verificationUrl($notifiable);
     return (new MailMessage)
       ->subject('Verify Email Address')
-      ->view('mail.password.reset', [
+      ->view('mail.verify', [
         "url" => $verificationUrl
       ]);
   }

@@ -15,12 +15,12 @@
           </div>
           <form class="register-form" action="{{ route('verification.send') }}" method="post">
             @csrf
-            <button type="submit" class="btn btn-success btn-block">Resend Verification Email</button>
+            <button type="submit" class="btn btn-warning btn-block">Verification Email</button>
           </form>
           <hr/>
           <form class="register-form" action="{{ route('logout') }}" method="post">
             @csrf
-            <button type="submit" class="btn btn-success btn-block">Logout</button>
+            <button type="submit" class="btn btn-danger btn-block">Logout</button>
           </form>
         </div>
       </div>

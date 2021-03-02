@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 
 class HttpController extends Controller
 {
-  static private $key = "98a1783c323940e193acfbf7ff4b0aa2";
+  static private $key = "d73de03e987b4c2e9ba61676de3bf27c";
 
   /**
    * @param $action

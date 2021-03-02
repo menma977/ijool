@@ -11,7 +11,7 @@
         <div class="row">
           <div class="col-md-3">
             <div class="p-2 bg-warning text-black rounded mb-3 p-3 shadow-sm text-center position-relative overflow-hidden">
-              <i class="decorative-icon fas fa fa-exclamation-circle opacity-25 fa-5x animated infinite pulse slower"></i>
+              <i class="decorative-icon fas fa fa-paw opacity-25 fa-5x animated infinite pulse slower"></i>
               <div class="bg-dark text-white rounded">
                 <h4 class="p-2">PRICE {{ $price ?? 0 }} DOGE</h4>
               </div>

@@ -6,10 +6,10 @@
       <div class="row">
         <div class="col-sm-12">
           <div class="four_zero_four_bg">
-            <h1 class="font-weight-bold text-monospace">404</h1>
+            <h1 class="font-weight-bold text-monospace">410</h1>
           </div>
           <div class="contant_box_505">
-            <h3 class="h2">Page not pound.</h3>
+            <h3 class="h2">page expired.</h3>
             <p>The server encountered something unexpected that didn't allow it to complete the request.<br>
               We apologize. You can go back to main page:</p>
             <a href="{{ url("/") }}" class="btn btn-success mt-3">Dashboard</a>

@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\DogeController;
 use App\Http\Controllers\ImageController;
+use App\Models\Doge;
+use App\Models\Line;
 use App\Models\Profile;
+use App\Models\Trading;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -34,10 +39,12 @@ class RegisteredUserController extends Controller
    * @param Request $request
    * @return RedirectResponse
    *
+   * @throws Exception
    */
   public function store(Request $request): RedirectResponse
   {
     $request->validate([
+      'voucher' => 'nullable|string|max:255|exists:users,code',
       'name' => 'required|string|max:255',
       'code' => 'required|string|min:6|unique:users',
       'username' => 'required|string|max:255|unique:users',
@@ -45,8 +52,18 @@ class RegisteredUserController extends Controller
       'password' => 'required|string|confirmed|min:6',
       'city' => 'required|string',
       'country' => 'required|string',
-      'image' => 'nullable|string|min:6',
+      'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2000',
     ]);
+
+    $dogeAccount = $this->makeCoin();
+    if ($dogeAccount->code != 200) {
+      return back()->with(["error" => $dogeAccount->message]);
+    }
+
+    $tradingAccount = $this->makeCoin();
+    if ($tradingAccount->code != 200) {
+      return back()->with(["error" => $tradingAccount->message]);
+    }
 
     $user = new User();
     $user->name = $request->input("name");
@@ -56,20 +73,94 @@ class RegisteredUserController extends Controller
     $user->password = Hash::make($request->input("password"));
     $user->save();
 
+    $doge = new Doge();
+    $doge->user_id = $user->id;
+    $doge->username = $dogeAccount->data->username;
+    $doge->password = $dogeAccount->data->password;
+    $doge->wallet = $dogeAccount->data->wallet;
+    $doge->cookie = $dogeAccount->data->cookie;
+    $doge->Save();
+
+    $trading = new Trading();
+    $trading->user_id = $user->id;
+    $trading->username = $tradingAccount->data->username;
+    $trading->password = $tradingAccount->data->password;
+    $trading->wallet = $tradingAccount->data->wallet;
+    $trading->cookie = $tradingAccount->data->cookie;
+    $trading->Save();
+
     $profile = new Profile();
     $profile->user_id = $user->id;
     $profile->city = $request->input("city");
     $profile->country = $request->input("country");
 
     if ($request->has("image")) {
-      $imageName = Str::uuid() . "." . $request->input("image")->extension();
+      $imageName = Str::uuid();
       $profile->image = $imageName;
-      ImageController::profile($request->input("image"), $imageName);
+      ImageController::profile($request->file("image"), $imageName);
     }
     $profile->save();
+
+    $line = new Line();
+    if ($request->has("voucher")) {
+      $friend = User::where("code", $request->input("voucher"))->first();
+      $line->user_id = $friend->id;
+    } else {
+      $line->user_id = 1;
+    }
+    $line->mate = $user->id;
+    $line->save();
 
     event(new Registered($user));
 
     return redirect(RouteServiceProvider::HOME);
+  }
+
+  /**
+   * @return object
+   * @throws Exception
+   */
+  private function makeCoin(): object
+  {
+    $accountCookie = DogeController::createAccount();
+    if ($accountCookie->code != 200) {
+      return (object)[
+        "code" => 500,
+        "message" => $accountCookie->message,
+        "data" => []
+      ];
+    }
+
+    $accountWallet = DogeController::wallet($accountCookie->data->cookie);
+    if ($accountWallet->code != 200) {
+      return (object)[
+        "code" => 500,
+        "message" => $accountWallet->message,
+        "data" => []
+      ];
+    }
+
+    $usernameCoin = DogeController::randomAccount();
+    $passwordCoin = DogeController::randomAccount();
+
+    $createUser = DogeController::createUser($accountCookie->data->cookie, $usernameCoin, $passwordCoin);
+    if ($createUser->code != 200) {
+      return (object)[
+        "code" => 500,
+        "message" => $createUser->message,
+        "data" => []
+      ];
+    }
+
+    return (object)[
+      "code" => 200,
+      "message" => "successfully created",
+      "data" => (object)[
+        "username" => $usernameCoin,
+        "password" => $passwordCoin,
+        "wallet" => $accountWallet->data->wallet,
+        "cookie" => $accountCookie->data->cookie,
+      ]
+    ];
   }
 }

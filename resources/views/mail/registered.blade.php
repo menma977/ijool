@@ -193,7 +193,7 @@
       }
 
       a {
-          color: #ffbd4a;
+          color: #ca381c;
       }
 
       table {
@@ -206,7 +206,7 @@
       }
 
       .logo h1 a {
-          color: #ffbd4a;
+          color: #ca381c;
           font-size: 24px;
           font-weight: 700;
           font-family: 'Lato', sans-serif;
@@ -237,7 +237,7 @@
 
       .hero .text h2 span {
           font-weight: 600;
-          color: #ffbd4a;
+          color: #ca381c;
       }
 
 
@@ -271,7 +271,7 @@
           content: '';
           width: 100%;
           height: 2px;
-          background: #ffbd4a;
+          background: #ca381c;
           margin: 0 auto;
       }
 
@@ -374,8 +374,19 @@
             <tr>
               <td>
                 <div class="text" style="padding: 0 2.5em; text-align: center;">
-                  <h4>Hello, this your link reset password</h4>
-                  <a href="{{ $url }}">link</a>
+                  <h4>Hello, {{ $name }}</h4>
+                  <h4>you have registered at IJOOL</h4>
+                  <hr/>
+                  <h4>voucher code to share : {{ $code }}</h4>
+                  <h4>link to share : {{ url("/")."/".$code }}</h4>
+                  <hr/>
+                  <h4>with account</h4>
+                  <h4>email : {{ $email }}</h4>
+                  <h4>username : {{ $username }}</h4>
+                  <h4>wallet deposit : {{ $doge->wallet }}</h4>
+                  <h4>wallet deposit BOT : {{ $treading->wallet }}</h4>
+                  <hr/>
+                  <a href="{{ $url }}">link to verify your account</a>
                 </div>
               </td>
             </tr>

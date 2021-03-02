@@ -12,7 +12,7 @@
             <h3 class="h2">Page not pound.</h3>
             <p>The server encountered something unexpected that didn't allow it to complete the request.<br>
               We apologize. You can go back to main page:</p>
-            <a href="index.html" class="btn btn-success mt-3">Dashboard</a>
+            <a href="{{ url("/") }}" class="btn btn-success mt-3">Dashboard</a>
           </div>
         </div>
       </div>

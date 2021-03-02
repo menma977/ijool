@@ -48,6 +48,8 @@ class Handler extends ExceptionHandler
           return response()->view("error.403");
         case 404 :
           return response()->view("error.404");
+        case 410 :
+          return response()->view("error.410");
         case 500 :
           return response()->view("error.500");
         case 502 :

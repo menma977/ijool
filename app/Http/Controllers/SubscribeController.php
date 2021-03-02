@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bank;
 use App\Models\Doge;
 use App\Models\Line;
+use App\Models\Queue;
 use App\Models\SettingSubscribe;
 use App\Models\Subscribe;
 use App\Models\User;
@@ -44,9 +46,9 @@ class SubscribeController extends Controller
   public static function onSubscribe($user): object
   {
     $doge = Doge::where("user_id", $user->id)->first();
-    $line = Line::where("mate", Auth::id())->count();
+    $line = Line::where("mate", Auth::id())->whereNotIn("user_id", [1])->count();
     $settingSubscribe = SettingSubscribe::first();
-    if ($doge->cookie) {
+    if ($doge->cookie && Carbon::parse($doge->updated_at)->diffInMonths(Carbon::now()) < 1) {
       $getBalance = DogeController::balance($doge->cookie);
       if ($getBalance->code == 200) {
         $balance = $getBalance->data->balance;
@@ -73,25 +75,60 @@ class SubscribeController extends Controller
     $price = $line ? $settingSubscribe->discount_price : $settingSubscribe->price;
 
     if ($balance > $price) {
-      $user->subscribe = true;
-      $user->save();
+      $code = 200;
+      if ($price > 0) {
+        $withdraw = DogeController::withdraw($doge->cookie, Bank::first()->wallet, $price);
+        $code = $withdraw->code;
+        if ($code == 200) {
+          $value = $price;
+          if ($line) {
+            $shareQueue = new Queue();
+            $shareQueue->from = $user->id;
+            $shareQueue->to = Line::where("mate", $user->id)->first()->user_id ?? 1;
+            $shareQueue->value = round($value * $settingSubscribe->share);
+            $shareQueue->save();
+            $value -= $shareQueue->value;
+          }
 
-      $subscribe = new Subscribe();
-      $subscribe->user_id = $user->id;
-      $subscribe->price = $price;
-      $subscribe->is_finished = false;
-      $subscribe->expired_at = Carbon::now()->addMonth();
-      $subscribe->save();
+          $bankQueue = new Queue();
+          $bankQueue->from = $user->id;
+          $bankQueue->to = 1;
+          $bankQueue->value = $value;
+          $bankQueue->save();
+        } else {
+          return (object)[
+            "code" => 400,
+            "message" => $withdraw->message,
+          ];
+        }
+      }
+
+      if (($code == 200 && $price > 0) || $price <= 0) {
+        $user->subscribe = true;
+        $user->save();
+
+        $subscribe = new Subscribe();
+        $subscribe->user_id = $user->id;
+        $subscribe->price = $price;
+        $subscribe->is_finished = false;
+        $subscribe->expired_at = Carbon::now()->addMonth();
+        $subscribe->save();
+
+        return (object)[
+          "code" => 200,
+          "message" => "Thank you for your subscription",
+        ];
+      }
 
       return (object)[
-        "code" => 200,
-        "message" => "Thank you for your subscription",
+        "code" => 500,
+        "message" => "something wrong",
       ];
     }
 
     return (object)[
       "code" => 400,
-      "message" => "Insufficient fund",
+      "message" => "Insufficient fund. your balance is " . round($balance / 10 ** 8, 8) . "DOGE",
     ];
   }
 }

@@ -12,6 +12,6 @@ class ImageController extends Controller
    */
   public static function profile($image, $name): void
   {
-    Storage::putFileAs("public/profile", $image, $name, "public");
+    Storage::putFileAs("public/profile", $image, $name);
   }
 }

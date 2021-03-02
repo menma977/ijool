@@ -49,11 +49,11 @@
   <!--/.sidebar header-->
   <div class="profile-element d-flex align-items-center flex-shrink-0">
     <div class="avatar online">
-      <img src="{{ asset("dist/img/avatar-1.jpg") }}" class="img-fluid rounded-circle" alt="">
+      <img src="{{ $user->profile->image ? asset("storage/profile/".$user->profile->image) : asset("dist/img/logo_bg.png") }}" class="img-fluid rounded-circle" alt="">
     </div>
     <div class="profile-text">
-      <h6 class="m-0">{{ \Illuminate\Support\Facades\Auth::user()->name }}</h6>
-      <span>{{ \Illuminate\Support\Facades\Auth::user()->code }}</span>
+      <h6 class="m-0">{{ $user->name }}</h6>
+      <span>{{ $user->code }}</span>
     </div>
   </div>
   <div class="search sidebar-form">

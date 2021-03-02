@@ -33,7 +33,7 @@ class UpdateMarketPrice extends Command
       $price = IndodaxController::price();
       if ($price->code === 200) {
         $sizeMarketPrice = MarketPrice::count();
-        if ($sizeMarketPrice >= 200) {
+        if ($sizeMarketPrice >= 50) {
           MarketPrice::orderBy("created_at", "asc")->first()->delete();
         }
 

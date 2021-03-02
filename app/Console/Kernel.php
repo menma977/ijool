@@ -16,6 +16,8 @@ class Kernel extends ConsoleKernel
   protected function schedule(Schedule $schedule)
   {
     $schedule->command('minute:subscribe')->everyMinute()->withoutOverlapping();
+    $schedule->command('minute:queue')->everyMinute()->withoutOverlapping();
+    $schedule->command('minute:bill')->everyMinute()->withoutOverlapping();
     $schedule->command('minute:price')->everyMinute();
   }
 
