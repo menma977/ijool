@@ -34,6 +34,20 @@ class RegisteredUserController extends Controller
   }
 
   /**
+   * Display the registration view.
+   *
+   * @param $voucher
+   * @return Application|Factory|\Illuminate\Contracts\View\View|View
+   */
+  public function createWithVoucher($voucher)
+  {
+    $data = [
+      "voucher" => $voucher
+    ];
+    return view('auth.register-voucher', $data);
+  }
+
+  /**
    * Handle an incoming registration request.
    *
    * @param Request $request

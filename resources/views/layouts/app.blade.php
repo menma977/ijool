@@ -18,6 +18,7 @@
   <link href="{{ asset("plugins/typicons/src/typicons.min.css") }}" rel="stylesheet">
   <link href="{{ asset("plugins/themify-icons/themify-icons.min.css") }}" rel="stylesheet">
   <!--Third party Styles(used by this page)-->
+  <link href="{{ asset("plugins/sweetalert/sweetalert.css") }}" rel="stylesheet">
   <link href="{{ asset("plugins/toastr/toastr.css") }}" rel="stylesheet">
   <!--Start Your Custom Style Now-->
   <link href="{{ asset("dist/css/style.css") }}" rel="stylesheet">
@@ -82,6 +83,7 @@
 <script src="{{ asset("plugins/metisMenu/metisMenu.min.js") }}"></script>
 <script src="{{ asset("plugins/perfect-scrollbar/dist/perfect-scrollbar.min.js") }}"></script>
 <!-- Third Party Scripts(used by this page)-->
+<script src="{{ asset("plugins/sweetalert/sweetalert.min.js") }}"></script>
 <script src="{{ asset("plugins/toastr/toastr.min.js") }}"></script>
 <!--Page Active Scripts(used by this page)-->
 
@@ -115,6 +117,23 @@
     toastr.error("{{ $error }}");
     @endforeach
     @endif
+
+    $("#unsubscribe").on("click", function () {
+      swal({
+          title: "Are you sure to unsubscribe?",
+          text: "You can not play again before re-subscribe !",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, unsubscribe!",
+          closeOnConfirm: false
+        },
+
+        function () {
+          window.location.replace("{{ route("subscribe.agree") }}");
+        }
+      );
+    });
   });
 </script>
 

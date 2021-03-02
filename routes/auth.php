@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/register', [RegisteredUserController::class, 'create'])->middleware('guest')->name('register');
+Route::get('/register/{voucher}', [RegisteredUserController::class, 'createWithVoucher'])->middleware('guest')->name('register-voucher');
 
 Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest');
 

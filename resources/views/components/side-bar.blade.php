@@ -59,9 +59,9 @@
   <div class="search sidebar-form">
     <div class="search__inner">
       @if($user->subscribe)
-        <a href="{{ route("subscribe.agree") }}" class="btn btn-warning btn-block rounded-pill">
+        <button type="button" class="btn btn-warning btn-block rounded-pill" id="unsubscribe">
           unsubscribe
-        </a>
+        </button>
       @else
         <button type="button" class="btn btn-danger btn-block rounded-pill" data-toggle="modal" data-target="#modal_subscribe">
           subscribe

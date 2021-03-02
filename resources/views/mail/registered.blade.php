@@ -378,7 +378,7 @@
                   <h4>you have registered at IJOOL</h4>
                   <hr/>
                   <h4>voucher code to share : {{ $code }}</h4>
-                  <h4>link to share : {{ url("/")."/".$code }}</h4>
+                  <h4>link to share : {{ route("register-voucher", $code) }}</h4>
                   <hr/>
                   <h4>with account</h4>
                   <h4>email : {{ $email }}</h4>

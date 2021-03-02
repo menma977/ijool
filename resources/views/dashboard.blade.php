@@ -18,6 +18,15 @@
 @endsection
 
 @section("content")
+  <div class="form-group">
+    <label class="font-weight-600">Share Link</label>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" id="valueCopy" value="{{ route("register-voucher", Auth::user()->code) }}" readonly>
+      <div class="input-group-append">
+        <button class="btn btn-primary" type="button" id="copy">Copy</button>
+      </div>
+    </div>
+  </div>
   <div class="row">
     <div class="col-md-12">
       <div class="card mb-4">
@@ -98,6 +107,15 @@
 @section("addJs")
   <script>
     $(() => {
+      $("#copy").on("click", function () {
+        let value = document.getElementById("valueCopy");
+
+        value.select()
+        value.setSelectionRange(0, 99999);
+
+        document.execCommand("copy");
+      });
+
       interval = setInterval(function () {
         startLive();
       }, 1000);
