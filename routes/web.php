@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DogeController;
 use App\Http\Controllers\SubscribeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +33,20 @@ Route::middleware(['auth', 'verified'])->group(static function () {
 
   Route::group(['prefix' => 'subscribe', 'as' => 'subscribe.'], function () {
     Route::get("agree", [SubscribeController::class, 'subscribe'])->name('agree');
+  });
+
+  Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
+    Route::get("profile", [UserController::class, 'profile'])->name('profile');
+    Route::get("edit/{id}", [UserController::class, 'edit'])->name('edit');
+    Route::post("update/{id}", [UserController::class, 'update'])->name('update');
+    Route::group(['prefix' => 'balance', 'as' => 'balance.'], function () {
+      Route::get("doge/{id}", [UserController::class, 'getDogeBalance'])->name('doge')->middleware(['throttle:2,1']);
+      Route::get("bot/{id}", [UserController::class, 'getTradingBalance'])->name('bot')->middleware(['throttle:2,1']);
+    });
+  });
+
+  Route::group(['prefix' => 'doge', 'as' => 'doge.'], function () {
+    Route::get("bet", [DogeController::class, 'bet'])->name('bet');
   });
 });
 

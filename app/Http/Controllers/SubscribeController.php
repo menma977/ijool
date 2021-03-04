@@ -12,6 +12,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class SubscribeController extends Controller
 {
@@ -74,9 +75,10 @@ class SubscribeController extends Controller
 
     $price = $line ? $settingSubscribe->discount_price : $settingSubscribe->price;
 
-    if ($balance > $price) {
+    Log::info("Price: " . $price);
+    if ($balance >= $price) {
       $code = 200;
-      if ($price > 0) {
+      if ($price != 0) {
         $withdraw = DogeController::withdraw($doge->cookie, Bank::first()->wallet, $price);
         $code = $withdraw->code;
         if ($code == 200) {
@@ -128,7 +130,7 @@ class SubscribeController extends Controller
 
     return (object)[
       "code" => 400,
-      "message" => "Insufficient fund. your balance is " . round($balance / 10 ** 8, 8) . "DOGE",
+      "message" => "Insufficient fund need deposit first. your balance is " . round($balance / 10 ** 8, 8) . " DOGE",
     ];
   }
 }

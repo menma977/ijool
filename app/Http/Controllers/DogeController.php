@@ -2,10 +2,103 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Doge;
+use App\Models\Subscribe;
+use App\Models\Trading;
+use App\Models\User;
+use Carbon\Carbon;
 use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class DogeController extends Controller
 {
+  /**
+   * @return Application|Factory|View|RedirectResponse
+   */
+  public function bet()
+  {
+    $user = User::find(Auth::id());
+    $subscribe = Subscribe::where("user_id", $user->id)->where("is_finished", false)->where("expired_at", ">=", Carbon::now())->count();
+
+    if ($subscribe) {
+      return view("doge.bet");
+    }
+
+    return redirect()->back()->with(["warning" => "please subscribe or top up your balance"]);
+  }
+
+  /**
+   * @param Request $request
+   * @param $type
+   * @param bool $isAll
+   * @return RedirectResponse
+   * @throws ValidationException
+   */
+  public function transfer(Request $request, $type, $isAll = false): RedirectResponse
+  {
+    $this->validate($request, [
+      "value" => "required|min:2",
+    ]);
+    $doge = Doge::where("user_id", Auth::id())->first();
+    $bot = Trading::where("user_id", Auth::id())->first();
+    if ($type == "bot") {
+      $post = self::withdraw($doge->cookie, $bot->wallet, $isAll ? 0 : round($request->value * 10 ** 8));
+    } else {
+      $post = self::withdraw($bot->cookie, $doge->wallet, $isAll ? 0 : round($request->value * 10 ** 8));
+    }
+    return redirect()->back()->with(["message" => $post->message]);
+  }
+
+  /**
+   * @param Request $request
+   * @return array
+   * @throws ValidationException
+   */
+  public function onBet(Request $request): array
+  {
+    $bot = Trading::where("user_id", Auth::id())->first();
+    $this->validate($request, [
+      "high" => "required|min:5|max:99",
+      "bet" => "required|min:0.00000001",
+    ]);
+    $post = HttpController::post("PlaceBet", [
+      "s" => $bot->cookie,
+      "PayIn" => round($request->input("bet") * 10 ** 8),
+      "Low" => 0,
+      "High" => 0,
+      "ClientSeed" => mt_rand(),
+      "Currency" => "doge",
+      "ProtocolVersion" => 2,
+    ]);
+    if ($post->code == 200) {
+      $payIn = round($request->input("bet") * 10 ** 8);
+      $payOut = round($request->input("bet") * 10 ** 8);
+      $profit = $payOut - $payIn;
+      $betBalance = $post->data->StartingBalance;
+      $profitBalance = $betBalance + $profit;
+      return [
+        "code" => 200,
+        "message" => $post->message,
+        "payIn" => $payIn,
+        "payOut" => $payOut,
+        "betBalance" => $betBalance,
+        "profit" => $profit,
+        "profitBalance" => $profitBalance,
+      ];
+    }
+
+    return [
+      "code" => 500,
+      "message" => $post->message,
+    ];
+  }
+
   /**
    * @return object
    */

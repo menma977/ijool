@@ -133,6 +133,7 @@
             "X-CSRF-TOKEN": $("input[name='_token']").val(),
             "pragma": 'no-cache',
             "cache-control": 'no-cache',
+            "X-Requested-With": "XMLHttpRequest",
           })
         }).done(async function (response) {
           response = await response

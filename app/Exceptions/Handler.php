@@ -37,6 +37,10 @@ class Handler extends ExceptionHandler
    */
   public function render($request, $e)
   {
+    if ($e instanceof ThrottleRequestsException) {
+      return response()->json(['message' => 'please slow down and wait 1 minute'], 425);
+    }
+
     if ($this->isHttpException($e)) {
       $code = $e->getStatusCode();
       switch ($code) {
@@ -59,9 +63,6 @@ class Handler extends ExceptionHandler
         default :
           return response()->view("error.504");
       }
-    }
-    if ($e instanceof ThrottleRequestsException) {
-      return response()->json(['message' => 'please slow down and wait 1 minute'], 500);
     }
 
     return parent::render($request, $e);
