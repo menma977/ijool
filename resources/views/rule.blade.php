@@ -30,7 +30,7 @@
             <div class="tab-content" id="v-pills-tabContent">
               <div class="tab-pane fade show active" id="v-pills-terms" role="tabpanel" aria-labelledby="v-pills-terms-tab">
                 <p>
-                  By accessing this Website, accessible from <span class="text-primary">ijool.com</span>, you are agreeing to be bound by these Website Terms and Conditions of Use
+                  By accessing this Website, accessible from <span class="text-primary">ijool.net</span>, you are agreeing to be bound by these Website Terms and Conditions of Use
                   and agree that you are responsible for the agreement with any applicable local laws. If you disagree with any of these terms, you are prohibited from accessing this site. The
                   materials contained in this Website are protected by copyright and trade mark law.
                 </p>

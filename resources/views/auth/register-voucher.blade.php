@@ -107,7 +107,7 @@
         }
 
         reader.readAsDataURL(input.files[0]);
-        $("#image_name").html(input.files[0]["name"]);
+        $("#image_name").text(input.files[0]["name"]);
       }
     }
 

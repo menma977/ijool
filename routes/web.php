@@ -46,7 +46,15 @@ Route::middleware(['auth', 'verified'])->group(static function () {
   });
 
   Route::group(['prefix' => 'doge', 'as' => 'doge.'], function () {
-    Route::get("bet", [DogeController::class, 'bet'])->name('bet');
+    Route::post("transfer/{type}/{isAll}", [DogeController::class, 'createWithdraw'])->name('transfer');
+    Route::group(['prefix' => 'withdraw', 'as' => 'withdraw.'], function () {
+      Route::get("", [DogeController::class, 'createWithdraw'])->name('create');
+      Route::get("store", [DogeController::class, 'createWithdraw'])->name('store');
+    });
+    Route::group(['prefix' => 'bet', 'as' => 'bet.'], function () {
+      Route::get("", [DogeController::class, 'index'])->name('index');
+      Route::post("store", [DogeController::class, 'store'])->name('store');
+    });
   });
 });
 

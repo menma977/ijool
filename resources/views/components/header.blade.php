@@ -10,7 +10,7 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right">
           <div class="nav-grid-row row">
-            <a href="{{ route("doge.bet") }}" class="icon-menu-item col-4">
+            <a href="{{ route("doge.bet.index") }}" class="icon-menu-item col-4">
               <i class="fas fa-rocket d-block"></i>
               <span>BET</span>
             </a>

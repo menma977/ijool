@@ -175,44 +175,44 @@
   <script>
     $(function () {
       $("#loadBalanceDoge").on("click", function () {
-        $("#loadBalanceDoge").html("please wait...");
+        $("#loadBalanceDoge").text("please wait...");
         let url = "{{ route("user.balance.doge", "%data%") }}";
         url = url.replace('%data%', "{{ \Illuminate\Support\Facades\Crypt::encryptString($user->id) }}");
         $.ajax(url, {
           method: 'GET',
-          headers: new Headers({
-            "X-CSRF-TOKEN": $("input[name='_token']").val(),
+          headers: {
+            "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr('content'),
             "X-Requested-With": "XMLHttpRequest",
-          })
+          }
         }).done(async function (response) {
           response = await response;
           console.log(response);
-          $("#balanceDoge").html(response.balance);
+          $("#balanceDoge").text(response.balance);
         }).fail((e) => {
           toastr.error(e.responseJSON.message);
         }).always(function () {
-          $("#loadBalanceDoge").html("Load Balance");
+          $("#loadBalanceDoge").text("Load Balance");
         });
       });
 
       $("#loadBalanceBot").on("click", function () {
-        $("#loadBalanceBot").html("please wait...");
+        $("#loadBalanceBot").text("please wait...");
         let url = "{{ route("user.balance.bot", "%data%") }}";
         url = url.replace('%data%', "{{ \Illuminate\Support\Facades\Crypt::encryptString($user->id) }}");
         $.ajax(url, {
           method: 'GET',
-          headers: new Headers({
-            "X-CSRF-TOKEN": $("input[name='_token']").val(),
+          headers: {
+            "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr('content'),
             "X-Requested-With": "XMLHttpRequest",
-          })
+          }
         }).done(async function (response) {
           response = await response;
           console.log(response);
-          $("#balanceBot").html(response.balance);
+          $("#balanceBot").text(response.balance);
         }).fail((e) => {
           toastr.error(e.responseJSON.message);
         }).always(function () {
-          $("#loadBalanceBot").html("Load Balance");
+          $("#loadBalanceBot").text("Load Balance");
         });
       });
     });

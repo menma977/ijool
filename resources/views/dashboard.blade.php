@@ -37,8 +37,8 @@
                 <div class="header-pretitle text-muted fs-11 font-weight-bold text-uppercase mb-2">Low</div>
                 <div class="d-flex align-items-center text-size-3">
                   <i class="fas fa-paw opacity-25 mr-2"></i>
-                  <div id="low" class="text-monospace">
-                    <span class="text-size-2 ">0</span> DOGE
+                  <div class="text-monospace">
+                    <span id="low" class="text-size-2 ">0</span> DOGE
                   </div>
                 </div>
               </div>
@@ -48,8 +48,8 @@
                 <div class="header-pretitle text-muted fs-11 font-weight-bold text-uppercase mb-2">High</div>
                 <div class="d-flex align-items-center text-size-3">
                   <i class="fas fa-paw opacity-25 mr-2"></i>
-                  <div id="high" class="text-monospace">
-                    <span class="text-size-2 ">0</span> DOGE
+                  <div class="text-monospace">
+                    <span id="high" class="text-size-2 ">0</span> DOGE
                   </div>
                 </div>
               </div>
@@ -128,25 +128,25 @@
       function startLive() {
         $.ajax("{{ route("dashboard.candle", null) }}", {
           method: 'GET',
-          headers: new Headers({
+          headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            "X-CSRF-TOKEN": $("input[name='_token']").val(),
+            "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr('content'),
             "pragma": 'no-cache',
             "cache-control": 'no-cache',
             "X-Requested-With": "XMLHttpRequest",
-          })
+          }
         }).done(async function (response) {
           response = await response
-          $("#lastPrice #price").html(response.last + " DOGE");
-          $("#buyPrice #price").html(response.buy + " DOGE");
-          $("#sellPrice #price").html(response.sell + " DOGE");
+          $("#lastPrice #price").text(response.last + " DOGE");
+          $("#buyPrice #price").text(response.buy + " DOGE");
+          $("#sellPrice #price").text(response.sell + " DOGE");
           const currentPrice = response.last;
           const highPrice = response.high - response.low;
           const lowPrice = currentPrice - response.low;
           const progress = (lowPrice / highPrice) * 100;
-          $("#progress").html(response.last + " DOGE (" + progress.toFixed(2) + "%)").width(progress + "%");
-          $("#high").html('<span class="text-size-2 ">' + response.high + '</span> DOGE');
-          $("#low").html('<span class="text-size-2 ">' + response.low + '</span> DOGE');
+          $("#progress").text(response.last + " DOGE (" + progress.toFixed(2) + "%)").width(progress + "%");
+          $("#high").text(response.high);
+          $("#low").text(response.low);
         }).fail((e) => {
           console.log(e);
         });

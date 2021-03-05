@@ -43,3 +43,65 @@
     </div>
   </div>
 </div>
+
+<div class="modal modal-warning fade" id="modal_withdraw_bot" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-600" id="warningModalLabel">Send Balance To Bot</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="{{ route("doge.transfer", ["bot", 0]) }}">
+          @csrf
+          <div class="form-group">
+            <label for="amount" class="font-weight-600">Amount</label>
+            <input type="text" class="form-control" id="amount" name="amount" placeholder="Enter Amount" value="{{ old("amount") }}">
+            @error("amount")
+            <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
+          </div>
+          <button type="submit" class="btn btn-warning btn-block">Send</button>
+        </form>
+        <hr/>
+        <form method="post" action="{{ route("doge.transfer", ["bot", 1]) }}">
+          @csrf
+          <button type="submit" class="btn btn-warning btn-block">Send All</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal modal-warning fade" id="modal_withdraw_doge" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-600" id="warningModalLabel">Send Balance To Wallet</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="{{ route("doge.transfer", ["bot", 0]) }}">
+          @csrf
+          <div class="form-group">
+            <label for="amount" class="font-weight-600">Amount</label>
+            <input type="text" class="form-control" id="amount" name="amount" placeholder="Enter Amount" value="{{ old("amount") }}">
+            @error("amount")
+            <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
+          </div>
+          <button type="submit" class="btn btn-warning btn-block">Send</button>
+        </form>
+        <hr/>
+        <form method="post" action="{{ route("doge.transfer", ["bot", 1]) }}">
+          @csrf
+          <button type="submit" class="btn btn-warning btn-block">Send All</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -21,13 +21,16 @@ class DogeController extends Controller
   /**
    * @return Application|Factory|View|RedirectResponse
    */
-  public function bet()
+  public function index()
   {
     $user = User::find(Auth::id());
     $subscribe = Subscribe::where("user_id", $user->id)->where("is_finished", false)->where("expired_at", ">=", Carbon::now())->count();
 
     if ($subscribe) {
-      return view("doge.bet");
+      $data = [
+        "user" => $user
+      ];
+      return view("doge.bet", $data);
     }
 
     return redirect()->back()->with(["warning" => "please subscribe or top up your balance"]);
@@ -42,17 +45,31 @@ class DogeController extends Controller
    */
   public function transfer(Request $request, $type, $isAll = false): RedirectResponse
   {
-    $this->validate($request, [
-      "value" => "required|min:2",
-    ]);
     $doge = Doge::where("user_id", Auth::id())->first();
     $bot = Trading::where("user_id", Auth::id())->first();
     if ($type == "bot") {
-      $post = self::withdraw($doge->cookie, $bot->wallet, $isAll ? 0 : round($request->value * 10 ** 8));
+      if ($isAll) {
+        $post = self::withdraw($doge->cookie, $bot->wallet, 0);
+      } else {
+        $this->validate($request, [
+          "amount" => "required|numeric|min:2",
+        ]);
+        $post = self::withdraw($doge->cookie, $bot->wallet, round($request->amount * 10 ** 8));
+      }
+    } else if ($isAll) {
+      $post = self::withdraw($bot->cookie, $doge->wallet, 0);
     } else {
-      $post = self::withdraw($bot->cookie, $doge->wallet, $isAll ? 0 : round($request->value * 10 ** 8));
+      $this->validate($request, [
+        "amount" => "required|min:2",
+      ]);
+      $post = self::withdraw($bot->cookie, $doge->wallet, round($request->amount * 10 ** 8));
     }
-    return redirect()->back()->with(["message" => $post->message]);
+
+    if ($post->code == 200) {
+      return redirect()->back()->with(["message" => $post->message]);
+    }
+
+    return redirect()->back()->with(["warning" => $post->message]);
   }
 
   /**
@@ -60,7 +77,7 @@ class DogeController extends Controller
    * @return array
    * @throws ValidationException
    */
-  public function onBet(Request $request): array
+  public function store(Request $request): array
   {
     $bot = Trading::where("user_id", Auth::id())->first();
     $this->validate($request, [
@@ -69,16 +86,16 @@ class DogeController extends Controller
     ]);
     $post = HttpController::post("PlaceBet", [
       "s" => $bot->cookie,
-      "PayIn" => round($request->input("bet") * 10 ** 8),
+      "PayIn" => (integer)round($request->input("bet") * 10 ** 8),
       "Low" => 0,
-      "High" => 0,
+      "High" => (integer)round($request->input("high") * 10000),
       "ClientSeed" => mt_rand(),
       "Currency" => "doge",
       "ProtocolVersion" => 2,
     ]);
     if ($post->code == 200) {
       $payIn = round($request->input("bet") * 10 ** 8);
-      $payOut = round($request->input("bet") * 10 ** 8);
+      $payOut = $post->data->PayOut;
       $profit = $payOut - $payIn;
       $betBalance = $post->data->StartingBalance;
       $profitBalance = $betBalance + $profit;
@@ -89,7 +106,7 @@ class DogeController extends Controller
         "payOut" => $payOut,
         "betBalance" => $betBalance,
         "profit" => $profit,
-        "profitBalance" => $profitBalance,
+        "profitBalance" => round($profitBalance / 10 ** 8, 8),
       ];
     }
 
@@ -97,6 +114,11 @@ class DogeController extends Controller
       "code" => 500,
       "message" => $post->message,
     ];
+  }
+
+  public function createWithdraw()
+  {
+    return view("doge.withdraw");
   }
 
   /**
@@ -247,7 +269,7 @@ class DogeController extends Controller
     $data = [
       "s" => $cookie,
       "Address" => $wallet,
-      "Amount" => $amount,
+      "Amount" => (integer)$amount,
       "Currency" => "doge",
     ];
     $post = HttpController::post("Withdraw", $data);

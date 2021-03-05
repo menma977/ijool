@@ -41,7 +41,7 @@
 
 <nav class="sidebar sidebar-bunker">
   <div class="sidebar-header">
-    <a href="#" class="logo text-white"><span>IJOOL</span>.com</a>
+    <a href="#" class="logo text-white"><span>IJOOL</span>.net</a>
     {{--    <a href="{{ route("welcome") }}" class="logo">--}}
     {{--      <img src="{{ asset("dist/img/logo_banner.png") }}" alt="logo">--}}
     {{--    </a>--}}
@@ -76,6 +76,11 @@
         <li class="{{ request()->is(['dashboard']) ? 'mm-active' : '' }}">
           <a href="{{ route("dashboard.index") }}">
             <i class="typcn typcn-home-outline mr-2"></i> Dashboard
+          </a>
+        </li>
+        <li class="{{ request()->is(['doge/withdraw']) ? 'mm-active' : '' }}">
+          <a href="{{ route("doge.withdraw.create") }}">
+            <i class="fas fa-store mr-2"></i> Withdraw
           </a>
         </li>
       </ul>
