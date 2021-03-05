@@ -116,9 +116,42 @@ class DogeController extends Controller
     ];
   }
 
+  /**
+   * @return Application|Factory|View
+   */
   public function createWithdraw()
   {
     return view("doge.withdraw");
+  }
+
+  /**
+   * @param Request $request
+   * @return RedirectResponse
+   * @throws ValidationException
+   */
+  public function storeWithdraw(Request $request): RedirectResponse
+  {
+    $this->validate($request, [
+      "amount" => "required|numeric|min:0",
+      "wallet" => "required|string"
+    ]);
+    $doge = Doge::where("user_id", Auth::id())->first();
+    if (!$doge->cookie) {
+      $login = self::login($doge->username, $doge->password);
+      if ($login == 200) {
+        $doge->cookie = $login->data->cookie;
+        $doge->save();
+      } else {
+        return redirect()->back()->with(["warning" => $login->message]);
+      }
+    }
+
+    $withdraw = self::withdraw($doge->cookie, $request->input("wallet"), round($request->input("amount") * 10 ** 8));
+    if ($withdraw == 200) {
+      return redirect()->back()->with(["message" => $withdraw->message]);
+    }
+
+    return redirect()->back()->with(["warning" => $withdraw->message]);
   }
 
   /**

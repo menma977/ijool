@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-  return view('welcome');
+//  return view('welcome');
+  return redirect()->route('login');
 })->name("welcome");
 
 Route::get("terms_of_service", function () {
@@ -49,7 +50,7 @@ Route::middleware(['auth', 'verified'])->group(static function () {
     Route::post("transfer/{type}/{isAll}", [DogeController::class, 'createWithdraw'])->name('transfer');
     Route::group(['prefix' => 'withdraw', 'as' => 'withdraw.'], function () {
       Route::get("", [DogeController::class, 'createWithdraw'])->name('create');
-      Route::get("store", [DogeController::class, 'createWithdraw'])->name('store');
+      Route::post("store", [DogeController::class, 'storeWithdraw'])->name('store');
     });
     Route::group(['prefix' => 'bet', 'as' => 'bet.'], function () {
       Route::get("", [DogeController::class, 'index'])->name('index');
