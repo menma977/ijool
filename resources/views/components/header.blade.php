@@ -28,7 +28,7 @@
           <div class="user-header">
             <div class="img-user">
               <img src="{{ $user->profile->image ? asset("storage/profile/".$user->profile->image) : asset("dist/img/logo_bg.png") }}" alt="{{ $user->name }}">
-            </div><!-- img-user -->
+            </div>
             <h6>{{ $user->name }}</h6>
             <span>{{ $user->email }}</span>
           </div><!-- user-header -->
