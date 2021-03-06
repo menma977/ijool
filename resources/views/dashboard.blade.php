@@ -18,12 +18,61 @@
 @endsection
 
 @section("content")
-  <div class="form-group">
-    <label class="font-weight-600">Share Link</label>
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" id="valueCopy" value="{{ route("register-voucher", Auth::user()->code) }}" readonly>
-      <div class="input-group-append">
-        <button class="btn btn-primary" type="button" id="copy">Copy</button>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card card-stats statistic-box mb-4">
+        <div class="card-header card-header-warning card-header-icon position-relative border-0 text-right px-3 py-0">
+          <div class="card-icon d-flex align-items-center justify-content-center">
+            <i class="fas fa-paw"></i>
+          </div>
+          <p class="card-category text-uppercase fs-10 font-weight-bold text-muted">Your Balance</p>
+          <h3 class="card-title fs-18 font-weight-bold">
+            <label id="balanceDoge">0</label>
+            <small>DOGE</small>
+          </h3>
+        </div>
+        <div class="card-footer p-3">
+          <button id="loadBalanceDoge" type="button" class="btn btn-primary btn-block w-100p">Load Balance</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card card-stats statistic-box mb-4">
+        <div class="card-header card-header-success card-header-icon position-relative border-0 text-right px-3 py-0">
+          <div class="card-icon d-flex align-items-center justify-content-center">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <p class="card-category text-uppercase fs-10 font-weight-bold text-muted">BOT Balance</p>
+          <h3 class="card-title fs-18 font-weight-bold">
+            <label id="balanceBot">0</label>
+            <small>DOGE</small>
+          </h3>
+        </div>
+        <div class="card-footer p-3">
+          <button id="loadBalanceBot" type="button" class="btn btn-primary btn-block w-100p">Load Balance</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div id="wallet" class="form-group">
+        <label class="font-weight-600">Wallet Deposit</label>
+        <div class="input-group mb-3">
+          <div class="form-control" id="valueCopy">{{ Auth::user()->doge->wallet }}</div>
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="button" id="copy">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div id="share" class="form-group">
+        <label class="font-weight-600">Share Link</label>
+        <div class="input-group mb-3">
+          <div class="form-control" id="valueCopy">{{ route("register-voucher", Auth::user()->code) }}</div>
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="button" id="copy">Copy</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -107,13 +156,30 @@
 @section("addJs")
   <script>
     $(() => {
-      $("#copy").on("click", function () {
-        let value = document.getElementById("valueCopy");
+      let url = "";
 
-        value.select()
-        value.setSelectionRange(0, 99999);
+      $.get("{{ route("doge.url") }}", function (data) {
+        url = data;
+      });
+
+      $("#wallet #copy").on("click", function () {
+        let $temp = $("<input>");
+        $("body").append($temp);
+
+        $temp.val($("#wallet #valueCopy").text()).select();
 
         document.execCommand("copy");
+        $temp.remove();
+      });
+
+      $("#share #copy").on("click", function () {
+        let $temp = $("<input>");
+        $("body").append($temp);
+
+        $temp.val($("#share #valueCopy").text()).select();
+
+        document.execCommand("copy");
+        $temp.remove();
       });
 
       interval = setInterval(function () {

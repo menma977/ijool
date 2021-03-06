@@ -322,6 +322,14 @@ class DogeController extends Controller
   }
 
   /**
+   * @return string
+   */
+  public function url(): string
+  {
+    return "https://www.999doge.com/api/web.aspx";
+  }
+
+  /**
    * @param int $length
    * @return string
    * @throws Exception

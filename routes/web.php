@@ -47,6 +47,7 @@ Route::middleware(['auth', 'verified'])->group(static function () {
   });
 
   Route::group(['prefix' => 'doge', 'as' => 'doge.'], function () {
+    Route::get("url", [DogeController::class, 'url'])->name('url');
     Route::post("transfer/{type}/{isAll}", [DogeController::class, 'createWithdraw'])->name('transfer');
     Route::group(['prefix' => 'withdraw', 'as' => 'withdraw.'], function () {
       Route::get("", [DogeController::class, 'createWithdraw'])->name('create');
