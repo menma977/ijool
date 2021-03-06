@@ -146,7 +146,7 @@
                     @if($item->user->profile->image)
                       <img src="{{ asset("storage/profile/".$item->user->profile->image) }}" class="avatar bg-success text-white rounded-circle" alt="{{ $item->user->name }}">
                     @else
-                      <span class="avatar bg-success text-white rounded-circle">NA</span>
+                      <div class="avatar bg-success text-white rounded-circle">{{ substr($item->user->name, 0, 2) }}</div>
                     @endif
                   </div>
                   <div class="flex-fill ml-3">
