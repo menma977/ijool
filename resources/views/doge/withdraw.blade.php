@@ -9,7 +9,7 @@
   </nav>
   <div class="col-sm-8 header-title p-0">
     <div class="media">
-      <div class="header-icon text-success mr-3"><i class="fas fa-store"></i></div>
+      <div class="header-icon text-success mr-3"><i class="fas fa-store text-warning"></i></div>
       <div class="media-body">
         <h1 class="font-weight-bold">Withdraw</h1>
       </div>
@@ -19,6 +19,20 @@
 
 @section("content")
   <div class="row">
+    <div class="col-md-12">
+      <div class="card card-stats statistic-box mb-4">
+        <div class="card-header card-header-warning card-header-icon position-relative border-0 text-right px-3 py-0">
+          <div class="card-icon d-flex align-items-center justify-content-center">
+            <i class="fas fa-paw"></i>
+          </div>
+          <p class="card-category text-uppercase fs-10 font-weight-bold text-muted">Your Balance</p>
+          <h3 class="card-title fs-18 font-weight-bold">
+            <label class="dogeBalance">-</label>
+            <small>DOGE</small>
+          </h3>
+        </div>
+      </div>
+    </div>
     <div class="col-md-12">
       <div class="card mb-4">
         <div class="card-header">

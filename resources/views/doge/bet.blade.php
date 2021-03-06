@@ -9,7 +9,7 @@
   </nav>
   <div class="col-sm-8 header-title p-0">
     <div class="media">
-      <div class="header-icon text-success mr-3"><i class="fas fa-paw"></i></div>
+      <div class="header-icon text-success mr-3"><i class="fas fa-paw text-warning"></i></div>
       <div class="media-body">
         <h1 class="font-weight-bold">Betting</h1>
         <small>this page for betting</small>

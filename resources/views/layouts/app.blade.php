@@ -25,7 +25,7 @@
   @yield("addCss")
 </head>
 
-<body class="fixed">
+<body id="app" class="fixed">
 <!-- Page Loader -->
 <div class="page-loader-wrapper">
   <div class="loader">
@@ -134,6 +134,28 @@
         }
       );
     });
+
+    if (window.Worker) {
+      if ($(".dogeBalance").parents().length > 0) {
+        getBalance(".dogeBalance", '{{ Auth::user()->doge->cookie }}');
+      }
+
+      if ($(".botBalance").parents().length > 0) {
+        getBalance(".botBalance", '{{ Auth::user()->doge->cookie }}');
+      }
+    } else {
+      toastr.error("your browser is no longer supported, some features may not work correctly");
+    }
+
+    function getBalance(className, cookie) {
+      const balanceRefresh = new Worker("{{ asset("js/balance-refresher.js") }}");
+      balanceRefresh.postMessage([cookie, 'https://corsdoge.herokuapp.com/doge', 15000]);
+      balanceRefresh.onmessage = (r, b, c) => {
+        if (r.data.Balance) {
+          $(className).text((r.data.Balance / 10 ** 8).toFixed(8))
+        }
+      }
+    }
   });
 </script>
 

@@ -10,7 +10,7 @@
   </nav>
   <div class="col-sm-8 header-title p-0">
     <div class="media">
-      <div class="header-icon text-success mr-3"><i class="fas fa-user"></i></div>
+      <div class="header-icon text-success mr-3"><i class="fas fa-user text-warning"></i></div>
       <div class="media-body">
         <h1 class="font-weight-bold">Edit Profile</h1>
         <small>this page to edit your password and profile</small>

@@ -35,7 +35,7 @@
           </div>
           <p class="card-category text-uppercase fs-10 font-weight-bold text-muted">Your Balance</p>
           <h3 class="card-title fs-18 font-weight-bold">
-            <label id="balanceDoge">0</label>
+            <label id="balanceDoge" class="dogeBalance">-</label>
             <small>DOGE</small>
           </h3>
         </div>
@@ -52,7 +52,7 @@
           </div>
           <p class="card-category text-uppercase fs-10 font-weight-bold text-muted">BOT Balance</p>
           <h3 class="card-title fs-18 font-weight-bold">
-            <label id="balanceBot">0</label>
+            <label id="balanceBot" class="botBalance">-</label>
             <small>DOGE</small>
           </h3>
         </div>
@@ -207,7 +207,6 @@
           }
         }).done(async function (response) {
           response = await response;
-          console.log(response);
           $("#balanceBot").text(response.balance);
         }).fail((e) => {
           toastr.error(e.responseJSON.message);
