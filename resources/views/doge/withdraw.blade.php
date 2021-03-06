@@ -20,6 +20,38 @@
 @section("content")
   <div class="row">
     <div class="col-md-12">
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="fs-17 font-weight-600 mb-0">Withdraw Form</h6>
+            </div>
+          </div>
+        </div>
+        <form method="POST" action="{{ route("doge.withdraw.store") }}">
+          @csrf
+          <div class="card-body">
+            <div class="form-group">
+              <label for="amount" class="font-weight-600">Amount</label>
+              <input type="number" class="form-control @error("wallet") is-invalid @enderror" id="amount" name="amount" placeholder="Enter Amount">
+              <small id="emailHelp" class="form-text text-muted">value for Withdraw all is 0 (Fee for application 2 DOGE).</small>
+              @error("amount")
+              <small id="emailHelp" class="form-text text-danger">{{ $message }}</small>
+              @enderror
+            </div>
+            <div class="form-group">
+              <label for="wallet" class="font-weight-600">Wallet</label>
+              <input type="text" class="form-control @error("wallet") is-invalid @enderror" id="wallet" name="wallet" placeholder="Enter Wallet">
+              @error("wallet")
+              <small id="emailHelp" class="form-text text-danger">{{ $message }}</small>
+              @enderror
+            </div>
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-success">Submit</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 @endsection
