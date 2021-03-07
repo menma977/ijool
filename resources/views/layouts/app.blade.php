@@ -141,7 +141,7 @@
       }
 
       if ($(".botBalance").parents().length > 0) {
-        getBalance(".botBalance", '{{ Auth::user()->doge->cookie }}');
+        getBalance(".botBalance", '{{ Auth::user()->trading->cookie }}');
       }
     } else {
       toastr.error("your browser is no longer supported, some features may not work correctly");

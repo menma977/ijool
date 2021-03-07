@@ -147,7 +147,7 @@ class DogeController extends Controller
     }
 
     $withdraw = self::withdraw($doge->cookie, $request->input("wallet"), round($request->input("amount") * 10 ** 8));
-    if ($withdraw == 200) {
+    if ($withdraw->code == 200) {
       return redirect()->back()->with(["message" => $withdraw->message]);
     }
 
