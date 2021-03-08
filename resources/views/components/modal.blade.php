@@ -9,15 +9,15 @@
       </div>
       <div class="modal-body text-center">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="p-2 bg-warning text-black rounded mb-3 p-3 shadow-sm text-center position-relative overflow-hidden">
               <i class="decorative-icon fas fa fa-paw opacity-25 fa-5x animated infinite pulse slower"></i>
               <div class="bg-dark text-white rounded">
-                <h4 class="p-2">PRICE {{ $price ?? 0 }} DOGE</h4>
+                <h4 class="p-1">PRICE {{ $price ?? 0 }} DOGE</h4>
               </div>
             </div>
           </div>
-          <div class="col-md-9">
+          <div class="col-md-8">
             <div class="alert alert-warning" role="alert">
               <p class="mb-0">
                 By continuing this transaction,

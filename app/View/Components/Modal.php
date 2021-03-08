@@ -17,12 +17,10 @@ class Modal extends Component
    */
   public function render()
   {
-    $line = Line::where("mate", Auth::id())->count();
     $settingSubscribe = SettingSubscribe::first();
-    $price = $line ? $settingSubscribe->discount_price : $settingSubscribe->price;
 
     $data = [
-      "price" => round($price / 10 ** 8, 8),
+      "price" => round($settingSubscribe->price / 10 ** 8, 8),
     ];
     return view('components.modal', $data);
   }

@@ -45,7 +45,7 @@ class UpdateMarketPrice extends Command
       $marketPrice->save();
 
       $settingSubscribe = SettingSubscribe::find(1);
-      $settingSubscribe->price = 150000 / $price->data->buy;
+      $settingSubscribe->price = round((150000 / $price->data->buy) * 10 ** 8);
       $settingSubscribe->save();
     }
   }
