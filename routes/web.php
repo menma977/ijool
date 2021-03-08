@@ -41,8 +41,8 @@ Route::middleware(['auth', 'verified'])->group(static function () {
     Route::get("edit/{id}", [UserController::class, 'edit'])->name('edit');
     Route::post("update/{id}", [UserController::class, 'update'])->name('update');
     Route::group(['prefix' => 'balance', 'as' => 'balance.'], function () {
-      Route::get("doge/{id}", [UserController::class, 'getDogeBalance'])->name('doge')->middleware(['throttle:2,1']);
-      Route::get("bot/{id}", [UserController::class, 'getTradingBalance'])->name('bot')->middleware(['throttle:2,1']);
+      Route::get("doge/{id}", [UserController::class, 'getDogeBalance'])->name('doge')->middleware(['throttle:4,1']);
+      Route::get("bot/{id}", [UserController::class, 'getTradingBalance'])->name('bot')->middleware(['throttle:4,1']);
     });
   });
 

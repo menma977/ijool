@@ -65,13 +65,19 @@
       </div>
     </div>
     <div class="col-md-12">
+      <div class="form-group">
+        <label for="value" class="font-weight-600">Default Bet Size</label>
+        <input type="number" class="form-control" id="valueDefault" placeholder="Enter default bet size" value="0.01">
+        <small class="form-text text-muted">Application recommendation 0.01.</small>
+      </div>
+    </div>
+    <div class="col-md-12">
       <div id="currentBalance" class="d-flex flex-column p-3 mb-3 bg-white shadow-sm rounded">
         <div class="header-pretitle text-muted fs-11 font-weight-bold text-uppercase mb-2">Current Balance</div>
-
         <div class="d-flex align-items-center text-size-3">
           <i class="fas fa fa-paw opacity-25 mr-2"></i>
           <div class="text-monospace">
-            <span id="amount" class="text-size-2">0</span> DOGE
+            <span id="amount" class="text-size-1">0</span> DOGE
           </div>
           <div id="status"></div>
         </div>
@@ -93,7 +99,6 @@
           <div class="form-group">
             <label for="value" class="font-weight-600">Bet Size</label>
             <input type="number" class="form-control" id="value" placeholder="Enter bet size" value="0.01">
-            <small class="form-text text-muted">Application recommendation 0.01.</small>
           </div>
           <div class="row">
             <div class="col-md-4">
@@ -178,7 +183,6 @@
           }
         }).done(async function (response) {
           response = await response;
-          console.log(response);
           $("#balanceBot").text(response.balance);
           $("#currentBalance #amount").text(response.balance);
           currentBalance = response.balance;
@@ -206,7 +210,6 @@
           }
         }).done(async function (response) {
           response = await response;
-          console.log(response);
           if (response.code === 200) {
             $("#currentBalance #amount").text(response.profitBalance);
             if (response.profit > 0) {
@@ -226,8 +229,12 @@
         })
       });
 
+      $("#bet #valueDefault").change(function () {
+        $("#bet #value").val($("#bet #valueDefault").val());
+      });
+
       $("#bet #reset").on("click", function () {
-        $("#bet #value").val("0.01");
+        $("#bet #value").val($("#bet #valueDefault").val());
       });
       $("#bet #double").on("click", function () {
         let value = $("#bet #value");
@@ -243,11 +250,11 @@
       });
       $("#chance #double").on("click", function () {
         let value = $("#chance #value");
-        value.val(value.val() * 2);
+        value.val((value.val() * 2).toFixed(2));
       });
       $("#chance #half").on("click", function () {
         let value = $("#chance #value");
-        value.val(value.val() / 2);
+        value.val((value.val() / 2).toFixed(2));
       });
     });
   </script>

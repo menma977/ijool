@@ -24,16 +24,10 @@ class DogeController extends Controller
   public function index()
   {
     $user = User::find(Auth::id());
-    $subscribe = Subscribe::where("user_id", $user->id)->where("is_finished", false)->where("expired_at", ">=", Carbon::now())->count();
-
-    if ($subscribe) {
-      $data = [
-        "user" => $user
-      ];
-      return view("doge.bet", $data);
-    }
-
-    return redirect()->back()->with(["warning" => "please subscribe or top up your balance"]);
+    $data = [
+      "user" => $user
+    ];
+    return view("doge.bet", $data);
   }
 
   /**
@@ -79,9 +73,16 @@ class DogeController extends Controller
    */
   public function store(Request $request): array
   {
+    $subscribe = Subscribe::where("user_id", Auth::id())->where("is_finished", false)->where("expired_at", ">=", Carbon::now())->count();
+    if (!$subscribe) {
+      return [
+        "code" => 500,
+        "message" => "please subscribe or top up your balance",
+      ];
+    }
     $bot = Trading::where("user_id", Auth::id())->first();
     $this->validate($request, [
-      "high" => "required|min:5|max:99",
+      "high" => "required|min:5|max:99.99",
       "bet" => "required|min:0.00000001",
     ]);
     $post = HttpController::post("PlaceBet", [

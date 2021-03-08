@@ -85,7 +85,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="post" action="{{ route("doge.transfer", ["bot", 0]) }}">
+        <form method="post" action="{{ route("doge.transfer", ["doge", 0]) }}">
           @csrf
           <div class="form-group">
             <label for="amount" class="font-weight-600">Amount</label>
@@ -97,7 +97,7 @@
           <button type="submit" class="btn btn-warning btn-block">Send</button>
         </form>
         <hr/>
-        <form method="post" action="{{ route("doge.transfer", ["bot", 1]) }}">
+        <form method="post" action="{{ route("doge.transfer", ["doge", 1]) }}">
           @csrf
           <button type="submit" class="btn btn-warning btn-block">Send All</button>
         </form>
