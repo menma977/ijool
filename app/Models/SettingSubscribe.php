@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Model;
  * @package App\Models
  * @property integer id
  * @property string price
- * @property string discount_price
  * @property string created_at
  * @property string updated_at
  */
@@ -20,7 +19,6 @@ class SettingSubscribe extends Model
 
   protected $fillable = [
     'price',
-    'discount_price',
     'share',
   ];
 

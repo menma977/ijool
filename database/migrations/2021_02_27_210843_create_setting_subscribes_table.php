@@ -16,7 +16,6 @@ class CreateSettingSubscribesTable extends Migration
     Schema::create('setting_subscribes', function (Blueprint $table) {
       $table->id();
       $table->string("price")->default(5000000000);
-      $table->string("discount_price")->default(5000000000);
       $table->double("share")->default(0.2);
       $table->timestamps();
     });

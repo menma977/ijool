@@ -229,12 +229,12 @@
         })
       });
 
-      $("#bet #valueDefault").change(function () {
-        $("#bet #value").val($("#bet #valueDefault").val());
+      $("#valueDefault").change(function () {
+        $("#bet #value").val($("#valueDefault").val());
       });
 
       $("#bet #reset").on("click", function () {
-        $("#bet #value").val($("#bet #valueDefault").val());
+        $("#bet #value").val($("#valueDefault").val());
       });
       $("#bet #double").on("click", function () {
         let value = $("#bet #value");

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DogeController;
+use App\Http\Controllers\LineController;
 use App\Http\Controllers\SubscribeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -57,6 +58,11 @@ Route::middleware(['auth', 'verified'])->group(static function () {
       Route::get("", [DogeController::class, 'index'])->name('index');
       Route::post("store", [DogeController::class, 'store'])->name('store');
     });
+  });
+
+  Route::group(['prefix' => 'line', 'as' => 'line.'], function () {
+    Route::get("", [LineController::class, 'index'])->name('index');
+    Route::get("show/{username}", [LineController::class, 'show'])->name('show');
   });
 });
 

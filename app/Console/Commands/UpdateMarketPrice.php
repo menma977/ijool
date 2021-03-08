@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Http\Controllers\IndodaxController;
 use App\Models\MarketPrice;
+use App\Models\SettingSubscribe;
 use Illuminate\Console\Command;
 
 class UpdateMarketPrice extends Command
@@ -42,6 +43,10 @@ class UpdateMarketPrice extends Command
       $marketPrice->sell = $price->data->sell;
       $marketPrice->last = $price->data->last;
       $marketPrice->save();
+
+      $settingSubscribe = SettingSubscribe::find(1);
+      $settingSubscribe->price = 150000 / $price->data->buy;
+      $settingSubscribe->save();
     }
   }
 }

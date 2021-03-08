@@ -16,7 +16,6 @@ class SettingSubscribeSeeder extends Seeder
   {
     $setting = new SettingSubscribe();
     $setting->price = 5000000000;
-    $setting->discount_price = 0;
     $setting->save();
   }
 }

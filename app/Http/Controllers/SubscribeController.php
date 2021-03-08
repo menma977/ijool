@@ -12,7 +12,6 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class SubscribeController extends Controller
 {
@@ -73,45 +72,32 @@ class SubscribeController extends Controller
       }
     }
 
-    $price = $line ? $settingSubscribe->discount_price : $settingSubscribe->price;
-
-    Log::info("Price: " . $price);
-    if ($balance >= $price) {
-      $code = 200;
-      if ($price != 0) {
-        $withdraw = DogeController::withdraw($doge->cookie, Bank::first()->wallet, $price);
-        $code = $withdraw->code;
-        if ($code == 200) {
-          $value = $price;
-          if ($line) {
-            $shareQueue = new Queue();
-            $shareQueue->from = $user->id;
-            $shareQueue->to = Line::where("mate", $user->id)->first()->user_id ?? 1;
-            $shareQueue->value = round($value * $settingSubscribe->share);
-            $shareQueue->save();
-            $value -= $shareQueue->value;
-          }
-
-          $bankQueue = new Queue();
-          $bankQueue->from = $user->id;
-          $bankQueue->to = 1;
-          $bankQueue->value = $value;
-          $bankQueue->save();
-        } else {
-          return (object)[
-            "code" => 400,
-            "message" => $withdraw->message,
-          ];
+    if ($balance >= $settingSubscribe->price) {
+      $withdraw = DogeController::withdraw($doge->cookie, Bank::first()->wallet, $settingSubscribe->price);
+      $code = $withdraw->code;
+      if ($code == 200) {
+        $value = $settingSubscribe->price;
+        if ($line) {
+          $shareQueue = new Queue();
+          $shareQueue->from = $user->id;
+          $shareQueue->to = Line::where("mate", $user->id)->first()->user_id ?? 1;
+          $shareQueue->value = round($value * $settingSubscribe->share);
+          $shareQueue->save();
+          $value -= $shareQueue->value;
         }
-      }
 
-      if (($code == 200 && $price > 0) || $price <= 0) {
+        $bankQueue = new Queue();
+        $bankQueue->from = $user->id;
+        $bankQueue->to = 1;
+        $bankQueue->value = $value;
+        $bankQueue->save();
+
         $user->subscribe = true;
         $user->save();
 
         $subscribe = new Subscribe();
         $subscribe->user_id = $user->id;
-        $subscribe->price = $price;
+        $subscribe->price = $settingSubscribe->price;
         $subscribe->is_finished = false;
         $subscribe->expired_at = Carbon::now()->addMonth();
         $subscribe->save();
@@ -123,8 +109,8 @@ class SubscribeController extends Controller
       }
 
       return (object)[
-        "code" => 500,
-        "message" => "something wrong",
+        "code" => 400,
+        "message" => $withdraw->message,
       ];
     }
 
