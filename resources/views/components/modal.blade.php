@@ -38,7 +38,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        <a href="{{ route("subscribe.agree") }}" class="btn btn-success">Agree</a>
+        <a href="{{ route("subscribe.agree", "subscribe") }}" class="btn btn-success">Agree</a>
       </div>
     </div>
   </div>

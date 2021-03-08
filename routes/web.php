@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-//  return view('welcome');
+  //  return view('welcome');
   return redirect()->route('login');
 })->name("welcome");
 
@@ -34,7 +34,7 @@ Route::middleware(['auth', 'verified'])->group(static function () {
   });
 
   Route::group(['prefix' => 'subscribe', 'as' => 'subscribe.'], function () {
-    Route::get("agree", [SubscribeController::class, 'subscribe'])->name('agree');
+    Route::get("agree/{type}", [SubscribeController::class, 'subscribe'])->name('agree');
   });
 
   Route::group(['prefix' => 'user', 'as' => 'user.'], function () {

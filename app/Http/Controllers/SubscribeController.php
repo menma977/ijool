@@ -18,25 +18,27 @@ class SubscribeController extends Controller
   /**
    * @return RedirectResponse
    */
-  public function subscribe(): RedirectResponse
+  public function subscribe($type): RedirectResponse
   {
-
     $user = User::find(Auth::id());
-    if ($user->subscribe) {
+    if ($type == "subscribe") {
+      if (Subscribe::where("user_id", $user->id)->where('is_finished', true)->count()) {
+        $onSubscribe = self::onSubscribe($user);
+        if ($onSubscribe->code == 200) {
+          $user->subscribe = true;
+          $user->save();
+          return back()->with(["message" => $onSubscribe->message]);
+        }
+        return back()->with(["error" => $onSubscribe->message]);
+      } else {
+        return back()->with(["warning" => "you have been subscribed to our features"]);
+      }
+    } else {
       $user->subscribe = false;
       $user->save();
-      Subscribe::where('is_finished', false)->update(["is_finished" => true]);
+      Subscribe::where("user_id", $user->id)->where('is_finished', false)->update(["is_finished" => true]);
       return back()->with(["warning" => "Your subscription has been stopped."]);
     }
-
-    $onSubscribe = self::onSubscribe($user);
-    if ($onSubscribe->code == 200) {
-      $user->subscribe = true;
-      $user->save();
-      return back()->with(["message" => $onSubscribe->message]);
-    }
-
-    return back()->with(["error" => $onSubscribe->message]);
   }
 
   /**

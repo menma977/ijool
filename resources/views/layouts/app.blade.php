@@ -130,7 +130,7 @@
         },
 
         function () {
-          window.location.replace("{{ route("subscribe.agree") }}");
+          window.location.replace("{{ route("subscribe.agree", "unsubscribe") }}");
         }
       );
     });
