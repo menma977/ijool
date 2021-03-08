@@ -26,7 +26,6 @@ class Doge extends Model
   protected $keyType = "string";
 
   protected $fillable = [
-    'user_id',
     'username',
     'wallet',
     'cookie',
@@ -34,6 +33,7 @@ class Doge extends Model
 
   protected $hidden = [
     'id',
+    'user_id',
     'password',
   ];
 
