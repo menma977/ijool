@@ -9,7 +9,7 @@ onmessage = function (e) {
         return `${encodeURIComponent(key)}=${encodeURIComponent(value)}&`;
     }
 
-    setInterval(() => {
+    function request() {
         const request = new XMLHttpRequest();
         request.open("POST", url, true);
         request.setRequestHeader(
@@ -22,5 +22,10 @@ onmessage = function (e) {
             postMessage(data);
         };
         request.send(params);
+    }
+
+    request();
+    setInterval(() => {
+        request();
     }, timing);
 };
