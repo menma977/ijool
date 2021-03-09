@@ -2,41 +2,31 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Queue;
 use Illuminate\Console\Command;
 
 class RemoveQueue extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'command:name';
+  /**
+   * The name and signature of the console command.
+   *
+   * @var string
+   */
+  protected $signature = 'daily:removeQueue';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Command description';
+  /**
+   * The console command description.
+   *
+   * @var string
+   */
+  protected $description = 'remove queue daily';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
-    public function handle()
-    {
-        return 0;
-    }
+  /**
+   * Execute the console command.
+   *
+   */
+  public function handle()
+  {
+    Queue::where("status", true)->delete();
+  }
 }

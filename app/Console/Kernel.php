@@ -19,6 +19,10 @@ class Kernel extends ConsoleKernel
     $schedule->command('minute:queue')->everyMinute()->withoutOverlapping();
     $schedule->command('minute:bill')->everyMinute()->withoutOverlapping();
     $schedule->command('minute:price')->everyMinute();
+
+    $schedule->command('daily:removeBill')->daily()->withoutOverlapping();
+    $schedule->command('daily:removeQueue')->daily()->withoutOverlapping();
+    $schedule->command('daily:removeUser')->daily()->withoutOverlapping();
   }
 
   /**
