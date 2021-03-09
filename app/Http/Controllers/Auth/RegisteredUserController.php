@@ -7,7 +7,9 @@ use App\Http\Controllers\DogeController;
 use App\Http\Controllers\ImageController;
 use App\Models\Doge;
 use App\Models\Line;
+use App\Models\Permission;
 use App\Models\Profile;
+use App\Models\Role;
 use App\Models\Trading;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -124,6 +126,11 @@ class RegisteredUserController extends Controller
     }
     $line->mate = $user->id;
     $line->save();
+
+    $permission = new Permission();
+    $permission->user_id = $user->id;
+    $permission->role_id = Role::where("name", "Member")->first()->id;
+    $permission->save();
 
     event(new Registered($user));
 

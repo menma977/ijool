@@ -384,7 +384,6 @@
                   <h4>email : {{ $email }}</h4>
                   <h4>username : {{ $username }}</h4>
                   <h4>wallet deposit : {{ $doge->wallet }}</h4>
-                  <h4>wallet deposit BOT : {{ $treading->wallet }}</h4>
                   <hr/>
                   <a href="{{ $url }}">link to verify your account</a>
                 </div>

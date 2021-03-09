@@ -4,27 +4,33 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class SettingSubscribe
+ * Class Role
  * @package App\Models
  * @property integer id
- * @property string price
- * @property string idr
+ * @property string name
  * @property string created_at
  * @property string updated_at
  */
-class SettingSubscribe extends Model
+class Role extends Model
 {
   use HasFactory;
 
   protected $fillable = [
-    'price',
-    'idr',
-    'share',
+    'name',
   ];
 
   protected $hidden = [
     'id'
   ];
+
+  /**
+   * @return BelongsTo
+   */
+  public function permissions(): BelongsTo
+  {
+    return $this->belongsTo(Permission::class, "id", "role_id");
+  }
 }

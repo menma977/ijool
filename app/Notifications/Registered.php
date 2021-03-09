@@ -14,7 +14,6 @@ class Registered extends Notification
   use Queueable;
 
   public static $doge;
-  public static $treading;
 
   /**
    * The callback that should be used to create the verify email URL.
@@ -27,12 +26,10 @@ class Registered extends Notification
    * Create a new notification instance.
    *
    * @param $doge
-   * @param $treading
    */
-  public function __construct($doge, $treading)
+  public function __construct($doge)
   {
     self::$doge = $doge;
-    self::$treading = $treading;
   }
 
   /**
@@ -63,9 +60,6 @@ class Registered extends Notification
         "username" => $notifiable->username,
         "doge" => (object)[
           "wallet" => self::$doge->wallet,
-        ],
-        "treading" => (object)[
-          "wallet" => self::$treading->wallet,
         ],
         "url" => $verificationUrl
       ]);

@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\EncryptCookies;
+use App\Http\Middleware\GateAuth;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\TrimStrings;
@@ -27,61 +28,62 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class Kernel extends HttpKernel
 {
-    /**
-     * The application's global HTTP middleware stack.
-     *
-     * These middleware are run during every request to your application.
-     *
-     * @var array
-     */
-    protected $middleware = [
-        // \App\Http\Middleware\TrustHosts::class,
-        TrustProxies::class,
-        HandleCors::class,
-        PreventRequestsDuringMaintenance::class,
-        ValidatePostSize::class,
-        TrimStrings::class,
-        ConvertEmptyStringsToNull::class,
-    ];
+  /**
+   * The application's global HTTP middleware stack.
+   *
+   * These middleware are run during every request to your application.
+   *
+   * @var array
+   */
+  protected $middleware = [
+    // \App\Http\Middleware\TrustHosts::class,
+    TrustProxies::class,
+    HandleCors::class,
+    PreventRequestsDuringMaintenance::class,
+    ValidatePostSize::class,
+    TrimStrings::class,
+    ConvertEmptyStringsToNull::class,
+  ];
 
-    /**
-     * The application's route middleware groups.
-     *
-     * @var array
-     */
-    protected $middlewareGroups = [
-        'web' => [
-            EncryptCookies::class,
-            AddQueuedCookiesToResponse::class,
-            StartSession::class,
-            // \Illuminate\Session\Middleware\AuthenticateSession::class,
-            ShareErrorsFromSession::class,
-            VerifyCsrfToken::class,
-            SubstituteBindings::class,
-        ],
+  /**
+   * The application's route middleware groups.
+   *
+   * @var array
+   */
+  protected $middlewareGroups = [
+    'web' => [
+      EncryptCookies::class,
+      AddQueuedCookiesToResponse::class,
+      StartSession::class,
+      // \Illuminate\Session\Middleware\AuthenticateSession::class,
+      ShareErrorsFromSession::class,
+      VerifyCsrfToken::class,
+      SubstituteBindings::class,
+      GateAuth::class
+    ],
 
-        'api' => [
-            'throttle:api',
-            SubstituteBindings::class,
-        ],
-    ];
+    'api' => [
+      'throttle:api',
+      SubstituteBindings::class,
+    ],
+  ];
 
-    /**
-     * The application's route middleware.
-     *
-     * These middleware may be assigned to groups or used individually.
-     *
-     * @var array
-     */
-    protected $routeMiddleware = [
-        'auth' => Authenticate::class,
-        'auth.basic' => AuthenticateWithBasicAuth::class,
-        'cache.headers' => SetCacheHeaders::class,
-        'can' => Authorize::class,
-        'guest' => RedirectIfAuthenticated::class,
-        'password.confirm' => RequirePassword::class,
-        'signed' => ValidateSignature::class,
-        'throttle' => ThrottleRequests::class,
-        'verified' => EnsureEmailIsVerified::class,
-    ];
+  /**
+   * The application's route middleware.
+   *
+   * These middleware may be assigned to groups or used individually.
+   *
+   * @var array
+   */
+  protected $routeMiddleware = [
+    'auth' => Authenticate::class,
+    'auth.basic' => AuthenticateWithBasicAuth::class,
+    'cache.headers' => SetCacheHeaders::class,
+    'can' => Authorize::class,
+    'guest' => RedirectIfAuthenticated::class,
+    'password.confirm' => RequirePassword::class,
+    'signed' => ValidateSignature::class,
+    'throttle' => ThrottleRequests::class,
+    'verified' => EnsureEmailIsVerified::class,
+  ];
 }

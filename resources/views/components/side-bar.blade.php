@@ -2,9 +2,6 @@
 <nav class="sidebar sidebar-bunker">
   <div class="sidebar-header">
     <a href="#" class="logo text-white"><span>IJOOL</span>.net</a>
-    {{--    <a href="{{ route("welcome") }}" class="logo">--}}
-    {{--      <img src="{{ asset("dist/img/logo_banner.png") }}" alt="logo">--}}
-    {{--    </a>--}}
   </div>
   <!--/.sidebar header-->
   <div class="profile-element d-flex align-items-center flex-shrink-0">
@@ -43,6 +40,22 @@
             <i class="fas fa-store mr-2"></i> Withdraw
           </a>
         </li>
+        @can("Admin")
+          <li {{ request()->is(['subscribe/config/*']) ? 'class="mm-active"' : '' }}>
+            <a class="has-arrow material-ripple" href="#" {{ request()->is(['subscribe/config/*']) ? 'aria-expanded="true"' : '' }}>
+              <i class="fas fa-donate mr-2"></i>
+              Subscribe
+            </a>
+            <ul class="nav-second-level mm-collapse {{ request()->is(['subscribe/config/*']) ? ' mm-show' : '' }}">
+              <li class="{{ request()->is(['subscribe/config']) ? 'mm-active' : '' }}">
+                <a href="{{ route("subscribe.config.index") }}" {{ request()->is(['subscribe/config']) ? 'aria-expanded="true"' : '' }}>List</a>
+              </li>
+              <li class="{{ request()->is(['subscribe/config/edit']) ? 'mm-active' : '' }}">
+                <a href="{{ route("subscribe.config.edit") }}" {{ request()->is(['subscribe/config/edit']) ? 'aria-expanded="true"' : '' }}>Edit</a>
+              </li>
+            </ul>
+          </li>
+        @endcan
       </ul>
     </nav>
   </div>

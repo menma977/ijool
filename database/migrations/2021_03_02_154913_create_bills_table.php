@@ -15,8 +15,10 @@ class CreateBillsTable extends Migration
   {
     Schema::create('bills', function (Blueprint $table) {
       $table->uuid("id")->primary();
-      $table->bigInteger("from");
-      $table->bigInteger("to");
+      $table->unsignedBigInteger("from");
+      $table->foreign('from')->references('id')->on('users');
+      $table->unsignedBigInteger("to");
+      $table->foreign('to')->references('id')->on('users');
       $table->string("value");
       $table->boolean("status")->default(false);
       $table->timestamp("send_at")->useCurrent();

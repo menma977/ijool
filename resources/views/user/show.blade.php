@@ -16,17 +16,33 @@
           <p class="white">
             <i class="fas fa-map-marker-alt"></i> {{ $user->profile->city }}, {{ $user->profile->country }}
           </p>
-          <p class="white text-bold-300 d-none d-sm-block">
-            Wallet Deposit : <b>{{ $user->doge->wallet }}</b>
-          </p>
-          <p class="white text-bold-300 d-none d-sm-block">
-            Wallet Bot : <b>{{ $user->trading->wallet }}</b>
-          </p>
         </div>
       </div>
     </div>
   </div>
   <div class="row">
+    <div class="col-md-6">
+      <div id="wallet" class="form-group">
+        <label class="font-weight-600">Wallet Deposit</label>
+        <div class="input-group mb-3">
+          <div class="form-control" id="wallet-deposit">{{ $user->doge->wallet }}</div>
+          <div class="input-group-append">
+            <button class="btn btn-primary copy" type="button" data-copy="wallet-deposit">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div id="wallet" class="form-group">
+        <label class="font-weight-600">Wallet Bot</label>
+        <div class="input-group mb-3">
+          <div class="form-control" id="wallet-bot">{{ $user->trading->wallet }}</div>
+          <div class="input-group-append">
+            <button class="btn btn-primary copy" type="button" data-copy="wallet-bot">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="col-md-6">
       <div class="card card-stats statistic-box mb-4">
         <div class="card-header card-header-warning card-header-icon position-relative border-0 text-right px-3 py-0">

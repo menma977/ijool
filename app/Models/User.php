@@ -6,6 +6,7 @@ use App\Notifications\PasswordReset;
 use App\Notifications\Registered;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -32,7 +33,7 @@ class User extends Authenticatable implements MustVerifyEmail
 {
   use HasFactory, Notifiable, HasApiTokens;
 
-  protected $with = ["profile", "doge", "trading"];
+  protected $with = ["profile", "doge", "trading", "permission"];
 
   /**
    * The attributes that are mass assignable.
@@ -94,9 +95,17 @@ class User extends Authenticatable implements MustVerifyEmail
     return $this->hasOne(Trading::class, "user_id", "id");
   }
 
+  /**
+   * @return HasMany
+   */
+  public function permission(): HasMany
+  {
+    return $this->hasMany(Permission::class, "user_id", "id");
+  }
+
   public function sendEmailVerificationNotification()
   {
-    $this->notify(new Registered($this->doge, $this->trading));
+    $this->notify(new Registered($this->doge));
   }
 
   public function sendPasswordResetNotification($token)

@@ -12,7 +12,7 @@
           <div class="nav-grid-row row">
             <a href="{{ route("doge.bet.index") }}" class="icon-menu-item col-4">
               <i class="fas fa-rocket d-block"></i>
-              <span>BET</span>
+              <span>Mining</span>
             </a>
           </div>
         </div>

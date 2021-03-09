@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

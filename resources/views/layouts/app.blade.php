@@ -149,13 +149,22 @@
 
     function getBalance(className, cookie) {
       const balanceRefresh = new Worker("{{ asset("js/balance-refresher.js") }}");
-      balanceRefresh.postMessage([cookie, 'https://corsdoge.herokuapp.com/doge', 15000]);
-      balanceRefresh.onmessage = (r, b, c) => {
+      balanceRefresh.postMessage([cookie, 'https://corsdoge.herokuapp.com/doge', 60000]);
+      balanceRefresh.onmessage = (r) => {
         if (r.data.Balance) {
           $(className).text((r.data.Balance / 10 ** 8).toFixed(8))
         }
       }
     }
+
+    $(".copy").on("click", (e) => {
+      const el = $(e.target);
+      let temp = $("<input>");
+      $("body").append(temp);
+      temp.val($(`#${(el.data("copy"))}`).text()).select();
+      document.execCommand("copy");
+      temp.remove();
+    });
   });
 </script>
 

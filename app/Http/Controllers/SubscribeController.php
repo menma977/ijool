@@ -16,29 +16,35 @@ use Illuminate\Support\Facades\Auth;
 class SubscribeController extends Controller
 {
   /**
+   * @param $type
    * @return RedirectResponse
    */
   public function subscribe($type): RedirectResponse
   {
     $user = User::find(Auth::id());
     if ($type == "subscribe") {
-      if (Subscribe::where("user_id", $user->id)->where('is_finished', true)->count()) {
-        $onSubscribe = self::onSubscribe($user);
-        if ($onSubscribe->code == 200) {
-          $user->subscribe = true;
-          $user->save();
-          return back()->with(["message" => $onSubscribe->message]);
-        }
-        return back()->with(["error" => $onSubscribe->message]);
-      } else {
+      $validateSubscribe = Subscribe::where("user_id", $user->id);
+      if ($validateSubscribe->where('is_finished', false)->count()) {
         return back()->with(["warning" => "you have been subscribed to our features"]);
       }
-    } else {
-      $user->subscribe = false;
-      $user->save();
-      Subscribe::where("user_id", $user->id)->where('is_finished', false)->update(["is_finished" => true]);
-      return back()->with(["warning" => "Your subscription has been stopped."]);
+
+      if ($validateSubscribe->where("expired_at", "<=", Carbon::now())->count()) {
+        return back()->with(["warning" => "please pay your bill"]);
+      }
+
+      $onSubscribe = self::onSubscribe($user);
+      if ($onSubscribe->code == 200) {
+        $user->subscribe = true;
+        $user->save();
+        return back()->with(["message" => $onSubscribe->message]);
+      }
+      return back()->with(["error" => $onSubscribe->message]);
     }
+
+    $user->subscribe = false;
+    $user->save();
+    Subscribe::where("user_id", $user->id)->where('is_finished', false)->update(["is_finished" => true]);
+    return back()->with(["warning" => "Your subscription has been stopped."]);
   }
 
   /**

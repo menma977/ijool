@@ -4,22 +4,21 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLinesTable extends Migration
+class CreatePermissionsTable extends Migration
 {
   /**
    * Run the migrations.
    *
    * @return void
    */
-  public function up(): void
+  public function up()
   {
-    Schema::create('lines', function (Blueprint $table) {
+    Schema::create('permissions', function (Blueprint $table) {
       $table->uuid("id")->primary();
       $table->unsignedBigInteger("user_id");
       $table->foreign('user_id')->references('id')->on('users');
-      $table->unsignedBigInteger("mate");
-      $table->foreign('mate')->references('id')->on('users');
-      $table->boolean("is_verified")->default(false);
+      $table->unsignedBigInteger("role_id");
+      $table->foreign('role_id')->references('id')->on('roles');
       $table->timestamps();
     });
   }
@@ -29,8 +28,8 @@ class CreateLinesTable extends Migration
    *
    * @return void
    */
-  public function down(): void
+  public function down()
   {
-    Schema::dropIfExists('lines');
+    Schema::dropIfExists('permissions');
   }
 }

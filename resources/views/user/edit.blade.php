@@ -5,7 +5,7 @@
     <ol class="breadcrumb d-inline-flex font-weight-600 fs-13 bg-white mb-0 float-sm-right">
       <li class="breadcrumb-item"><a href="{{ route("dashboard.index") }}">Dashboard</a></li>
       <li class="breadcrumb-item"><a href="{{ route("user.profile") }}">Profile</a></li>
-      <li class="breadcrumb-item active">Blank</li>
+      <li class="breadcrumb-item active">Edit</li>
     </ol>
   </nav>
   <div class="col-sm-8 header-title p-0">

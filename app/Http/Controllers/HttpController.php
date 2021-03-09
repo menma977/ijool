@@ -25,9 +25,6 @@ class HttpController extends Controller
       }
       $post = Http::asForm()->post("https://www.999doge.com/api/web.aspx", $body);
 
-      Log::info($body);
-      Log::info($post->body());
-
       switch ($post) {
         case $post->serverError():
           $data = [

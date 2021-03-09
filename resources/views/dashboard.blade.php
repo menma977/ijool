@@ -150,15 +150,6 @@
 @section("addJs")
   <script>
     $(() => {
-      $(".copy").on("click", (e) => {
-        const el = $(e.target);
-        let temp = $("<input>");
-        $("body").append(temp);
-        temp.val($(`#${(el.data("copy"))}`).text()).select();
-        document.execCommand("copy");
-        temp.remove();
-      });
-
       startLive();
 
       interval = setInterval(function () {

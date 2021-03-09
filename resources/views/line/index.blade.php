@@ -23,22 +23,9 @@
   <div class="row">
     <div class="col-md-12">
       <ul id="tree">
-        <li id="{{ \Illuminate\Support\Facades\Auth::user()->username }}">
-          <a href="#">{{ \Illuminate\Support\Facades\Auth::user()->name }}</a>
+        <li class="branch">
+          <a href="#" id="new-{{ \Illuminate\Support\Facades\Auth::user()->username }}" onclick="addLine(this)">{{ \Illuminate\Support\Facades\Auth::user()->name }}</a>
           <ul id="set-{{ \Illuminate\Support\Facades\Auth::user()->username }}">
-            {{--            <li>Employees--}}
-            {{--              <ul>--}}
-            {{--                <li>Reports--}}
-            {{--                  <ul>--}}
-            {{--                    <li>Report1</li>--}}
-            {{--                    <li>Report2</li>--}}
-            {{--                    <li>Report3</li>--}}
-            {{--                  </ul>--}}
-            {{--                </li>--}}
-            {{--                <li>Employee Maint.</li>--}}
-            {{--              </ul>--}}
-            {{--            </li>--}}
-            {{--            <li>Human Resources</li>--}}
           </ul>
         </li>
       </ul>
@@ -72,29 +59,6 @@
           branch.addClass('branch');
           branch.on('click', function (e) {
             if (this === e.target) {
-              let idSponsor = $(this).attr("id");
-              console.log($(idSponsor).has(closedClass));
-              let url = "{{ route("line.show", "#data#") }}";
-              url = url.replace("#data#", idSponsor);
-              $.ajax(url, {
-                method: 'GET',
-                headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded',
-                  "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr('content'),
-                  "pragma": 'no-cache',
-                  "cache-control": 'no-cache',
-                  "X-Requested-With": "XMLHttpRequest",
-                }
-              }).done(async function (response) {
-                let html = "";
-                response.line.forEach(element => {
-                  html += '<li id="' + element.user.username + '" ><a href="#">' + element.user.name + '</a><ul id="set-' + element.user.username + '"></ul></li>'
-                });
-                $("#set-" + idSponsor).html(html);
-              }).fail((e) => {
-                console.log(e);
-              });
-
               const icon = $(this).children('i:first');
               icon.toggleClass(openedClass + " " + closedClass);
               $(this).children().children().toggle();
@@ -126,5 +90,45 @@
     });
 
     $('#tree').treed({openedClass: 'fas fa-minus', closedClass: 'fas fa-plus'});
+
+    function addLine(e) {
+      let sponsor = $(e);
+      let idSponsor = $(e).attr("id");
+      if (idSponsor.indexOf("new-") !== -1) {
+        idSponsor = idSponsor.replace("new-", "");
+        $(e).attr("id", idSponsor);
+        let url = "{{ route("line.show", "#data#") }}";
+        url = url.replace("#data#", idSponsor);
+        $.ajax(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr('content'),
+            "pragma": 'no-cache',
+            "cache-control": 'no-cache',
+            "X-Requested-With": "XMLHttpRequest",
+          }
+        }).done(async function (response) {
+          // sponsor.prepend("<i class='indicator fas fa-minus'></i>");
+          sponsor.addClass('branch');
+          sponsor.on('click', function (e) {
+            if (this === e.target) {
+              const icon = $(this).children('i:first');
+              icon.toggleClass("fas fa-minus  fas fa-plus");
+              $(this).children().children().toggle();
+            }
+          });
+          sponsor.children().children().toggle();
+
+          let html = "";
+          response.line.forEach(element => {
+            html += '<li id="new-' + element.user.username + '" onclick="addLine(this)"><a href="#">' + element.user.name + '</a><ul id="set-' + element.user.username + '"></ul></li>'
+          });
+          $("#set-" + idSponsor).html(html);
+        }).fail((e) => {
+          console.log(e);
+        });
+      }
+    }
   </script>
 @endsection

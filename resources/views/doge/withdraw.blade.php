@@ -47,8 +47,8 @@
           <div class="card-body">
             <div class="form-group">
               <label for="amount" class="font-weight-600">Amount</label>
-              <input type="number" class="form-control @error("wallet") is-invalid @enderror" id="amount" name="amount" placeholder="Enter Amount">
-              <small id="emailHelp" class="form-text text-muted">value for Withdraw all is 0 (Fee for application 2 DOGE).</small>
+              <input type="number" class="form-control @error("amount") is-invalid @enderror" id="amount" name="amount" placeholder="Enter Amount">
+              <small id="emailHelp" class="form-text text-muted">value for Withdraw all is 0 (Fee for application 3 DOGE).</small>
               @error("amount")
               <small id="emailHelp" class="form-text text-danger">{{ $message }}</small>
               @enderror

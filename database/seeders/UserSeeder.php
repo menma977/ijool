@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
   public function run(): void
   {
     $user = new User();
-    $user->role = 2;
+    $user->role = 1;
     $user->name = "ijool";
     $user->username = "ijool";
     $user->email = "ijool@ijool.com";

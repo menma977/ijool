@@ -16,6 +16,7 @@ class SettingSubscribeSeeder extends Seeder
   {
     $setting = new SettingSubscribe();
     $setting->price = 5000000000;
+    $setting->idr = 150000;
     $setting->save();
   }
 }

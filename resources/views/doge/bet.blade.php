@@ -4,15 +4,15 @@
   <nav aria-label="breadcrumb" class="col-sm-4 order-sm-last mb-3 mb-sm-0 p-0 ">
     <ol class="breadcrumb d-inline-flex font-weight-600 fs-13 bg-white mb-0 float-sm-right">
       <li class="breadcrumb-item"><a href="{{ route("dashboard.index") }}">Dashboard</a></li>
-      <li class="breadcrumb-item active">Bet</li>
+      <li class="breadcrumb-item active">Mining</li>
     </ol>
   </nav>
   <div class="col-sm-8 header-title p-0">
     <div class="media">
       <div class="header-icon text-success mr-3"><i class="fas fa-paw text-warning"></i></div>
       <div class="media-body">
-        <h1 class="font-weight-bold">Betting</h1>
-        <small>this page for betting</small>
+        <h1 class="font-weight-bold">Mining</h1>
+        <small>this page for Mining</small>
       </div>
     </div>
   </div>
@@ -66,8 +66,8 @@
     </div>
     <div class="col-md-12">
       <div class="form-group">
-        <label for="value" class="font-weight-600">Default Bet Size</label>
-        <input type="number" class="form-control" id="valueDefault" placeholder="Enter default bet size" value="0.01">
+        <label for="value" class="font-weight-600">Default Mining Size</label>
+        <input type="number" class="form-control" id="valueDefault" placeholder="Enter default Mining size" value="0.01">
         <small class="form-text text-muted">Application recommendation 0.01.</small>
       </div>
     </div>
@@ -84,21 +84,21 @@
       </div>
     </div>
     <div class="col-md-12">
-      <button id="onBet" type="button" class="btn btn-warning btn-block mb-2">Bet</button>
+      <button id="onBet" type="button" class="btn btn-warning btn-block mb-2">Mining</button>
     </div>
     <div class="col-md-6">
       <div id="bet" class="card">
         <div class="card-header">
           <div class="d-flex justify-content-between align-items-center">
             <div>
-              <h6 class="fs-17 font-weight-600 mb-0">Bet Size Setup</h6>
+              <h6 class="fs-17 font-weight-600 mb-0">Mining Size Setup</h6>
             </div>
           </div>
         </div>
         <div class="card-body">
           <div class="form-group">
-            <label for="value" class="font-weight-600">Bet Size</label>
-            <input type="number" class="form-control" id="value" placeholder="Enter bet size" value="0.01">
+            <label for="value" class="font-weight-600">Mining Size</label>
+            <input type="number" class="form-control" id="value" placeholder="Enter Mining size" value="0.01">
           </div>
           <div class="row">
             <div class="col-md-4">
@@ -224,7 +224,7 @@
           console.log(e.responseJSON.message);
           toastr.error(e.responseJSON.message);
         }).always(function () {
-          $("#onBet").text("Bet");
+          $("#onBet").text("Mining");
           bot.prop('disabled', false);
         })
       });
