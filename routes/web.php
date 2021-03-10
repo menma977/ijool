@@ -23,7 +23,6 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS");
 
 Route::get("/", function () {
-  //  return view("welcome");
   return redirect()->route("login");
 })->name("welcome");
 
@@ -39,7 +38,7 @@ Route::middleware(["auth", "verified"])->group(static function () {
 
   Route::group(["prefix" => "subscribe", "as" => "subscribe."], function () {
     Route::get("agree/{type}", [SubscribeController::class, "subscribe"])->name("agree");
-    Route::group(["prefix" => "config", "as" => "config."], function () {
+    Route::group(["prefix" => "config", "as" => "config.", "middleware" => "can:Admin"], function () {
       Route::get("", [SettingSubscribeController::class, "index"])->name("index");
       Route::get("edit", [SettingSubscribeController::class, "edit"])->name("edit");
       Route::post("update", [SettingSubscribeController::class, "update"])->name("update");
