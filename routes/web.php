@@ -22,12 +22,6 @@ use Illuminate\Support\Facades\Route;
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS");
 
-//Route::get('/linkstorage', function () {
-//  \Illuminate\Support\Facades\Log::info(base_path('/public_html/storage'));
-//  \Illuminate\Support\Facades\Log::info(storage_path('app/public'));
-//  \Illuminate\Support\Facades\Artisan::call('storage:link');
-//});
-
 Route::get("/", function () {
   //  return view("welcome");
   return redirect()->route("login");
