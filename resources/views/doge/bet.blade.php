@@ -72,6 +72,18 @@
       </div>
     </div>
     <div class="col-md-12">
+      <div id="profit" class="d-flex flex-column p-3 mb-3 bg-white shadow-sm rounded">
+        <div class="header-pretitle text-muted fs-11 font-weight-bold text-uppercase mb-2">Profit</div>
+        <div class="d-flex align-items-center text-size-3">
+          <i class="fas fa fa-paw opacity-25 mr-2"></i>
+          <div class="text-monospace">
+            <span id="amount" class="text-size-1">0</span> DOGE
+          </div>
+          <div id="status"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
       <div id="currentBalance" class="d-flex flex-column p-3 mb-3 bg-white shadow-sm rounded">
         <div class="header-pretitle text-muted fs-11 font-weight-bold text-uppercase mb-2">Current Balance</div>
         <div class="d-flex align-items-center text-size-3">
@@ -85,6 +97,9 @@
     </div>
     <div class="col-md-12">
       <button id="onBet" type="button" class="btn btn-warning btn-block mb-2">Mining</button>
+    </div>
+    <div class="col-md-12">
+      <button id="stop" type="button" class="btn btn-danger btn-block mb-2">Stop</button>
     </div>
     <div class="col-md-6">
       <div id="bet" class="card">
@@ -150,7 +165,9 @@
   <script>
     $(function () {
       let currentBalance = 0;
-      let oldBalance = 0;
+      let profit = 0;
+      let loop;
+
       $("#loadBalanceDoge").on("click", function () {
         $("#loadBalanceDoge").text("please wait...");
         let url = "{{ route("user.balance.doge", "%data%") }}";
@@ -183,10 +200,9 @@
           }
         }).done(async function (response) {
           response = await response;
-          $("#balanceBot").text(response.balance);
-          $("#currentBalance #amount").text(response.balance);
           currentBalance = response.balance;
-          oldBalance = response.balance;
+          $("#balanceBot").text(currentBalance);
+          $("#currentBalance #amount").text(currentBalance);
         }).fail((e) => {
           toastr.error(e.responseJSON.message);
         }).always(function () {
@@ -195,38 +211,11 @@
       });
 
       $("#onBet").on("click", function () {
-        let bot = $("#onBet");
-        bot.text("please wait...");
-        bot.prop('disabled', true);
-        $.ajax("{{ route("doge.bet.store") }}", {
-          method: 'POST',
-          headers: {
-            "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr('content'),
-            "X-Requested-With": "XMLHttpRequest",
-          },
-          data: {
-            high: $("#chance #value").val(),
-            bet: $("#bet #value").val(),
-          }
-        }).done(async function (response) {
-          response = await response;
-          if (response.code === 200) {
-            $("#currentBalance #amount").text(response.profitBalance);
-            if (response.profit > 0) {
-              $("#currentBalance #status").html('<i class="fas fa fa-arrow-up text-primary ml-2"></i>');
-            } else {
-              $("#currentBalance #status").html('<i class="fas fa fa-arrow-down text-danger ml-2"></i>');
-            }
-          } else {
-            toastr.error(response.message);
-          }
-        }).fail((e) => {
-          console.log(e.responseJSON.message);
-          toastr.error(e.responseJSON.message);
-        }).always(function () {
-          $("#onBet").text("Mining");
-          bot.prop('disabled', false);
-        })
+        startBot();
+      });
+
+      $("#stop").on("click", function () {
+        clearInterval(loop);
       });
 
       $("#valueDefault").change(function () {
@@ -256,6 +245,48 @@
         let value = $("#chance #value");
         value.val((value.val() / 2).toFixed(2));
       });
+
+      function startBot() {
+        loop = setInterval(function () {
+          let bot = $("#onBet");
+          bot.text("please wait...");
+          bot.prop('disabled', true);
+          $.ajax("{{ route("doge.bet.store") }}", {
+            method: 'POST',
+            headers: {
+              "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr('content'),
+              "X-Requested-With": "XMLHttpRequest",
+            },
+            data: {
+              high: $("#chance #value").val(),
+              bet: $("#bet #value").val(),
+            }
+          }).done(async function (response) {
+            response = await response;
+            if (response.code === 200) {
+              currentBalance = response.profitBalance;
+              profit = response.profit.toFixed(8);
+              $("#currentBalance #amount").text(currentBalance);
+              $("#profit #amount").text(profit);
+              if (profit > 0) {
+                $("#currentBalance #status").html('<i class="fas fa fa-arrow-up text-primary ml-2"></i>');
+                $("#profit #status").html('<i class="fas fa fa-arrow-up text-primary ml-2"></i>');
+              } else {
+                $("#currentBalance #status").html('<i class="fas fa fa-arrow-down text-danger ml-2"></i>');
+                $("#profit #status").html('<i class="fas fa fa-arrow-down text-danger ml-2"></i>');
+              }
+            } else {
+              toastr.error(response.message);
+            }
+          }).fail((e) => {
+            console.log(e.responseJSON.message);
+            toastr.error(e.responseJSON.message);
+          }).always(function () {
+            $("#onBet").text("Mining");
+            bot.prop('disabled', false);
+          });
+        }, 5000);
+      }
     });
   </script>
 @endsection

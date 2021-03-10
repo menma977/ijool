@@ -85,19 +85,42 @@ class DogeController extends Controller
       "high" => "required|min:5.00|max:99.99",
       "bet" => "required|min:0.00000001",
     ]);
-    $post = HttpController::post("PlaceBet", [
+//    $post = HttpController::post("PlaceBet", [
+//      "s" => $bot->cookie,
+//      "PayIn" => (integer)round($request->input("bet") * 10 ** 8),
+//      "Low" => 0,
+//      "High" => (integer)round($request->input("high") * 10 ** 4),
+//      "ClientSeed" => mt_rand(),
+//      "Currency" => "doge",
+//      "ProtocolVersion" => 2,
+//    ]);
+
+    $post = HttpController::post("PlaceAutomatedBets", [
       "s" => $bot->cookie,
-      "PayIn" => (integer)round($request->input("bet") * 10 ** 8),
+      "BasePayIn" => 100000,
       "Low" => 0,
-      "High" => (integer)round($request->input("high") * 10 ** 4),
+      "High" => 499999,
+      "MaxBets" => 100,
+      "ResetOnWin" => 1,
+      "ResetOnLose" => 0,
+      "IncreaseOnWinPercent" => 0,
+      "IncreaseOnLosePercent" => 1,
+      "MaxPayIn" => 0,
+      "ResetOnLoseMaxBet" => 0,
+      "StopOnLoseMaxBet" => 0,
+      "StopMaxBalance" => 0,
+      "StopMinBalance" => 0,
+      "StartingPayIn" => 0,
+      "Compact" => 1,
       "ClientSeed" => mt_rand(),
       "Currency" => "doge",
       "ProtocolVersion" => 2,
     ]);
     if ($post->code == 200) {
-      $payIn = round($request->input("bet") * 10 ** 8);
+      //$payIn = round($request->input("bet") * 10 ** 8);
+      $payIn = $post->data->PayIn;
       $payOut = $post->data->PayOut;
-      $profit = $payOut - $payIn;
+      $profit = $payOut + $payIn;
       $betBalance = $post->data->StartingBalance;
       $profitBalance = $betBalance + $profit;
       return [
@@ -106,7 +129,7 @@ class DogeController extends Controller
         "payIn" => $payIn,
         "payOut" => $payOut,
         "betBalance" => $betBalance,
-        "profit" => $profit,
+        "profit" => round($profit / 10 ** 8, 8),
         "profitBalance" => round($profitBalance / 10 ** 8, 8),
       ];
     }
