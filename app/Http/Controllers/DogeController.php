@@ -82,8 +82,8 @@ class DogeController extends Controller
     }
     $bot = Trading::where("user_id", Auth::id())->first();
     $this->validate($request, [
-      "high" => "required|min:5.00|max:99.99",
-      "bet" => "required|min:0.00000001",
+      "high" => "required|numeric|min:5|max:99",
+      "bet" => "required|numeric|min:0.00000001",
     ]);
     $post = HttpController::post("PlaceBet", [
       "s" => $bot->cookie,
