@@ -12,7 +12,7 @@
       <div class="header-icon text-success mr-3"><i class="fas fa-paw text-warning"></i></div>
       <div class="media-body">
         <h1 class="font-weight-bold">Mining</h1>
-        <small>this page for Mining</small>
+        <small>IJOOL.NET is only a tool to facilitate users of using <a href="{{ url("999doge.com") }}">999doge.com</a></small>
       </div>
     </div>
   </div>

@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Website for infestation and treading">
+  <meta name="description" content="Website for mining">
   <meta name="author" content="IJOOL">
   <title>IJOOL</title>
   <!-- App favicon -->

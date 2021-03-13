@@ -4,15 +4,15 @@
 	 viewBox="0 0 1669 1200" style="enable-background:new 0 0 1669 1200;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:none;stroke:#F0F1FC;stroke-width:1.0983;stroke-miterlimit:10;}
-	.st1{opacity:0.1;fill:#37A000;enable-background:new    ;}
+	.st1{opacity:0.1;fill:#ffb61e;enable-background:new    ;}
 	.st2{fill:#686868;}
-	.st3{fill:#B8E59E;}
+	.st3{fill:#ffc107;}
 	
 		.st4{opacity:0.45;fill:none;stroke:#000000;stroke-width:0.5492;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st5{opacity:0.54;fill:#37A000;}
-	.st6{fill:#37A000;}
-	.st7{opacity:0.21;fill:#37A000;}
-	.st8{opacity:0.25;fill:#37A000;}
+	.st5{opacity:0.54;fill:#ffb61e;}
+	.st6{fill:#ffb61e;}
+	.st7{opacity:0.21;fill:#ffb61e;}
+	.st8{opacity:0.25;fill:#ffb61e;}
 	.st9{opacity:0.25;}
 	.st10{fill:#FFFFFF;}
 	.st11{fill:#A8A8A8;}
@@ -48,7 +48,7 @@
 	.st39{fill:url(#SVGID_10_);}
 	.st40{fill:url(#SVGID_11_);}
 	.st41{fill:none;stroke:#2A246D;stroke-width:0.2746;stroke-miterlimit:10;}
-	.st42{fill:none;stroke:#37A000;stroke-width:3;stroke-miterlimit:10;}
+	.st42{fill:none;stroke:#ffb61e;stroke-width:3;stroke-miterlimit:10;}
 	.st43{fill:#F0F1FC;}
 	.st44{fill:#8785C9;}
 	.st45{fill:#E0DEFA;}
@@ -152,7 +152,7 @@
 		.st134{opacity:0.25;fill:none;stroke:#FFFFFF;stroke-width:0.4465;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:1.5627;}
 	
 		.st135{opacity:0.45;fill:none;stroke:#000000;stroke-width:0.4465;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st136{opacity:0.2;fill:#37A000;}
+	.st136{opacity:0.2;fill:#ffb61e;}
 	.st137{fill:#EBF6E6;}
 	.st138{fill:#3D9902;}
 	.st139{fill:#D6D3D3;}
@@ -219,7 +219,7 @@
 	.st196{opacity:0.25;enable-background:new    ;}
 	.st197{opacity:0.25;fill:#68B480;enable-background:new    ;}
 	.st198{opacity:0.25;fill:#D4F4C3;enable-background:new    ;}
-	.st199{opacity:0.25;fill:#B8E59E;}
+	.st199{opacity:0.25;fill:#ffc107;}
 	.st200{fill:url(#SVGID_100_);}
 	.st201{fill:url(#SVGID_101_);}
 	.st202{fill:url(#SVGID_102_);}
@@ -231,7 +231,7 @@
 	.st208{fill:url(#SVGID_108_);}
 	.st209{fill:url(#SVGID_109_);}
 	.st210{fill:url(#SVGID_110_);}
-	.st211{fill:none;stroke:#37A000;stroke-width:1.0983;stroke-miterlimit:10;}
+	.st211{fill:none;stroke:#ffb61e;stroke-width:1.0983;stroke-miterlimit:10;}
 </style>
 <g>
 	<g>
@@ -4417,5 +4417,5 @@
 	<path class="st1" d="M4106.2-154.6H2527.1c-7.2,0-13-5.8-13-13l0,0c0-7.2,5.8-13,13-13h1579.1c7.2,0,13,5.8,13,13l0,0
 		C4119.2-160.4,4113.4-154.6,4106.2-154.6z"/>
 </g>
-<text transform="matrix(1 0 0 1 2428.1543 -1888.969)" style="font-family:'MyriadPro-Regular'; font-size:82.084px;">37a000</text>
+<text transform="matrix(1 0 0 1 2428.1543 -1888.969)" style="font-family:'MyriadPro-Regular'; font-size:82.084px;">ffb61e</text>
 </svg>

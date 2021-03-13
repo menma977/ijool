@@ -40,6 +40,16 @@
             <i class="fas fa-store mr-2"></i> Withdraw
           </a>
         </li>
+        <li class="{{ request()->is(['dashboard/android']) ? 'mm-active' : '' }}">
+          <a href="{{ route("dashboard.android") }}">
+            <i class="fab fa-google-play mr-2"></i> Android
+          </a>
+        </li>
+        <li class="{{ request()->is(['dashboard/desktop']) ? 'mm-active' : '' }}">
+          <a href="{{ route("dashboard.desktop") }}">
+            <i class="fab fa-windows mr-2"></i> Desktop
+          </a>
+        </li>
         @can("Admin")
           <li {{ request()->is(['subscribe/config/*']) ? 'class="mm-active"' : '' }}>
             <a class="has-arrow material-ripple" href="#" {{ request()->is(['subscribe/config/*']) ? 'aria-expanded="true"' : '' }}>
