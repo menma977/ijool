@@ -38,9 +38,9 @@ class RemoveUser extends Command
   {
     $user = User::whereNull("email_verified_at")->where("created_at", "<=", Carbon::now()->addDays(-1))->first();
     if ($user) {
-      Doge::destroy($user->id);
-      Trading::destroy($user->id);
-      Profile::destroy($user->id);
+      Doge::where("user_id", $user->id)->delete();
+      Trading::where("user_id", $user->id)->delete();
+      Profile::where("user_id", $user->id)->delete();
       Subscribe::where("user_id", $user->id)->delete();
       Queue::where("from", $user->id)->orWhere("to", $user->id)->delete();
       Bill::where("from", $user->id)->orWhere("to", $user->id)->delete();
