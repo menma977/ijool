@@ -10,6 +10,7 @@ use App\Models\Line;
 use App\Models\Queue;
 use App\Models\SettingSubscribe;
 use App\Models\Subscribe;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -42,7 +43,7 @@ class BillHandler extends Command
       $line = Line::where("mate", $bill->user_id)->whereNotIn("user_id", [1])->count();
 
       $withdraw = DogeController::withdraw($doge->cookie, Bank::first()->wallet, $bill->value);
-      if ($withdraw->code) {
+      if ($withdraw->code < 400) {
         $value = $bill->value;
         if ($line) {
           $shareQueue = new Queue();
@@ -71,6 +72,15 @@ class BillHandler extends Command
         $bill->send_at = Carbon::now()->addMinutes(10)->format('Y-m-d H:i:s');
       }
       $bill->save();
+    }
+
+    $removeBill = Bill::where("status", false)->where("created_at", "<", Carbon::now()->addDays(-6))->first();
+    if ($removeBill) {
+      $user = User::find($removeBill->from);
+      $user->subscribe = false;
+      $user->Save();
+
+      $removeBill->delete();
     }
   }
 }

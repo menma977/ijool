@@ -24,6 +24,10 @@ class VerifyEmailController extends Controller
   public function __invoke($id, $hash): RedirectResponse
   {
     $user = User::find($id);
+    if (!$user) {
+      throw new AuthorizationException;
+    }
+
     if (!hash_equals((string)$hash, sha1($user->getEmailForVerification()))) {
       throw new AuthorizationException;
     }

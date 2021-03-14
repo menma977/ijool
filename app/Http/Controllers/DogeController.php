@@ -308,7 +308,7 @@ class DogeController extends Controller
       "Currency" => "doge",
     ];
     $post = HttpController::post("Withdraw", $data);
-    if ($post->code === 200) {
+    if ($post->code < 400) {
       return (object)[
         "code" => $post->code,
         "message" => $post->message,

@@ -56,7 +56,7 @@ class SubscribeController extends Controller
     $doge = Doge::where("user_id", $user->id)->first();
     $line = Line::where("mate", Auth::id())->whereNotIn("user_id", [1])->count();
     $settingSubscribe = SettingSubscribe::first();
-    if ($doge->cookie && Carbon::parse($doge->updated_at)->diffInMonths(Carbon::now()) < 1) {
+    if ($doge->cookie && Carbon::parse($doge->updated_at)->diffInDays(Carbon::now()) < 30) {
       $getBalance = DogeController::balance($doge->cookie);
       if ($getBalance->code == 200) {
         $balance = $getBalance->data->balance;
@@ -82,8 +82,7 @@ class SubscribeController extends Controller
 
     if ($balance >= $settingSubscribe->price) {
       $withdraw = DogeController::withdraw($doge->cookie, Bank::first()->wallet, $settingSubscribe->price);
-      $code = $withdraw->code;
-      if ($code == 200) {
+      if ($withdraw->code < 400) {
         $value = $settingSubscribe->price;
         if ($line) {
           $shareQueue = new Queue();

@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\api\Auth\LoginController;
+use App\Http\Controllers\api\Auth\LogoutController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS");
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post("/login", [LoginController::class, "index"])->middleware(["throttle:1,1", "guest"]);
+
+Route::middleware(["auth:api", "verified"])->group(function () {
+  Route::get("logout", [LogoutController::class, 'index']);
 });
+
