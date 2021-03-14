@@ -28,7 +28,7 @@ class UserController extends Controller
   public function profile()
   {
     $user = User::find(Auth::id());
-    $subscribe = Subscribe::where("user_id", $user->id)->orderBy('created_at', "desc")->take(10)->get();
+    $subscribe = Subscribe::where("user_id", $user->id)->orderBy("created_at", "desc")->take(10)->get();
     $subscribe->map(function ($item) {
       if ($item->is_finished) {
         $item->progress = 0;
@@ -83,11 +83,11 @@ class UserController extends Controller
   {
     $id = Crypt::decryptString($id);
     $this->validate($request, [
-      'name' => 'nullable|string|max:255',
-      'city' => 'nullable|string',
-      'country' => 'nullable|string',
-      'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2000',
-      'password' => 'nullable|string|confirmed|min:6',
+      "name" => "nullable|string|max:255",
+      "city" => "nullable|string",
+      "country" => "nullable|string",
+      "image" => "nullable|image|mimes:jpg,jpeg,png|max:2000",
+      "password" => "nullable|string|confirmed|min:6",
     ]);
 
     if ($request->has("name")) {
@@ -126,7 +126,7 @@ class UserController extends Controller
 
     if (!$doge->cookie) {
       $login = DogeController::login($doge->username, $doge->password);
-      if ($login->code == 200) {
+      if ($login->code < 400) {
         $doge->cookie = $login->data->cookie;
         $doge->save();
       } else {
@@ -137,7 +137,7 @@ class UserController extends Controller
     }
 
     $balanceDoge = DogeController::balance($doge->cookie);
-    if ($balanceDoge->code == 200) {
+    if ($balanceDoge->code < 400) {
       return response()->json([
         "message" => "success!",
         "balance" => round($balanceDoge->data->balance / 10 ** 8, 8)
@@ -160,7 +160,7 @@ class UserController extends Controller
 
     if (!$treading->cookie) {
       $login = DogeController::login($treading->username, $treading->password);
-      if ($login->code == 200) {
+      if ($login->code < 400) {
         $treading->cookie = $login->data->cookie;
         $treading->save();
       } else {
@@ -171,7 +171,7 @@ class UserController extends Controller
     }
 
     $balanceBot = DogeController::balance($treading->cookie);
-    if ($balanceBot->code == 200) {
+    if ($balanceBot->code < 400) {
       return response()->json([
         "message" => "success!",
         "balance" => round($balanceBot->data->balance / 10 ** 8, 8)

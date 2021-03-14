@@ -23,7 +23,7 @@
       <div class="card card-stats statistic-box mb-4">
         <div class="card-header card-header-warning card-header-icon position-relative border-0 text-right px-3 py-0">
           <div class="card-icon d-flex align-items-center justify-content-center">
-            <i class="fas fa-dollar-sign"></i>
+            <i class="fas fa-paw"></i>
           </div>
           <p class="card-category text-uppercase fs-10 font-weight-bold text-muted">Your Balance</p>
           <h3 class="card-title fs-18 font-weight-bold">

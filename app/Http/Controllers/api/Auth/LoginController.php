@@ -54,7 +54,7 @@ class LoginController extends Controller
 
           if (Carbon::parse($doge->updated_at)->diffInDays(Carbon::now()) >= 30 || !$doge->cookie) {
             $getDogeCookie = self::updateCookie($doge->username, $doge->password);
-            if ($getDogeCookie->code == 200) {
+            if ($getDogeCookie->code < 400) {
               $doge->cookie = $getDogeCookie->cookie;
               $doge->Save();
             } else {
@@ -64,7 +64,7 @@ class LoginController extends Controller
 
           if (Carbon::parse($bot->updated_at)->diffInDays(Carbon::now()) >= 30 || !$bot->cookie) {
             $getDogeCookie = self::updateCookie($bot->username, $bot->password);
-            if ($getDogeCookie->code == 200) {
+            if ($getDogeCookie->code < 400) {
               $bot->cookie = $getDogeCookie->cookie;
               $bot->Save();
             } else {
@@ -72,7 +72,7 @@ class LoginController extends Controller
             }
           }
 
-          $user->token = $user->createToken('Android')->accessToken;
+          $user->token = $user->createToken("Android")->accessToken;
 
           return response()->json([
             "token" => $user->token,

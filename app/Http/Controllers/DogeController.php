@@ -59,7 +59,7 @@ class DogeController extends Controller
       $post = self::withdraw($bot->cookie, $doge->wallet, round($request->amount * 10 ** 8));
     }
 
-    if ($post->code == 200) {
+    if ($post->code < 400) {
       return redirect()->back()->with(["message" => $post->message]);
     }
 
@@ -94,7 +94,7 @@ class DogeController extends Controller
       "Currency" => "doge",
       "ProtocolVersion" => 2,
     ]);
-    if ($post->code == 200) {
+    if ($post->code < 400) {
       $payIn = round($request->input("bet") * 10 ** 8);
       $payOut = $post->data->PayOut;
       $profit = $payOut - $payIn;
@@ -139,7 +139,7 @@ class DogeController extends Controller
     $doge = Doge::where("user_id", Auth::id())->first();
     if (!$doge->cookie) {
       $login = self::login($doge->username, $doge->password);
-      if ($login == 200) {
+      if ($login < 400) {
         $doge->cookie = $login->data->cookie;
         $doge->save();
       } else {
@@ -149,7 +149,7 @@ class DogeController extends Controller
 
     self::withdraw($doge->cookie, User::find(1)->doge->wallet, round(3 * (10 ** 8)));
     $withdraw = self::withdraw($doge->cookie, $request->input("wallet"), round($request->input("amount") * 10 ** 8));
-    if ($withdraw->code == 200) {
+    if ($withdraw->code < 400) {
       return redirect()->back()->with(["message" => $withdraw->message]);
     }
 
@@ -162,7 +162,7 @@ class DogeController extends Controller
   public static function createAccount(): object
   {
     $post = HttpController::post("CreateAccount", [], true);
-    if ($post->code === 200) {
+    if ($post->code < 400) {
       return (object)[
         "code" => 200,
         "message" => "successfully created account",
@@ -187,10 +187,10 @@ class DogeController extends Controller
   {
     $data = [
       "s" => $cookie,
-      'Currency' => "doge"
+      "Currency" => "doge"
     ];
     $post = HttpController::post("GetDepositAddress", $data);
-    if ($post->code === 200) {
+    if ($post->code < 400) {
       return (object)[
         "code" => $post->code,
         "message" => $post->message,
@@ -221,7 +221,7 @@ class DogeController extends Controller
       "Password" => $password,
     ];
     $post = HttpController::post("CreateUser", $data);
-    if ($post->code === 200) {
+    if ($post->code < 400) {
       return (object)[
         "code" => $post->code,
         "message" => $post->message,
@@ -247,7 +247,7 @@ class DogeController extends Controller
       "Password" => $password,
     ];
     $post = HttpController::post("Login", $data, true);
-    if ($post->code === 200) {
+    if ($post->code < 400) {
       return (object)[
         "code" => $post->code,
         "message" => $post->message,
@@ -276,7 +276,7 @@ class DogeController extends Controller
       "Currency" => "doge"
     ];
     $post = HttpController::post("GetBalance", $data);
-    if ($post->code === 200) {
+    if ($post->code < 400) {
       return (object)[
         "code" => $post->code,
         "message" => $post->message,

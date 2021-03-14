@@ -24,7 +24,7 @@ class SettingSubscribeController extends Controller
     $subscribes->getCollection()->transform(function ($subscribe) {
       $subscribe->user = User::find($subscribe->user_id);
       $subscribe->price = round($subscribe->price / 10 ** 8, 8);
-      $subscribe->expired_at = Carbon::parse($subscribe->expired_at)->format('d/M/Y');
+      $subscribe->expired_at = Carbon::parse($subscribe->expired_at)->format("d/M/Y");
 
       return $subscribe;
     });

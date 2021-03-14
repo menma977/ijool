@@ -3,16 +3,22 @@
 namespace App\Http\Controllers\api\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 class LogoutController extends Controller
 {
-  public function index()
+  /**
+   * @return JsonResponse
+   */
+  public function index(): JsonResponse
   {
     foreach (Auth::user()->tokens as $key => $value) {
       $value->delete();
     }
-    return response('', 204);
+    $data = [
+      "message" => "user logout",
+    ];
+    return response()->json($data, 204);
   }
 }

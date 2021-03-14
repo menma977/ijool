@@ -15,7 +15,7 @@ class ImageController extends Controller
   public static function profile($image, $name, $oldName = null): void
   {
     if ($oldName) {
-      Storage::delete('public/profile/' . $oldName);
+      Storage::delete("public/profile/" . $oldName);
     }
     Storage::putFileAs("public/profile", $image, $name);
   }

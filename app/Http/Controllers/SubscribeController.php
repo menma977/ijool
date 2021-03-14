@@ -24,7 +24,7 @@ class SubscribeController extends Controller
     $user = User::find(Auth::id());
     if ($type == "subscribe") {
       $validateSubscribe = Subscribe::where("user_id", $user->id);
-      if ($validateSubscribe->where('is_finished', false)->count()) {
+      if ($validateSubscribe->where("is_finished", false)->count()) {
         return back()->with(["warning" => "you have been subscribed to our features"]);
       }
 
@@ -33,7 +33,7 @@ class SubscribeController extends Controller
       }
 
       $onSubscribe = self::onSubscribe($user);
-      if ($onSubscribe->code == 200) {
+      if ($onSubscribe->code < 400) {
         $user->subscribe = true;
         $user->save();
         return back()->with(["message" => $onSubscribe->message]);
@@ -43,7 +43,7 @@ class SubscribeController extends Controller
 
     $user->subscribe = false;
     $user->save();
-    Subscribe::where("user_id", $user->id)->where('is_finished', false)->update(["is_finished" => true]);
+    Subscribe::where("user_id", $user->id)->where("is_finished", false)->update(["is_finished" => true]);
     return back()->with(["warning" => "Your subscription has been stopped."]);
   }
 
@@ -58,7 +58,7 @@ class SubscribeController extends Controller
     $settingSubscribe = SettingSubscribe::first();
     if ($doge->cookie && Carbon::parse($doge->updated_at)->diffInDays(Carbon::now()) < 30) {
       $getBalance = DogeController::balance($doge->cookie);
-      if ($getBalance->code == 200) {
+      if ($getBalance->code < 400) {
         $balance = $getBalance->data->balance;
       } else {
         return (object)[
@@ -68,7 +68,7 @@ class SubscribeController extends Controller
       }
     } else {
       $login = DogeController::login($doge->username, $doge->password);
-      if ($login->code == 200) {
+      if ($login->code < 400) {
         $doge->cookie = $login->data->cookie;
         $doge->save();
         $balance = $login->data->balance;

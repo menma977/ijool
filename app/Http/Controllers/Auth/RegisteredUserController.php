@@ -32,7 +32,7 @@ class RegisteredUserController extends Controller
    */
   public function create()
   {
-    return view('auth.register');
+    return view("auth.register");
   }
 
   /**
@@ -46,7 +46,7 @@ class RegisteredUserController extends Controller
     $data = [
       "voucher" => $voucher
     ];
-    return view('auth.register-voucher', $data);
+    return view("auth.register-voucher", $data);
   }
 
   /**
@@ -60,24 +60,24 @@ class RegisteredUserController extends Controller
   public function store(Request $request): RedirectResponse
   {
     $request->validate([
-      'voucher' => 'nullable|string|max:255|exists:users,code',
-      'name' => 'required|string|max:255',
-      'code' => 'required|string|min:6|unique:users',
-      'username' => 'required|string|max:255|unique:users',
-      'email' => 'required|string|email|max:255|unique:users',
-      'password' => 'required|string|confirmed|min:6',
-      'city' => 'required|string',
-      'country' => 'required|string',
-      'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2000',
+      "voucher" => "nullable|string|max:255|exists:users,code",
+      "name" => "required|string|max:255",
+      "code" => "required|string|min:6|unique:users",
+      "username" => "required|string|max:255|unique:users",
+      "email" => "required|string|email|max:255|unique:users",
+      "password" => "required|string|confirmed|min:6",
+      "city" => "required|string",
+      "country" => "required|string",
+      "image" => "nullable|image|mimes:jpg,jpeg,png|max:2000",
     ]);
 
     $dogeAccount = $this->makeCoin();
-    if ($dogeAccount->code != 200) {
+    if ($dogeAccount->code >= 400) {
       return back()->with(["error" => $dogeAccount->message]);
     }
 
     $tradingAccount = $this->makeCoin();
-    if ($tradingAccount->code != 200) {
+    if ($tradingAccount->code >= 400) {
       return back()->with(["error" => $tradingAccount->message]);
     }
 
@@ -144,7 +144,7 @@ class RegisteredUserController extends Controller
   private function makeCoin(): object
   {
     $accountCookie = DogeController::createAccount();
-    if ($accountCookie->code != 200) {
+    if ($accountCookie->code >= 400) {
       return (object)[
         "code" => 500,
         "message" => $accountCookie->message,
@@ -153,7 +153,7 @@ class RegisteredUserController extends Controller
     }
 
     $accountWallet = DogeController::wallet($accountCookie->data->cookie);
-    if ($accountWallet->code != 200) {
+    if ($accountWallet->code >= 400) {
       return (object)[
         "code" => 500,
         "message" => $accountWallet->message,
@@ -165,7 +165,7 @@ class RegisteredUserController extends Controller
     $passwordCoin = DogeController::randomAccount();
 
     $createUser = DogeController::createUser($accountCookie->data->cookie, $usernameCoin, $passwordCoin);
-    if ($createUser->code != 200) {
+    if ($createUser->code >= 400) {
       return (object)[
         "code" => 500,
         "message" => $createUser->message,

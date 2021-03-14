@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 class VerifyEmailController extends Controller
 {
   /**
-   * Mark the authenticated user's email address as verified.
+   * Mark the authenticated user"s email address as verified.
    *
    * @param $id
    * @param $hash
@@ -44,6 +44,6 @@ class VerifyEmailController extends Controller
 
     Auth::login($user);
 
-    return redirect()->intended(RouteServiceProvider::HOME . '?verified=1');
+    return redirect()->intended(RouteServiceProvider::HOME . "?verified=1");
   }
 }
