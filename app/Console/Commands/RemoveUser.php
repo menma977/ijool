@@ -36,7 +36,7 @@ class RemoveUser extends Command
    */
   public function handle()
   {
-    $user = User::whereNull("email_verified_at")->where("created_at", "<=", Carbon::now()->addDays(-1))->first();
+    $user = User::whereNull("email_verified_at")->where("created_at", "<", Carbon::now()->addDays(-1))->first();
     if ($user) {
       Doge::where("user_id", $user->id)->delete();
       Trading::where("user_id", $user->id)->delete();
