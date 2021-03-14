@@ -14,14 +14,14 @@ class UpdateMarketPrice extends Command
    *
    * @var string
    */
-  protected $signature = 'minute:price';
+  protected $signature = "minute:price";
 
   /**
    * The console command description.
    *
    * @var string
    */
-  protected $description = 'Update market price';
+  protected $description = "Update market price";
 
   /**
    * Execute the console command.

@@ -8,21 +8,21 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 class Kernel extends ConsoleKernel
 {
   /**
-   * Define the application's command schedule.
+   * Define the application"s command schedule.
    *
    * @param Schedule $schedule
    * @return void
    */
   protected function schedule(Schedule $schedule)
   {
-    $schedule->command('minute:subscribe')->everyMinute()->withoutOverlapping();
-    $schedule->command('minute:queue')->everyMinute()->withoutOverlapping();
-    $schedule->command('minute:bill')->everyMinute()->withoutOverlapping();
-    $schedule->command('minute:price')->everyMinute();
+    $schedule->command("minute:subscribe")->everyMinute()->withoutOverlapping();
+    $schedule->command("minute:queue")->everyMinute()->withoutOverlapping();
+    $schedule->command("minute:bill")->everyMinute()->withoutOverlapping();
+    $schedule->command("minute:price")->everyMinute();
 
-    $schedule->command('daily:removeBill')->daily()->withoutOverlapping();
-    $schedule->command('daily:removeQueue')->daily()->withoutOverlapping();
-    $schedule->command('daily:removeUser')->everyMinute()->withoutOverlapping();
+    $schedule->command("daily:removeBill")->daily()->withoutOverlapping();
+    $schedule->command("daily:removeQueue")->daily()->withoutOverlapping();
+    $schedule->command("daily:removeUser")->everyMinute()->withoutOverlapping();
   }
 
   /**
@@ -32,8 +32,8 @@ class Kernel extends ConsoleKernel
    */
   protected function commands()
   {
-    $this->load(__DIR__ . '/Commands');
+    $this->load(__DIR__ . "/Commands");
 
-    require base_path('routes/console.php');
+    require base_path("routes/console.php");
   }
 }

@@ -12,14 +12,14 @@ class RemoveBill extends Command
    *
    * @var string
    */
-  protected $signature = 'daily:removeBill';
+  protected $signature = "daily:removeBill";
 
   /**
    * The console command description.
    *
    * @var string
    */
-  protected $description = 'remove bill daily';
+  protected $description = "remove bill daily";
 
   /**
    * Execute the console command.

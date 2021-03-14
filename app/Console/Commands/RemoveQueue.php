@@ -12,14 +12,14 @@ class RemoveQueue extends Command
    *
    * @var string
    */
-  protected $signature = 'daily:removeQueue';
+  protected $signature = "daily:removeQueue";
 
   /**
    * The console command description.
    *
    * @var string
    */
-  protected $description = 'remove queue daily';
+  protected $description = "remove queue daily";
 
   /**
    * Execute the console command.

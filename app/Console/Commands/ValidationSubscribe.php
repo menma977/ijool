@@ -15,14 +15,14 @@ class ValidationSubscribe extends Command
    *
    * @var string
    */
-  protected $signature = 'minute:subscribe';
+  protected $signature = "minute:subscribe";
 
   /**
    * The console command description.
    *
    * @var string
    */
-  protected $description = 'make subscribe finish when ready';
+  protected $description = "make subscribe finish when ready";
 
   /**
    * Execute the console command.

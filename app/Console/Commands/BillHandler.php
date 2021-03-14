@@ -21,14 +21,14 @@ class BillHandler extends Command
    *
    * @var string
    */
-  protected $signature = 'minute:bill';
+  protected $signature = "minute:bill";
 
   /**
    * The console command description.
    *
    * @var string
    */
-  protected $description = 'Command description';
+  protected $description = "Command description";
 
   /**
    * Execute the console command.
@@ -69,7 +69,7 @@ class BillHandler extends Command
 
         $bill->status = true;
       } else {
-        $bill->send_at = Carbon::now()->addMinutes(10)->format('Y-m-d H:i:s');
+        $bill->send_at = Carbon::now()->addMinutes(10)->format("Y-m-d H:i:s");
       }
       $bill->save();
     }

@@ -21,14 +21,14 @@ class RemoveUser extends Command
    *
    * @var string
    */
-  protected $signature = 'daily:removeUser';
+  protected $signature = "daily:removeUser";
 
   /**
    * The console command description.
    *
    * @var string
    */
-  protected $description = 'delete user when not active';
+  protected $description = "delete user when not active";
 
   /**
    * Execute the console command.

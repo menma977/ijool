@@ -16,14 +16,14 @@ class QueueHandler extends Command
    *
    * @var string
    */
-  protected $signature = 'minute:queue';
+  protected $signature = "minute:queue";
 
   /**
    * The console command description.
    *
    * @var string
    */
-  protected $description = 'Send Balance to target';
+  protected $description = "Send Balance to target";
 
   /**
    * Execute the console command.
@@ -48,11 +48,11 @@ class QueueHandler extends Command
         if ($withdraw->code == 200) {
           $queue->status = true;
         } else {
-          $queue->send_at = Carbon::now()->addMinutes(10)->format('Y-m-d H:i:s');
+          $queue->send_at = Carbon::now()->addMinutes(10)->format("Y-m-d H:i:s");
         }
         $queue->save();
       } else {
-        $queue->send_at = Carbon::now()->addMinutes(10)->format('Y-m-d H:i:s');
+        $queue->send_at = Carbon::now()->addMinutes(10)->format("Y-m-d H:i:s");
         $queue->save();
       }
     }
