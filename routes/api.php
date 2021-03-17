@@ -24,3 +24,6 @@ Route::middleware(["auth:api", "verified"])->group(function () {
   Route::get("logout", [LogoutController::class, 'index']);
 });
 
+Route::group(['prefix' => 'pc', 'as' => 'pc.'], function () {
+  Route::post("/login", [LoginController::class, "pc_login"])->middleware(["guest"]);
+});
