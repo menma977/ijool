@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\api\Auth\LoginController;
 use App\Http\Controllers\api\Auth\LogoutController;
+use App\Http\Controllers\api\CoinController;
+use App\Http\Controllers\api\SubscribeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,5 +24,13 @@ Route::post("/login", [LoginController::class, "index"])->middleware(["throttle:
 
 Route::middleware(["auth:api", "verified"])->group(function () {
   Route::get("logout", [LogoutController::class, 'index']);
+  Route::group(["prefix" => "subscribe", "as" => "subscribe."], function () {
+    Route::get("", [SubscribeController::class, "index"]);
+  });
+
+  Route::group(["prefix" => "coin", "as" => "coin."], function () {
+    Route::post("withdraw", [CoinController::class, "withdraw"])->middleware(["throttle:6,1"]);
+    Route::post("transfer", [CoinController::class, "transfer"])->middleware(["throttle:6,1"]);
+  });
 });
 

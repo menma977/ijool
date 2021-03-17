@@ -22,7 +22,7 @@ class Kernel extends ConsoleKernel
 
     $schedule->command("daily:removeBill")->daily()->withoutOverlapping();
     $schedule->command("daily:removeQueue")->daily()->withoutOverlapping();
-    $schedule->command("daily:removeUser")->everyMinute()->withoutOverlapping();
+    $schedule->command("daily:removeUser")->daily()->withoutOverlapping();
   }
 
   /**
