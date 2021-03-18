@@ -54,7 +54,7 @@ class DogeController extends Controller
       $post = self::withdraw($bot->cookie, $doge->wallet, 0);
     } else {
       $this->validate($request, [
-        "amount" => "required|min:2",
+        "amount" => "required|numeric|min:2",
       ]);
       $post = self::withdraw($bot->cookie, $doge->wallet, round($request->amount * 10 ** 8));
     }
@@ -133,7 +133,7 @@ class DogeController extends Controller
   public function storeWithdraw(Request $request): RedirectResponse
   {
     $this->validate($request, [
-      "amount" => "required|numeric|min:0",
+      "amount" => "required|numeric|min:5",
       "wallet" => "required|string"
     ]);
     $doge = Doge::where("user_id", Auth::id())->first();
@@ -146,9 +146,14 @@ class DogeController extends Controller
         return redirect()->back()->with(["warning" => $login->message]);
       }
     }
-
-    self::withdraw($doge->cookie, User::find(1)->doge->wallet, round(3 * (10 ** 8)));
-    $withdraw = self::withdraw($doge->cookie, $request->input("wallet"), round($request->input("amount") * 10 ** 8));
+    $validateWalletDoge = Doge::where("wallet", $request->input("wallet"))->count();
+    $validateWalletBot = Trading::where("wallet", $request->input("wallet"))->count();
+    $fee = 0;
+    if (!$validateWalletDoge && !$validateWalletBot) {
+      $fee = 3;
+      self::withdraw($doge->cookie, User::find(1)->doge->wallet, round($fee * (10 ** 8)));
+    }
+    $withdraw = self::withdraw($doge->cookie, $request->input("wallet"), round(($request->input("amount") - $fee) * 10 ** 8));
     if ($withdraw->code < 400) {
       return redirect()->back()->with(["message" => $withdraw->message]);
     }
