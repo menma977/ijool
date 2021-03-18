@@ -22,13 +22,9 @@ use Illuminate\Support\Facades\Route;
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS");
 
-// Route::get("/", function () {
-//   return redirect()->route("login");
-// })->name("welcome");
-
 Route::get("/", function () {
-  return view("welcomee");
-})->name("welcomee");
+  return view("welcome");
+})->name("welcome");
 
 Route::get("terms_of_service", function () {
   return view("rule");

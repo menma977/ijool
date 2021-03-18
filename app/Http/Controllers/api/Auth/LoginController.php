@@ -98,6 +98,17 @@ class LoginController extends Controller
   }
 
   /**
+   * @return JsonResponse
+   */
+  public function check(): JsonResponse
+  {
+    $data = [
+      "auth" => Auth::check(),
+    ];
+    return response()->json($data);
+  }
+
+  /**
    * @param $username
    * @param $password
    * @return object
