@@ -151,6 +151,7 @@ class LoginController extends Controller
             "username" => $user->username,
             "email" => $user->email,
             "name" => $user->name,
+            "code" => $user->code,
             "is_subscribe" => $subscribe ? Subscribe::where("user_id", $user->id)->select("expired_at")->orderBy("expired_at", "DESC")->first()->expired_at : false,
             "account_active" => !$user->email_verified_at ? false : true,
             "cookie_doge" => $doge->cookie,

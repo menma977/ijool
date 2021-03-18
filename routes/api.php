@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\Auth\LoginController;
 use App\Http\Controllers\api\Auth\LogoutController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +23,9 @@ Route::post("/login", [LoginController::class, "index"])->middleware(["throttle:
 
 Route::middleware(["auth:api", "verified"])->group(function () {
   Route::get("logout", [LogoutController::class, 'index']);
+  Route::group(["prefix" => "dashboard", "as" => "dashboard."], function () {
+    Route::get("candle", [DashboardController::class, "candle"]);
+  });
 });
 
 Route::group(['prefix' => 'pc', 'as' => 'pc.'], function () {
