@@ -97,11 +97,6 @@ class LoginController extends Controller
     }
   }
 
-  /**
-   * @param Request $request
-   * @return JsonResponse
-   * @throws ValidationException
-   */
   public function pc_login(Request $request): JsonResponse
   {
     $this->validate($request, [
@@ -170,6 +165,19 @@ class LoginController extends Controller
       ];
       return response()->json($data, 500);
     }
+  }
+
+  /**
+   * @param Request $request
+   * @return JsonResponse
+   * @throws ValidationException
+   */
+  public function check(): JsonResponse
+  {
+    $data = [
+      "auth" => Auth::check(),
+    ];
+    return response()->json($data);
   }
 
   /**

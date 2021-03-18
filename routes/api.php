@@ -29,6 +29,8 @@ Route::middleware(["auth:api", "verified"])->group(function () {
     Route::get("candle", [DashboardController::class, "candle"]);
   });
 
+  Route::get("check", [LoginController::class, "check"]);
+
   Route::group(["prefix" => "subscribe", "as" => "subscribe."], function () {
     Route::get("", [SubscribeController::class, "index"]);
   });
