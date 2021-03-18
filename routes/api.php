@@ -23,7 +23,10 @@ header("Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS");
 Route::post("/login", [LoginController::class, "index"])->middleware(["throttle:1,1", "guest"]);
 
 Route::middleware(["auth:api", "verified"])->group(function () {
-  Route::get("logout", [LogoutController::class, 'index']);
+  Route::get("logout", [LogoutController::class, "index"]);
+
+  Route::get("check", [LoginController::class, "check"]);
+
   Route::group(["prefix" => "subscribe", "as" => "subscribe."], function () {
     Route::get("", [SubscribeController::class, "index"]);
   });
