@@ -4,6 +4,7 @@ use App\Http\Controllers\api\Auth\LoginController;
 use App\Http\Controllers\api\Auth\LogoutController;
 use App\Http\Controllers\api\CoinController;
 use App\Http\Controllers\api\SubscribeController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,8 +40,4 @@ Route::middleware(["auth:api", "verified"])->group(function () {
     Route::post("withdraw", [CoinController::class, "withdraw"])->middleware(["throttle:6,1"]);
     Route::post("transfer", [CoinController::class, "transfer"])->middleware(["throttle:6,1"]);
   });
-});
-
-Route::group(['prefix' => 'pc', 'as' => 'pc.'], function () {
-  Route::post("/login", [LoginController::class, "pc_login"])->middleware(["guest"]);
 });

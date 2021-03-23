@@ -1,28 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\api\Auth;
+namespace App\Http\Controllers\PcApi;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DogeController;
 use App\Models\Doge;
 use App\Models\Subscribe;
 use App\Models\Trading;
-use Carbon\Carbon;
-use http\Exception;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
-  /**
-   * @param Request $request
-   * @return JsonResponse
-   * @throws ValidationException
-   */
-  public function index(Request $request): JsonResponse
+  public function pc_login(Request $request): JsonResponse
   {
     $this->validate($request, [
       "username" => "required|string|exists:users,username",
@@ -34,22 +28,15 @@ class LoginController extends Controller
         foreach (Auth::user()->tokens as $id => $item) {
           $item->delete();
         }
+        /** @var \App\Models\User */
         $user = Auth::user();
         if ($user) {
           $doge = Doge::where("user_id", $user->id)->first();
           $bot = Trading::where("user_id", $user->id)->first();
           $subscribe = Subscribe::where("user_id", $user->id)->where("is_finished", false)->count();
 
-          if (!$subscribe) {
-            return response()->json(["message" => "please subscribe or pay your bill"], 500);
-          }
-
           if ($user->suspend) {
             return response()->json(["message" => "your account has been suspended"], 500);
-          }
-
-          if (!$user->email_verified_at) {
-            return response()->json(["message" => "your account is not active. please active your account."], 500);
           }
 
           if (Carbon::parse($doge->updated_at)->diffInDays(Carbon::now()) >= 30 || !$doge->cookie) {
@@ -72,13 +59,17 @@ class LoginController extends Controller
             }
           }
 
-          $user->token = $user->createToken("Android")->accessToken;
+          $user->token = $user->createToken("Pc")->accessToken;
 
           return response()->json([
             "token" => $user->token,
             "username" => $user->username,
             "email" => $user->email,
             "name" => $user->name,
+            "code" => $user->code,
+            "roles" => $user->permission->pluck("role")->pluck("name"),
+            "is_subscribe" => $subscribe ? Subscribe::where("user_id", $user->id)->select("expired_at")->orderBy("expired_at", "DESC")->first()->expired_at : false,
+            "account_active" => !$user->email_verified_at ? false : true,
             "cookie_doge" => $doge->cookie,
             "wallet_doge" => $doge->wallet,
             "cookie_bot" => $bot->cookie,
@@ -95,19 +86,6 @@ class LoginController extends Controller
       ];
       return response()->json($data, 500);
     }
-  }
-
-  /**
-   * @param Request $request
-   * @return JsonResponse
-   * @throws ValidationException
-   */
-  public function check(): JsonResponse
-  {
-    $data = [
-      "auth" => Auth::check(),
-    ];
-    return response()->json($data);
   }
 
   /**
