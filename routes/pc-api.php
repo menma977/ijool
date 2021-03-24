@@ -17,5 +17,8 @@ Route::group(['prefix' => 'pc', 'as' => 'pc.'], function () {
       Route::get('{user?}', [UserController::class, "profile"]);
       Route::post('update', [UserController::class, "update"]);
     });
+    Route::group(["prefix" => "doge", "as" => "doge."], function () {
+      Route::post("transfer/{type}/{isAll}", [DogeController::class, "transfer"]);
+    });
   });
 });
