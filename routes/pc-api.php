@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PcApi\DogeController;
 use App\Http\Controllers\PcApi\LoginController;
 use App\Http\Controllers\PcApi\UserController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,7 @@ Route::group(['prefix' => 'pc', 'as' => 'pc.'], function () {
     });
     Route::group(["prefix" => "doge", "as" => "doge."], function () {
       Route::post("transfer/{type}/{isAll}", [DogeController::class, "transfer"]);
+      Route::post("withdraw", [DogeController::class, "withdraw"]);
     });
   });
 });

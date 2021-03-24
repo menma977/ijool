@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\ImageController;
 use App\Models\Line;
 use App\Models\Profile;
+use App\Models\Subscribe;
 use App\Models\User as ModelsUser;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
@@ -28,6 +30,14 @@ class UserController extends Controller
     } else {
       $user = Auth::user();
     }
+    $subscribes = Subscribe::where("user_id", $user->id)->orderBy("created_at", "desc")->take(10)->get();
+    $subscribes->map(function ($item) {
+      return [
+        "created_at" => $item->created_at,
+        "expired_at" => $item->expired_at,
+        "label" => round($item->price / 10 ** 8, 8) . " DOGE",
+      ];
+    });
     if (!$user) return response()->json(["message" => "Not Found"], 404);
     return response()->json([
       "name" => $user->name,
@@ -36,7 +46,8 @@ class UserController extends Controller
       "created_at" => $user->created_at,
       "image" => $user->profile->image,
       "country" => $user->profile->country,
-      "city" => $user->profile->city
+      "city" => $user->profile->city,
+      "subscribes" => $subscribes
     ]);
   }
 
