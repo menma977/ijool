@@ -74,6 +74,7 @@ class LoginController extends Controller
             "wallet_doge" => $doge->wallet,
             "cookie_bot" => $bot->cookie,
             "wallet_bot" => $bot->wallet,
+            "join_date" => $user->created_at
           ]);
         }
         return response()->json(["message" => "CODE:401 - user is invalid."], 401);

@@ -10,7 +10,6 @@ use App\Models\Subscribe;
 use App\Models\User as ModelsUser;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
@@ -39,7 +38,7 @@ class UserController extends Controller
       ];
     });
     if (!$user) return response()->json(["message" => "Not Found"], 404);
-    return response()->json([
+    $retVal = [
       "name" => $user->name,
       "username" => $user->username,
       "email" => $user->email,
@@ -48,7 +47,15 @@ class UserController extends Controller
       "country" => $user->profile->country,
       "city" => $user->profile->city,
       "subscribes" => $subscribes
-    ]);
+    ];
+    if (Auth::user()->permission->pluck("role")->where("name", "Admin")->count()) {
+      $lines = Line::where("mate", $user->id)->first();
+      if ($lines)
+        $retVal = array_merge($retVal, ["up" => ModelsUser::find($lines->user_id)->username]);
+      else
+        $retVal = array_merge($retVal, ["up" => $user->username]);
+    }
+    return response()->json($retVal);
   }
 
   function mates(Request $req, $user = null)
@@ -66,7 +73,7 @@ class UserController extends Controller
     }
     if (!$user) return response()->json(["message" => "Not Found"], 404);
     $lines = Line::where("user_id", $user->id)->get();
-    $lines->map(function ($item) {
+    $lines = $lines->map(function ($item) {
       $u = ModelsUser::find($item->mate);
       return [
         "name" => $u->name,
