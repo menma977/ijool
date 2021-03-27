@@ -4,6 +4,7 @@ use App\Http\Controllers\api\Auth\LoginController;
 use App\Http\Controllers\api\Auth\LogoutController;
 use App\Http\Controllers\api\CoinController;
 use App\Http\Controllers\api\SubscribeController;
+use App\Http\Controllers\api\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +35,12 @@ Route::middleware(["auth:api", "verified"])->group(function () {
   Route::group(["prefix" => "coin", "as" => "coin."], function () {
     Route::post("withdraw", [CoinController::class, "withdraw"])->middleware(["throttle:6,1"]);
     Route::post("transfer", [CoinController::class, "transfer"])->middleware(["throttle:6,1"]);
+  });
+
+  Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
+    Route::get('mates/{user?}', [UserController::class, "mates"]);
+    Route::get('{user?}', [UserController::class, "profile"]);
+    Route::post('update', [UserController::class, "update"]);
   });
 });
 
