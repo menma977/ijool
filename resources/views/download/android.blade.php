@@ -31,6 +31,9 @@
               <p class="text-muted">
                 android application still in progress
               </p>
+              <a href="{{ url("https://play.google.com/store/apps/details?id=net.ijool") }}" target="_blank" class="btn btn-warning">
+                Google Play
+              </a>
             </div>
           </div>
         </div>
