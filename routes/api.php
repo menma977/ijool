@@ -5,6 +5,7 @@ use App\Http\Controllers\api\Auth\LogoutController;
 use App\Http\Controllers\api\CoinController;
 use App\Http\Controllers\api\SubscribeController;
 use App\Http\Controllers\api\UserController;
+use App\Http\Controllers\api\VersionController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,10 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS");
 
 Route::post("/login", [LoginController::class, "index"])->middleware(["throttle:1,1", "guest"]);
+
+Route::group(["prefix" => "version", "as" => "version."], function () {
+  Route::get("", [VersionController::class, "index"]);
+});
 
 Route::middleware(["auth:api", "verified"])->group(function () {
   Route::get("logout", [LogoutController::class, "index"]);
