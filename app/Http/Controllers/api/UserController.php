@@ -24,7 +24,7 @@ class UserController extends Controller
    */
   public function profile($user = null): JsonResponse
   {
-    if ($user) {
+    if ($user && $user != Auth::user()->username) {
       if (!Gate::allows("Admin")) {
         return response()->json([
           "message" => "Not Allowed"
@@ -75,8 +75,8 @@ class UserController extends Controller
    */
   public function mates($user = null): JsonResponse
   {
-    if ($user) {
-      if (!Auth::user()->permission->pluck("role")->where("name", "Admin")->count()) {
+    if ($user && $user != Auth::user()->username) {
+      if (!Gate::allows("Admin")) {
         return response()->json([
           "message" => "Not Allowed"
         ], 405);

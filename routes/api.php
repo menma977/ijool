@@ -5,6 +5,7 @@ use App\Http\Controllers\api\Auth\LogoutController;
 use App\Http\Controllers\api\CoinController;
 use App\Http\Controllers\api\SubscribeController;
 use App\Http\Controllers\api\UserController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,10 @@ Route::middleware(["auth:api", "verified"])->group(function () {
 
   Route::get("check", [LoginController::class, "check"]);
 
+  Route::group(["prefix" => "dashboard", "as" => "dashboard."], function () {
+    Route::get("candle", [DashboardController::class, "candle"]);
+  });
+
   Route::group(["prefix" => "subscribe", "as" => "subscribe."], function () {
     Route::get("", [SubscribeController::class, "index"]);
   });
@@ -43,4 +48,3 @@ Route::middleware(["auth:api", "verified"])->group(function () {
     Route::post('update', [UserController::class, "update"]);
   });
 });
-
