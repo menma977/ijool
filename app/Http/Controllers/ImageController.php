@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class ImageController extends Controller
 {
@@ -17,6 +17,7 @@ class ImageController extends Controller
     if ($oldName) {
       Storage::delete("public/profile/" . $oldName);
     }
-    Storage::putFileAs("public/profile", $image, $name);
+    $imageResize = Image::make($image)->fit(300)->encode();
+    Storage::put("public/profile/$name", $imageResize);
   }
 }
