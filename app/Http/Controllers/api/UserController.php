@@ -10,11 +10,11 @@ use App\Models\Subscribe;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
-use Str;
 
 class UserController extends Controller
 {
@@ -111,9 +111,8 @@ class UserController extends Controller
    * @return mixed
    * @throws ValidationException
    */
-  public function update(Request $request, $id)
+  public function update(Request $request, $id = null)
   {
-    $id = Crypt::decryptString($id);
     $this->validate($request, [
       "name" => "nullable|string|max:255",
       "city" => "nullable|string",
@@ -122,14 +121,23 @@ class UserController extends Controller
       "password" => "nullable|string|confirmed|min:6",
     ]);
 
-    $user = User::find($id);
+    if ($id) {
+      $id = Crypt::decryptString($id);
+      $user = User::find($id);
+      if ($user->id != Auth::id())
+        return response()->json([
+          "message" => "Not Allowed"
+        ], 405);
+    } else {
+      $user = Auth::user();
+    }
 
     if ($request->has("name")) {
       $user->name = $request->input("name");
       $user->save();
     }
 
-    $profile = Profile::where("user_id", $id)->first();
+    $profile = Profile::where("user_id", $user->id)->first();
     if ($request->has("city")) {
       $profile->city = $request->input("city");
     }
@@ -145,6 +153,6 @@ class UserController extends Controller
     }
     $profile->save();
 
-    return redirect()->json(["profile" => $profile, "name" => $user->name]);
+    return response()->json(["profile" => $profile, "name" => $user->name]);
   }
 }
