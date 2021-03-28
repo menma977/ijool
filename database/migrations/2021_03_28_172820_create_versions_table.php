@@ -15,7 +15,6 @@ class CreateVersionsTable extends Migration
   {
     Schema::create('versions', function (Blueprint $table) {
       $table->uuid("id")->primary();
-      $table->boolean("maintenance")->default(false);
       $table->integer("desktop_code");
       $table->string("desktop_name");
       $table->integer("apk_code");
