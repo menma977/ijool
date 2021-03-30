@@ -23,17 +23,42 @@
       <div class="card">
         <div class="card-body text-center">
           <div class="row justify-content-center">
-            <div class="greet-user col-12 col-xl-10">
-              <img src="{{ asset("dist/img/happiness.svg") }}" alt="..." class="img-fluid  mb-2">
+            <div class="col-12 col-xl-10">
               <h2 class="fs-23 font-weight-600 mb-2">
-                please wait
+                Android
               </h2>
               <p class="text-muted">
-                android application still in progress
+                Android APK is ready. play store in process
               </p>
-              <a href="{{ url("https://play.google.com/store/apps/details?id=net.ijool") }}" target="_blank" class="btn btn-warning">
+              <a href="{{ asset("download/apk/app-release.apk") }}" target="_blank" class="btn btn-success mb-2">
+                Android APK
+              </a>
+              <a href="{{ url("https://play.google.com/store/apps/details?id=net.ijool") }}" target="_blank" class="btn btn-primary disabled mb-2">
                 Google Play
               </a>
+              <div class="row">
+                <div class="col-md-4">
+                  <img src="{{ asset("img/apk/image6.jpg") }}" alt="..." class="img-fluid mb-2" style="height:400px">
+                </div>
+                <div class="col-md-4">
+                  <img src="{{ asset("img/apk/image5.jpg") }}" alt="..." class="img-fluid mb-2" style="height:400px">
+                </div>
+                <div class="col-md-4">
+                  <img src="{{ asset("img/apk/image4.jpg") }}" alt="..." class="img-fluid mb-2" style="height:400px">
+                </div>
+                <div class="col-md-3">
+                  <img src="{{ asset("img/apk/image3.jpg") }}" alt="..." class="img-fluid mb-2" style="height:400px">
+                </div>
+                <div class="col-md-3">
+                  <img src="{{ asset("img/apk/image2.jpg") }}" alt="..." class="img-fluid mb-2" style="height:400px">
+                </div>
+                <div class="col-md-3">
+                  <img src="{{ asset("img/apk/image1.jpg") }}" alt="..." class="img-fluid mb-2" style="height:400px">
+                </div>
+                <div class="col-md-3">
+                  <img src="{{ asset("img/apk/image0.jpg") }}" alt="..." class="img-fluid mb-2" style="height:400px">
+                </div>
+              </div>
             </div>
           </div>
         </div>

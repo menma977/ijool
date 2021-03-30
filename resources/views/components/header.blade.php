@@ -14,6 +14,10 @@
               <i class="fas fa-rocket d-block"></i>
               <span>Mining</span>
             </a>
+            <a href="{{ asset("download/apk/app-release.apk") }}" class="icon-menu-item col-4">
+              <i class="fas fa fa-mobile d-block"></i>
+              <span>Android</span>
+            </a>
           </div>
         </div>
       </li>
