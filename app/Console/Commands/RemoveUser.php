@@ -6,6 +6,7 @@ use App\Models\Bill;
 use App\Models\Doge;
 use App\Models\Line;
 use App\Models\Permission;
+use App\Models\Pin;
 use App\Models\Profile;
 use App\Models\Queue;
 use App\Models\Subscribe;
@@ -46,6 +47,7 @@ class RemoveUser extends Command
       Bill::where("from", $user->id)->orWhere("to", $user->id)->delete();
       Line::where("user_id", $user->id)->orWhere("mate", $user->id)->delete();
       Permission::where("user_id", $user->id)->delete();
+      Pin::where("user_id", $user->id)->delete();
       $user->delete();
     }
   }

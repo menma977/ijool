@@ -23,7 +23,8 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS");
 
 Route::get("/", function () {
-  return view("welcome");
+  return redirect()->route("login");
+  //return view("welcome");
 })->name("welcome");
 
 Route::get("terms_of_service", function () {

@@ -41,18 +41,19 @@ class DashboardController extends Controller
    */
   public function candle(): array
   {
-    $getPrice = Http::get("https://api.exchangeratesapi.io/latest?base=USD&symbols=IDR");
+    $getPrice = Http::get("https://api.ratesapi.io/api/latest");
     if ($getPrice->successful()) {
       try {
         $marketPrice = MarketPrice::orderBy("created_at", "desc")->first();
         if ($marketPrice) {
+          $idr = $getPrice->json()["rates"]["IDR"] / $getPrice->json()["rates"]["USD"];
           return [
             "index" => 100,
-            "buy" => round($marketPrice->buy / $getPrice->json()["rates"]["IDR"], 8),
-            "sell" => round($marketPrice->sell / $getPrice->json()["rates"]["IDR"], 8),
-            "last" => round($marketPrice->last / $getPrice->json()["rates"]["IDR"], 8),
-            "high" => round($marketPrice->high / $getPrice->json()["rates"]["IDR"], 8),
-            "low" => round($marketPrice->low / $getPrice->json()["rates"]["IDR"], 8),
+            "buy" => round($marketPrice->buy / $idr, 8),
+            "sell" => round($marketPrice->sell / $idr, 8),
+            "last" => round($marketPrice->last / $idr, 8),
+            "high" => round($marketPrice->high / $idr, 8),
+            "low" => round($marketPrice->low / $idr, 8),
           ];
         }
       } catch (HttpException $e) {

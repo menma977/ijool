@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
     $this->call(SettingSubscribeSeeder::class);
     $this->call(BankSeeder::class);
     $this->call(VersionSeeder::class);
+    $this->call(PinSeeder::class);
   }
 }
