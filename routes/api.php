@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS");
 
-Route::post("/login", [LoginController::class, "index"])->middleware(["throttle:1,1", "guest"]);
+Route::post("/login", [LoginController::class, "index"]); //->middleware(["throttle:1,1", "guest"]);
 
 Route::group(["prefix" => "version", "as" => "version."], function () {
   Route::get("", [VersionController::class, "index"]);
@@ -50,6 +50,6 @@ Route::middleware(["auth:api", "verified"])->group(function () {
   Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
     Route::get('mates/{user?}', [UserController::class, "mates"]);
     Route::get('{user?}', [UserController::class, "profile"]);
-    Route::post('update', [UserController::class, "update"]);
+    Route::post('update/{id?}', [UserController::class, "update"]);
   });
 });

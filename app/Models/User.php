@@ -103,6 +103,11 @@ class User extends Authenticatable implements MustVerifyEmail
     return $this->hasMany(Permission::class, "user_id", "id");
   }
 
+  public function pin(): HasMany
+  {
+    return $this->hasMany(Pin::class, "user_id", "id");
+  }
+
   public function sendEmailVerificationNotification()
   {
     $this->notify(new Registered($this->doge));

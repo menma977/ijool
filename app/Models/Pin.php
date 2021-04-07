@@ -45,7 +45,7 @@ class Pin extends Model
    * @param $user_id
    * @return int
    */
-  public function total($user_id): int
+  public static function total($user_id): int
   {
     return self::where("user_id", $user_id)->sum("debit") - self::where("user_id", $user_id)->sum("credit");
   }
