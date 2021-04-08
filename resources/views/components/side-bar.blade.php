@@ -1,4 +1,4 @@
-<x-modal />
+<x-modal/>
 <nav class="sidebar sidebar-bunker">
   <div class="sidebar-header">
     <a href="#" class="logo text-white"><span>IJOOL</span>.net</a>
@@ -6,9 +6,7 @@
   <!--/.sidebar header-->
   <div class="profile-element d-flex align-items-center flex-shrink-0">
     <div class="avatar online">
-      <img
-        src="{{ $user->profile->image ? asset("storage/profile/".$user->profile->image) : asset("dist/img/logo_bg.png") }}"
-        class="img-fluid rounded-circle" alt="">
+      <img src="{{ $user->profile->image ? asset("storage/profile/".$user->profile->image) : asset("dist/img/logo_bg.png") }}" class="img-fluid rounded-circle" alt="">
     </div>
     <div class="profile-text">
       <h6 class="m-0">{{ $user->name }}</h6>
@@ -18,14 +16,13 @@
   <div class="search sidebar-form">
     <div class="search__inner">
       @if($user->subscribe)
-      <button type="button" class="btn btn-warning btn-block rounded-pill" id="unsubscribe">
-        unsubscribe
-      </button>
+        <button type="button" class="btn btn-warning btn-block rounded-pill" id="unsubscribe">
+          unsubscribe
+        </button>
       @else
-      <button type="button" class="btn btn-danger btn-block rounded-pill" data-toggle="modal"
-        data-target="#modal_subscribe">
-        subscribe
-      </button>
+        <button type="button" class="btn btn-danger btn-block rounded-pill" data-toggle="modal" data-target="#modal_subscribe">
+          subscribe
+        </button>
       @endif
     </div>
   </div>
@@ -53,35 +50,26 @@
             <i class="fab fa-windows mr-2"></i> Desktop
           </a>
         </li>
-        <!-- TODO rute register blm gw ubah -->
-        <li class="{{ request()->is(['register']) ? 'mm-active' : '' }}">
-          <a href="{{ route("register") }}">
-            <i class="fas fa-users mr-2"></i> Invite User
-          </a>
-        </li>
         @can("Admin")
-        <li {{ request()->is(['subscribe/config/*']) ? 'class="mm-active"' : '' }}>
-          <a class="has-arrow material-ripple" href="#"
-            {{ request()->is(['subscribe/config/*']) ? 'aria-expanded="true"' : '' }}>
-            <i class="fas fa-donate mr-2"></i>
-            Subscribe
-          </a>
-          <ul class="nav-second-level mm-collapse {{ request()->is(['subscribe/config/*']) ? ' mm-show' : '' }}">
-            <li class="{{ request()->is(['subscribe/config']) ? 'mm-active' : '' }}">
-              <a href="{{ route("subscribe.config.index") }}"
-                {{ request()->is(['subscribe/config']) ? 'aria-expanded="true"' : '' }}>List</a>
-            </li>
-            <li class="{{ request()->is(['subscribe/config/edit']) ? 'mm-active' : '' }}">
-              <a href="{{ route("subscribe.config.edit") }}"
-                {{ request()->is(['subscribe/config/edit']) ? 'aria-expanded="true"' : '' }}>Edit</a>
-            </li>
-          </ul>
-        </li>
-        <li class="{{ request()->is(['line', 'line/*']) ? 'mm-active' : '' }}">
-          <a href="{{ route("line.index") }}">
-            <i class="fab fas fa fa-network-wired mr-2"></i> Line
-          </a>
-        </li>
+          <li {{ request()->is(['subscribe/config/*']) ? 'class="mm-active"' : '' }}>
+            <a class="has-arrow material-ripple" href="#" {{ request()->is(['subscribe/config/*']) ? 'aria-expanded="true"' : '' }}>
+              <i class="fas fa-donate mr-2"></i>
+              Subscribe
+            </a>
+            <ul class="nav-second-level mm-collapse {{ request()->is(['subscribe/config/*']) ? ' mm-show' : '' }}">
+              <li class="{{ request()->is(['subscribe/config']) ? 'mm-active' : '' }}">
+                <a href="{{ route("subscribe.config.index") }}" {{ request()->is(['subscribe/config']) ? 'aria-expanded="true"' : '' }}>List</a>
+              </li>
+              <li class="{{ request()->is(['subscribe/config/edit']) ? 'mm-active' : '' }}">
+                <a href="{{ route("subscribe.config.edit") }}" {{ request()->is(['subscribe/config/edit']) ? 'aria-expanded="true"' : '' }}>Edit</a>
+              </li>
+            </ul>
+          </li>
+          <li class="{{ request()->is(['line', 'line/*']) ? 'mm-active' : '' }}">
+            <a href="{{ route("line.index") }}">
+              <i class="fab fas fa fa-network-wired mr-2"></i> Line
+            </a>
+          </li>
         @endcan
       </ul>
     </nav>

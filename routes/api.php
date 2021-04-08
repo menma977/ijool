@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS");
 
-Route::post("/login", [LoginController::class, "index"]); //->middleware(["throttle:1,1", "guest"]);
+Route::post("/login", [LoginController::class, "index"])->middleware(["throttle:1,1", "guest"]);
 
 Route::group(["prefix" => "version", "as" => "version."], function () {
   Route::get("", [VersionController::class, "index"]);

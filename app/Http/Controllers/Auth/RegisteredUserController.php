@@ -5,11 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DogeController;
 use App\Http\Controllers\ImageController;
-use App\Http\Controllers\PinController;
 use App\Models\Doge;
 use App\Models\Line;
 use App\Models\Permission;
-use App\Models\Pin;
 use App\Models\Profile;
 use App\Models\Role;
 use App\Models\Trading;
@@ -21,7 +19,6 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -73,10 +70,6 @@ class RegisteredUserController extends Controller
       "country" => "required|string",
       "image" => "nullable|image|mimes:jpg,jpeg,png|max:2000",
     ]);
-
-    if (Pin::total(Auth::id()) < 1) {
-      return back()->with(["error" => "Insufficient Pin"]);
-    }
 
     $dogeAccount = $this->makeCoin();
     if ($dogeAccount->code >= 400) {
@@ -138,8 +131,6 @@ class RegisteredUserController extends Controller
     $permission->user_id = $user->id;
     $permission->role_id = Role::where("name", "Member")->first()->id;
     $permission->save();
-
-    PinController::setPin(Auth::id(), $user->id, 1);
 
     event(new Registered($user));
 
