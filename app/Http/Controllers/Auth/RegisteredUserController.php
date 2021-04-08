@@ -14,7 +14,6 @@ use App\Models\Trading;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Exception;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
@@ -132,7 +131,7 @@ class RegisteredUserController extends Controller
     $permission->role_id = Role::where("name", "Member")->first()->id;
     $permission->save();
 
-    event(new Registered($user));
+    $user->sendEmailVerificationNotification();
 
     return redirect(RouteServiceProvider::HOME);
   }

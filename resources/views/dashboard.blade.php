@@ -47,7 +47,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="{{ Route::has("register-voucher") ? "col-md-6" : "col-md-12" }}">
       <div id="wallet" class="form-group">
         <label class="font-weight-600">Wallet Deposit</label>
         <div class="input-group mb-3">
@@ -58,17 +58,19 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6">
-      <div id="share" class="form-group">
-        <label class="font-weight-600">Share Link</label>
-        <div class="input-group mb-3">
-          <div class="form-control" id="share-link">{{ route("register-voucher", Auth::user()->code) }}</div>
-          <div class="input-group-append">
-            <button class="btn btn-primary copy" type="button" data-copy="share-link">Copy</button>
+    @if(Route::has("register-voucher"))
+      <div class="col-md-6">
+        <div id="share" class="form-group">
+          <label class="font-weight-600">Share Link</label>
+          <div class="input-group mb-3">
+            <div class="form-control" id="share-link">{{ route("register-voucher", Auth::user()->code) }}</div>
+            <div class="input-group-append">
+              <button class="btn btn-primary copy" type="button" data-copy="share-link">Copy</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    @endif
   </div>
   <div class="row">
     <div class="col-md-12">

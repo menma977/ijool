@@ -55,7 +55,6 @@ class Registered extends Notification
       ->subject('New Registration')
       ->view('mail.registered', [
         "name" => $notifiable->name,
-        "code" => $notifiable->code,
         "email" => $notifiable->email,
         "username" => $notifiable->username,
         "doge" => (object)[

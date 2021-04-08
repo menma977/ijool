@@ -26,7 +26,9 @@
         <div class="bottom-text text-center my-3">
           have an account? <a href="{{ route("login") }}" class="font-weight-500">Sign In</a>
           <br>
-          Don't have an account? <a href="{{ route("register") }}" class="font-weight-500">Sign Up</a>
+          @if (Route::has('register'))
+            Don't have an account? <a href="{{ route("register") }}" class="font-weight-500">Sign Up</a>
+          @endif
           @if (Route::has('password.request'))
             <br>
             Remind <a href="{{ route('password.request') }}" class="font-weight-500">Password</a>

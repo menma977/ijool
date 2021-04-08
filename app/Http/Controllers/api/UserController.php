@@ -124,10 +124,11 @@ class UserController extends Controller
     if ($id) {
       $id = Crypt::decryptString($id);
       $user = User::find($id);
-      if ($user->id != Auth::id())
+      if ($user->id != Auth::id()) {
         return response()->json([
           "message" => "Not Allowed"
         ], 405);
+      }
     } else {
       $user = Auth::user();
     }

@@ -16,7 +16,27 @@ class PinSeeder extends Seeder
   {
     $pin = new Pin();
     $pin->user_id = 1;
-    $pin->debit = 10000000;
+    $pin->debit = 1000000000;
+    $pin->save();
+
+    $pin = new Pin();
+    $pin->user_id = 1;
+    $pin->debit = 1000000000;
+    $pin->save();
+
+    $pin = new Pin();
+    $pin->user_id = 1;
+    $pin->debit = 1000000000;
+    $pin->save();
+
+    $pin = new Pin();
+    $pin->user_id = 1;
+    $pin->debit = 1000000000;
+    $pin->save();
+
+    $pin = new Pin();
+    $pin->user_id = 1;
+    $pin->debit = 1000000000;
     $pin->save();
   }
 }

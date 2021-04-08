@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DogeController;
 use App\Http\Controllers\LineController;
+use App\Http\Controllers\PinController;
 use App\Http\Controllers\SettingSubscribeController;
 use App\Http\Controllers\SubscribeController;
 use App\Http\Controllers\UserController;
@@ -50,6 +51,8 @@ Route::middleware(["auth", "verified"])->group(static function () {
 
   Route::group(["prefix" => "user", "as" => "user."], function () {
     Route::get("profile", [UserController::class, "profile"])->name("profile");
+    Route::get("create", [UserController::class, "create"])->name("create");
+    Route::post("store", [UserController::class, "store"])->name("store");
     Route::get("edit/{id}", [UserController::class, "edit"])->name("edit");
     Route::post("update/{id}", [UserController::class, "update"])->name("update");
     Route::group(["prefix" => "balance", "as" => "balance."], function () {
@@ -74,6 +77,11 @@ Route::middleware(["auth", "verified"])->group(static function () {
   Route::group(["prefix" => "line", "as" => "line.", "middleware" => "can:Admin"], function () {
     Route::get("", [LineController::class, "index"])->name("index");
     Route::get("show/{username}", [LineController::class, "show"])->name("show");
+  });
+
+  Route::group(["prefix" => "pin", "as" => "pin."], function () {
+    Route::get("", [PinController::class, "index"])->name("index");
+    Route::post("store", [PinController::class, "store"])->name("store");
   });
 });
 

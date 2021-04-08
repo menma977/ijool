@@ -377,15 +377,12 @@
                   <h4>Hello, {{ $name }}</h4>
                   <h4>you have registered at IJOOL</h4>
                   <hr/>
-                  <h4>voucher code to share : {{ $code }}</h4>
-                  <h4>link to share : {{ route("register-voucher", $code) }}</h4>
-                  <hr/>
                   <h4>with account</h4>
                   <h4>email : {{ $email }}</h4>
                   <h4>username : {{ $username }}</h4>
                   <h4>wallet deposit : {{ $doge->wallet }}</h4>
                   <hr/>
-                  <a href="{{ $url }}">link to verify your account</a>
+                  {{--                  <a href="{{ $url }}">link to verify your account</a>--}}
                 </div>
               </td>
             </tr>

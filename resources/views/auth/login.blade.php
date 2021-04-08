@@ -34,9 +34,10 @@
           </form>
         </div>
         <div class="bottom-text text-center my-3">
+          @if (Route::has('register'))
           Don't have an account? <a href="{{ route("register") }}" class="font-weight-500">Sign Up</a>
+          @endif
           @if (Route::has('password.request'))
-            <br>
             Remind <a href="{{ route('password.request') }}" class="font-weight-500">Password</a>
           @endif
         </div>
