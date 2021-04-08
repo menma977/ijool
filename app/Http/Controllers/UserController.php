@@ -22,6 +22,11 @@ use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
+  public function create()
+  {
+    
+  }
+
   /**
    * @return Application|Factory|View
    */

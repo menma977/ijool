@@ -19,6 +19,7 @@ class CreatePinsTable extends Migration
       $table->foreign('user_id')->references('id')->on('users');
       $table->integer("debit")->default(0);
       $table->integer("credit")->default(0);
+      $table->string("description")->nullable();
       $table->timestamps();
     });
   }

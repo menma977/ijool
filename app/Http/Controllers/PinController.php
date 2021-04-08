@@ -68,4 +68,12 @@ class PinController extends Controller
     $pin->credit = $total;
     $pin->save();
   }
+
+  public static function usePin($user_id)
+  {
+    $pin = new Pin();
+    $pin->user_id = $user_id;
+    $pin->credit = 1;
+    $pin->save();
+  }
 }

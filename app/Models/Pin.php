@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property integer user_id
  * @property integer debit
  * @property integer credit
+ * @property string description
  * @property string created_at
  * @property string updated_at
  */
@@ -26,6 +27,7 @@ class Pin extends Model
   protected $fillable = [
     'debit',
     'credit',
+    'description',
   ];
 
   protected $hidden = [
