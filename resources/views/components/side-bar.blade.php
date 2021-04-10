@@ -109,12 +109,12 @@
               </li>
             </ul>
           </li>
-          <li class="{{ request()->is(["line", "line/*"]) ? "mm-active" : "" }}">
-            <a href="{{ route("line.index") }}">
-              <i class="fab fas fa fa-network-wired mr-2"></i> Line
-            </a>
-          </li>
         @endcan
+        <li class="{{ request()->is(["line", "line/*"]) ? "mm-active" : "" }}">
+          <a href="{{ route("line.index") }}">
+            <i class="fab fas fa fa-network-wired mr-2"></i> Line
+          </a>
+        </li>
       </ul>
     </nav>
   </div>

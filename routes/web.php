@@ -75,7 +75,7 @@ Route::middleware(["auth", "verified"])->group(static function () {
     });
   });
 
-  Route::group(["prefix" => "line", "as" => "line.", "middleware" => "can:Admin"], function () {
+  Route::group(["prefix" => "line", "as" => "line."], function () {
     Route::get("", [LineController::class, "index"])->name("index");
     Route::get("show/{username}", [LineController::class, "show"])->name("show");
   });
