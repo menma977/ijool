@@ -40,7 +40,7 @@
             <i class="fas fa-parking mr-2"></i> Pin
           </a>
         </li>
-        <li class="{{ request()->is(["user/create"]) ? "mm-active" : "" }}">
+        <li {{ request()->is(["subscribe/config/*"]) ? "class='mm-active'" : "" }}>
           <a href="{{ route("user.create") }}">
             <i class="fas fa-users mr-2"></i> Add User
           </a>
@@ -49,6 +49,40 @@
           <a href="{{ route("doge.withdraw.create") }}">
             <i class="fas fa-store mr-2"></i> Withdraw
           </a>
+        </li>
+        <li class="{{ request()->is(["doge/history/income/*"]) ? "mm-active" : "" }}">
+          <a class="has-arrow material-ripple" href="#" {{ request()->is(["doge/history/income/*"]) ? "aria-expanded='true'" : "" }}>
+            <i class="fas fa-balance-scale-left mr-2"></i> Income Doge
+          </a>
+          <ul class="nav-second-level mm-collapse {{ request()->is(["doge/history/income/*"]) ? " mm-show" : "" }}">
+            <li class="{{ request()->is(["doge/history/income/internal", "doge/history/income/internal/*"]) ? "mm-active" : "" }}">
+              <a href="{{ route("doge.history", ["income", "internal"]) }}" {{ request()->is(["doge/history/income/internal", "doge/history/income/internal/*"]) ? "aria-expanded='true'" : "" }}>
+                Internal
+              </a>
+            </li>
+            <li class="{{ request()->is(["doge/history/income/external", "doge/history/income/external/*"]) ? "mm-active" : "" }}">
+              <a href="{{ route("doge.history", ["income", "external"]) }}" {{ request()->is(["doge/history/income/external", "doge/history/income/external/*"]) ? "aria-expanded='true'" : "" }}>
+                External
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="{{ request()->is(["doge/history/outcome/*"]) ? "mm-active" : "" }}">
+          <a class="has-arrow material-ripple" href="#" {{ request()->is(["doge/history/outcome/*"]) ? "aria-expanded='true'" : "" }}>
+            <i class="fas fa-balance-scale-right mr-2"></i> Outcome Doge
+          </a>
+          <ul class="nav-second-level mm-collapse {{ request()->is(["doge/history/outcome/*"]) ? " mm-show" : "" }}">
+            <li class="{{ request()->is(["doge/history/outcome/internal", "doge/history/outcome/internal/*"]) ? "mm-active" : "" }}">
+              <a href="{{ route("doge.history", ["outcome", "internal"]) }}" {{ request()->is(["doge/history/outcome/internal", "doge/history/outcome/internal/*"]) ? "aria-expanded='true'" : "" }}>
+                Internal
+              </a>
+            </li>
+            <li class="{{ request()->is(["doge/history/outcome/external", "doge/history/outcome/external/*"]) ? "mm-active" : "" }}">
+              <a href="{{ route("doge.history", ["outcome", "external"]) }}" {{ request()->is(["doge/history/outcome/external", "doge/history/outcome/external/*"]) ? "aria-expanded='true'" : "" }}>
+                External
+              </a>
+            </li>
+          </ul>
         </li>
         <li class="{{ request()->is(["dashboard/android"]) ? "mm-active" : "" }}">
           <a href="{{ route("dashboard.android") }}">

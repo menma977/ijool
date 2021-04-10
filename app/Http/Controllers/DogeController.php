@@ -19,7 +19,7 @@ use Illuminate\Validation\ValidationException;
 class DogeController extends Controller
 {
   /**
-   * @return Application|Factory|View|RedirectResponse
+   * @return Application|Factory|View
    */
   public function index()
   {
@@ -28,6 +28,44 @@ class DogeController extends Controller
       "user" => $user
     ];
     return view("doge.bet", $data);
+  }
+
+  public function history($type = "income", $target = "internal", $next = null)
+  {
+    if ($type == "income") {
+      $action = "GetDeposits";
+    } else {
+      $action = "GetWithdrawals";
+    }
+
+    $cookie = Auth::user()->doge->cookie;
+
+    $post = HttpController::post($action, [
+      "s" => $cookie,
+      "Token" => $next ?? ""
+    ]);
+
+    if ($post->code == 200) {
+      $next = $post->data->Token;
+      if ($target == "internal") {
+        $lists = $post->data->Transfers;
+      } else if ($type == "income") {
+        $lists = $post->data->Deposits;
+      } else {
+        $lists = $post->data->Withdrawals;
+      }
+
+      $data = [
+        "type" => $type,
+        "target" => $target,
+        "next" => $next,
+        "lists" => $lists
+      ];
+
+      return view("history.ledger", $data);
+    }
+
+    return redirect()->back()->with(["warning" => $post->message]);
   }
 
   /**

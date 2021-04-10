@@ -64,6 +64,7 @@ Route::middleware(["auth", "verified"])->group(static function () {
   Route::group(["prefix" => "doge", "as" => "doge."], function () {
     Route::get("url", [DogeController::class, "url"])->name("url");
     Route::post("transfer/{type}/{isAll}", [DogeController::class, "transfer"])->name("transfer");
+    Route::get("history/{type}/{target}/{next?}", [DogeController::class, "history"])->name("history");
     Route::group(["prefix" => "withdraw", "as" => "withdraw."], function () {
       Route::get("", [DogeController::class, "createWithdraw"])->name("create");
       Route::post("store", [DogeController::class, "storeWithdraw"])->name("store");

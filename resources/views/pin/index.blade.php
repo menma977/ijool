@@ -67,7 +67,9 @@
           <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">User</th>
+            @can("Admin")
+              <th scope="col">User</th>
+            @endcan
             <th scope="col">Description</th>
             <th scope="col">In</th>
             <th scope="col">Out</th>
@@ -78,7 +80,9 @@
           @foreach($pins as $pin)
             <tr>
               <th scope="row">{{ ($pins->currentpage() - 1) * $pins->perpage() + $loop->index + 1 }}.</th>
-              <td>{{ $pin->user->name }}</td>
+              @can("Admin")
+                <td>{{ $pin->user->name }}</td>
+              @endcan
               <td>{{ $pin->description ?? "-" }}</td>
               <td>{{ $pin->debit }}</td>
               <td>{{ $pin->credit }}</td>
