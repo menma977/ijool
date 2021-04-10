@@ -45,7 +45,7 @@ class DogeController extends Controller
       "Token" => $next ?? ""
     ]);
 
-    if ($post->code == 200) {
+    if ($post->code < 400) {
       $next = $post->data->Token;
       if ($target == "internal") {
         $lists = $post->data->Transfers;
