@@ -173,7 +173,7 @@ class DogeController extends Controller
   public function storeWithdraw(Request $request): RedirectResponse
   {
     $this->validate($request, [
-      "amount" => "required|numeric|min:5",
+      "amount" => "required|numeric|min:10",
       "wallet" => "required|string"
     ]);
     $doge = Doge::where("user_id", Auth::id())->first();

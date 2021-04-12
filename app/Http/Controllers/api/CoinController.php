@@ -23,7 +23,7 @@ class CoinController extends Controller
   public function withdraw(Request $request)
   {
     $this->validate($request, [
-      "amount" => "required|numeric|min:5",
+      "amount" => "required|numeric|min:10",
       "wallet" => "required|string"
     ]);
     $doge = Doge::where("user_id", Auth::id())->first();
