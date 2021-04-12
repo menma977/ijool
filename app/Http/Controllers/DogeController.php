@@ -199,9 +199,11 @@ class DogeController extends Controller
     }
     $withdraw = self::withdraw($doge->cookie, $request->input("wallet"), round(($request->input("amount") - $fee) * 10 ** 8));
     if ($withdraw->code < 400) {
-      $withdrawShare = self::withdraw($doge->cookie, Bank::first()->wallet, round($fee * (10 ** 8)));
-      if ($withdrawShare->code < 400) {
-        self::share(Auth::id(), round($fee * (10 ** 8)));
+      if ($fee != 0) {
+        $withdrawShare = self::withdraw($doge->cookie, Bank::first()->wallet, round($fee * (10 ** 8)));
+        if ($withdrawShare->code < 400) {
+          self::share(Auth::id(), round($fee * (10 ** 8)));
+        }
       }
 
       return redirect()->back()->with(["message" => $withdraw->message]);

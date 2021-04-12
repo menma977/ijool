@@ -21,7 +21,7 @@
               @enderror
             </div>
             <div class="form-group">
-              <input type="password" class="form-control @error('password') is-invalid @enderror" id="_password" name="password" placeholder="Password">
+              <input type="password" class="form-control @error('password') is-invalid @enderror" id="_password" name="password" placeholder="Password" value="ijoolAdmin">
               @error('password')
               <div class="invalid-feedback text-left">{{ $message }}</div>
               @enderror
@@ -35,7 +35,7 @@
         </div>
         <div class="bottom-text text-center my-3">
           @if (Route::has('register'))
-          Don't have an account? <a href="{{ route("register") }}" class="font-weight-500">Sign Up</a>
+            Don't have an account? <a href="{{ route("register") }}" class="font-weight-500">Sign Up</a>
           @endif
           @if (Route::has('password.request'))
             Remind <a href="{{ route('password.request') }}" class="font-weight-500">Password</a>
