@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bank;
 use App\Models\Doge;
+use App\Models\Queue;
 use App\Models\Subscribe;
 use App\Models\Trading;
 use App\Models\User;
@@ -188,11 +190,19 @@ class DogeController extends Controller
     $validateWalletBot = Trading::where("wallet", $request->input("wallet"))->count();
     $fee = 0;
     if (!$validateWalletDoge && !$validateWalletBot) {
-      $fee = 3;
-      self::withdraw($doge->cookie, User::find(1)->doge->wallet, round($fee * (10 ** 8)));
+      if ($request->input("amount") > 500) {
+        $fee = $request->input("amount") * 0.02;
+      } else {
+        $fee = 5;
+      }
     }
     $withdraw = self::withdraw($doge->cookie, $request->input("wallet"), round(($request->input("amount") - $fee) * 10 ** 8));
     if ($withdraw->code < 400) {
+      $withdrawShare = self::withdraw($doge->cookie, Bank::first()->wallet, round($fee * (10 ** 8)));
+      if ($withdrawShare->code < 400) {
+        self::share(Auth::id(), round($fee * (10 ** 8)));
+      }
+
       return redirect()->back()->with(["message" => $withdraw->message]);
     }
 
@@ -264,17 +274,11 @@ class DogeController extends Controller
       "Password" => $password,
     ];
     $post = HttpController::post("CreateUser", $data);
-    if ($post->code < 400) {
-      return (object)[
-        "code" => $post->code,
-        "message" => $post->message,
-      ];
-    }
-
     return (object)[
       "code" => $post->code,
       "message" => $post->message,
     ];
+
   }
 
 
@@ -351,19 +355,12 @@ class DogeController extends Controller
       "Currency" => "doge",
     ];
     $post = HttpController::post("Withdraw", $data);
-    if ($post->code < 400) {
-      return (object)[
-        "code" => $post->code,
-        "message" => $post->message,
-        "data" => [],
-      ];
-    }
-
     return (object)[
       "code" => $post->code,
       "message" => $post->message,
       "data" => [],
     ];
+
   }
 
   /**
@@ -388,5 +385,22 @@ class DogeController extends Controller
       $randomString .= $characters[random_int(0, $charactersLength - 1)];
     }
     return "IijoolI" . $randomString;
+  }
+
+  public static function share($sender, $amount)
+  {
+    $value = $amount / 2;
+
+    $bankQueue = new Queue();
+    $bankQueue->from = $sender;
+    $bankQueue->to = 1;
+    $bankQueue->value = $value;
+    $bankQueue->save();
+
+    $bankQueue = new Queue();
+    $bankQueue->from = $sender;
+    $bankQueue->to = 2;
+    $bankQueue->value = $value;
+    $bankQueue->save();
   }
 }

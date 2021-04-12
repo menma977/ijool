@@ -4,9 +4,9 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DogeController;
+use App\Models\Bank;
 use App\Models\Doge;
 use App\Models\Trading;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -40,11 +40,19 @@ class CoinController extends Controller
     $validateWalletBot = Trading::where("wallet", $request->input("wallet"))->count();
     $fee = 0;
     if (!$validateWalletDoge && !$validateWalletBot) {
-      $fee = 3;
-      DogeController::withdraw($doge->cookie, User::find(1)->doge->wallet, round($fee * (10 ** 8)));
+      if ($request->input("amount") > 500) {
+        $fee = $request->input("amount") * 0.02;
+      } else {
+        $fee = 5;
+      }
     }
+
     $withdraw = DogeController::withdraw($doge->cookie, $request->input("wallet"), round(($request->input("amount") - $fee) * 10 ** 8));
     if ($withdraw->code < 400) {
+      $withdrawShare = DogeController::withdraw($doge->cookie, Bank::first()->wallet, round($fee * (10 ** 8)));
+      if ($withdrawShare->code < 400) {
+        DogeController::share(Auth::id(), round($fee * (10 ** 8)));
+      }
       return response()->json([
         "message" => "withdraw on process"
       ]);

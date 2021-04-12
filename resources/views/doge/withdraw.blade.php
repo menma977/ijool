@@ -48,7 +48,7 @@
             <div class="form-group">
               <label for="amount" class="font-weight-600">Amount</label>
               <input type="number" class="form-control @error("amount") is-invalid @enderror" id="amount" name="amount" placeholder="Enter Amount" value="{{ old("amount") }}">
-              <small id="emailHelp" class="form-text text-muted">Fee for outward application is 5 doge.</small>
+              <small id="emailHelp" class="form-text text-muted">Fee for outward application is 5 doge, if withdraw more then 500 doge fee is 2%.</small>
               @error("amount")
               <small id="emailHelp" class="form-text text-danger">{{ $message }}</small>
               @enderror

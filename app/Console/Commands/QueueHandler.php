@@ -50,11 +50,10 @@ class QueueHandler extends Command
         } else {
           $queue->send_at = Carbon::now()->addMinutes(10)->format("Y-m-d H:i:s");
         }
-        $queue->save();
       } else {
         $queue->send_at = Carbon::now()->addMinutes(10)->format("Y-m-d H:i:s");
-        $queue->save();
       }
+      $queue->save();
     }
   }
 }
