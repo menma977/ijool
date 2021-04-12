@@ -38,7 +38,7 @@ class BillHandler extends Command
   {
     $bill = Bill::where("status", false)->where("send_at", "<=", Carbon::now())->first();
     if ($bill) {
-      $doge = Doge::where("user_id", $bill->to)->first();
+      $doge = Doge::where("user_id", $bill->from)->first();
       $settingSubscribe = SettingSubscribe::first();
       $line = Line::where("mate", $bill->user_id)->whereNotIn("user_id", [1])->count();
 
@@ -48,7 +48,7 @@ class BillHandler extends Command
         if ($line) {
           $shareQueue = new Queue();
           $shareQueue->from = $bill->from;
-          $shareQueue->to = Line::where("mate", $bill->to)->first()->user_id ?? 1;
+          $shareQueue->to = Line::where("mate", $bill->from)->first()->user_id ?? 1;
           $shareQueue->value = round($value * $settingSubscribe->share);
           $shareQueue->save();
           $value -= $shareQueue->value;

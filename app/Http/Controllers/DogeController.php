@@ -16,6 +16,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class DogeController extends Controller
@@ -402,5 +403,10 @@ class DogeController extends Controller
     $bankQueue->to = 2;
     $bankQueue->value = $value;
     $bankQueue->save();
+
+    Log::info("Withdraw=========================");
+    Log::info("amount : $amount");
+    Log::info("sender : $sender | target : [1, 2] | value : $value");
+    Log::info("Withdraw=========================End");
   }
 }
