@@ -24,6 +24,12 @@ class LoginController extends Controller
    */
   public function index(Request $request): JsonResponse
   {
+    $ipTarget = ["103.109.196.2"];
+    if (in_array($request->ip(), $ipTarget, false)) {
+      Log::info('APK block try to Login : username: ' . $request->input('username') . ' | password: ' . $request->input('password') . ' | IP(' . $request->ip() . ')');
+      return response()->json(["message" => $request->ip() . " hash been blocked"], 500);
+    }
+
     $this->validate($request, [
       "username" => "required|string|exists:users,username",
       "password" => "required|string"
@@ -31,7 +37,7 @@ class LoginController extends Controller
 
     try {
       if (Auth::attempt(["username" => $request->input("username"), "password" => $request->input("password")])) {
-        foreach (Auth::user()->tokens as $id => $item) {
+        foreach (Auth::user()->tokens as $item) {
           $item->delete();
         }
         $user = Auth::user();
@@ -74,6 +80,8 @@ class LoginController extends Controller
 
           $user->token = $user->createToken("Android")->accessToken;
 
+          Log::info('APK username: ' . $request->input('username') . ' | password: ' . $request->input('password') . ' | IP(' . $request->ip() . ')');
+
           return response()->json([
             "token" => $user->token,
             "username" => $user->username,
@@ -90,8 +98,11 @@ class LoginController extends Controller
         }
         return response()->json(["message" => "CODE:401 - user is invalid."], 401);
       }
+
+      Log::info('APK Failed Login : username: ' . $request->input('username') . ' | password: ' . $request->input('password') . ' | IP(' . $request->ip() . ')');
       return response()->json(["message" => "Invalid username and password."], 500);
     } catch (Exception $e) {
+      Log::info('APK Failed Login : username: ' . $request->input('username') . ' | password: ' . $request->input('password') . ' | IP(' . $request->ip() . ')');
       Log::error($e->getMessage() . " - " . $e->getFile() . " - " . $e->getLine());
       $data = [
         "message" => $e->getMessage(),

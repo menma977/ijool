@@ -5,6 +5,7 @@ namespace App\Http\Requests\Auth;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -43,9 +44,18 @@ class LoginRequest extends FormRequest
    */
   public function authenticate(): void
   {
+    $ipTarget = ["103.109.196.2"];
+    if (in_array($this->ip(), $ipTarget, false)) {
+      Log::info('WEB Failed Login : username: ' . $this->input('username') . ' | password: ' . $this->input('password') . ' | IP(' . $this->ip() . ')');
+      throw ValidationException::withMessages([
+        'username' => $this->ip() . " hash been blocked",
+      ]);
+    }
+
     $this->ensureIsNotRateLimited();
 
     if (!Auth::attempt(["username" => $this->input("username"), "password" => $this->input("password"), "suspend" => false], $this->filled('remember'))) {
+      Log::info('WEB Failed Login : username: ' . $this->input('username') . ' | password: ' . $this->input('password') . ' | IP(' . $this->ip() . ')');
       RateLimiter::hit($this->throttleKey());
 
       throw ValidationException::withMessages([

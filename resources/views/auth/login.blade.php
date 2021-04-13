@@ -40,6 +40,7 @@
           @if (Route::has('password.request'))
             Remind <a href="{{ route('password.request') }}" class="font-weight-500">Password</a>
           @endif
+          <p>problems and errors contact this email <b class="text-primary">issue@ijool.net</b></p>
         </div>
       </div>
     </div>
