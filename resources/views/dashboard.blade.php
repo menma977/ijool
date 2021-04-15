@@ -19,7 +19,20 @@
 
 @section("content")
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
+      <div class="card card-stats statistic-box mb-4">
+        <div class="card-header card-header-info card-header-icon position-relative border-0 text-right px-3 py-0">
+          <div class="card-icon d-flex align-items-center justify-content-center">
+            <i class="fas fa-dollar-sign"></i>
+          </div>
+          <p class="card-category text-uppercase fs-10 font-weight-bold text-muted">Your Balance in USD</p>
+          <h3 class="card-title fs-18 font-weight-bold">
+            <label class="usdBalance">-</label>
+          </h3>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
       <div class="card card-stats statistic-box mb-4">
         <div class="card-header card-header-warning card-header-icon position-relative border-0 text-right px-3 py-0">
           <div class="card-icon d-flex align-items-center justify-content-center">
@@ -33,7 +46,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
       <div class="card card-stats statistic-box mb-4">
         <div class="card-header card-header-success card-header-icon position-relative border-0 text-right px-3 py-0">
           <div class="card-icon d-flex align-items-center justify-content-center">
@@ -156,12 +169,24 @@
 
       interval = setInterval(function () {
         startLive();
-      }, 60000);
+      }, 30000);
+
+      let intervalUsd = setInterval(function () {
+        setUsd();
+      }, 2000);
 
       window.onbeforeunload = function () {
         clearInterval(interval);
+        clearInterval(intervalUsd);
       };
 
+      function setUsd() {
+        let doge = $(".dogeBalance").text();
+        let lastPrice = $("#lastPrice #price").text();
+        if (doge !== "-" && lastPrice !== "-") {
+          $(".usdBalance").text((lastPrice * doge).toFixed(2));
+        }
+      }
 
       function startLive() {
         $.ajax("{{ route("dashboard.candle", null) }}", {

@@ -40,16 +40,18 @@ class BillHandler extends Command
     if ($bill) {
       $doge = Doge::where("user_id", $bill->from)->first();
       $settingSubscribe = SettingSubscribe::first();
-      $line = Line::where("mate", $bill->user_id)->whereNotIn("user_id", [1])->count();
+      $line = Line::where("mate", $bill->from)->whereNotIn("user_id", [1])->count();
 
       $withdraw = DogeController::withdraw($doge->cookie, Bank::first()->wallet, $bill->value);
       if ($withdraw->code < 400) {
         $value = $bill->value;
         if ($line) {
+          $shareValue = round($value * $settingSubscribe->share);
+
           $shareQueue = new Queue();
           $shareQueue->from = $bill->from;
           $shareQueue->to = Line::where("mate", $bill->from)->first()->user_id ?? 1;
-          $shareQueue->value = round($value * $settingSubscribe->share);
+          $shareQueue->value = $shareValue < 200000000 ? 200000000 : $shareValue;
           $shareQueue->save();
           $value -= $shareQueue->value;
         }
