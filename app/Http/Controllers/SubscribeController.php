@@ -81,14 +81,22 @@ class SubscribeController extends Controller
     }
 
     if ($balance >= $settingSubscribe->price) {
-      $withdraw = DogeController::withdraw($doge->cookie, Bank::first()->wallet, $settingSubscribe->price);
+      $targetMin = 1000000000;
+      if ($settingSubscribe->price < $targetMin) {
+        $price = $targetMin;
+      } else {
+        $price = $settingSubscribe->price;
+      }
+      $withdraw = DogeController::withdraw($doge->cookie, Bank::first()->wallet, $price);
       if ($withdraw->code < 400) {
         $value = $settingSubscribe->price;
         if ($line) {
+          $shareValue = round($value * $settingSubscribe->share);
+
           $shareQueue = new Queue();
           $shareQueue->from = $user->id;
           $shareQueue->to = Line::where("mate", $user->id)->first()->user_id ?? 1;
-          $shareQueue->value = round($value * $settingSubscribe->share);
+          $shareQueue->value = $shareValue < 200000000 ? 200000000 : $shareValue;
           $shareQueue->save();
           $value -= $shareQueue->value;
         }

@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    @if($totalPin > 1)
+    @if($totalPin >= 1)
       <div class="col-md-12">
         <div class="card mb-4">
           <form method="POST" action="{{ route("user.store") }}" enctype="multipart/form-data">

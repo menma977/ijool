@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Support\Facades\Http;
-use Exception;
 use Illuminate\Support\Facades\Log;
 
 class HttpController extends Controller
@@ -162,11 +162,11 @@ class HttpController extends Controller
       }
 
       return (object)$data;
-    } catch (Exception $e) {
+    } catch (ConnectException $e) {
       Log::error($e);
       return (object)[
         "code" => 408,
-        "message" => $e->getMessage(),
+        "message" => "error to connect 999doge",
         "data" => [],
       ];
     }
