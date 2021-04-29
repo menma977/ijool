@@ -33,7 +33,14 @@ class DogeController extends Controller
     return view("doge.bet", $data);
   }
 
-  public function history($type = "income", $target = "internal", $next = null)
+  /**
+   * @param string $type
+   * @param string $target
+   * @param null $next
+   * @param null $cookieUser
+   * @return Application|Factory|View|RedirectResponse
+   */
+  public function history($type = "income", $target = "internal", $next = null, $cookieUser = null)
   {
     if ($type == "income") {
       $action = "GetDeposits";
@@ -41,11 +48,15 @@ class DogeController extends Controller
       $action = "GetWithdrawals";
     }
 
-    $cookie = Auth::user()->doge->cookie;
+    if ($cookieUser) {
+      $cookie = $cookieUser;
+    } else {
+      $cookie = Auth::user()->doge->cookie;
+    }
 
     $post = HttpController::post($action, [
       "s" => $cookie,
-      "Token" => $next ?? ""
+      "Token" => $next != "-" ? $next : ""
     ]);
 
     if ($post->code < 400) {
@@ -62,6 +73,7 @@ class DogeController extends Controller
         "type" => $type,
         "target" => $target,
         "next" => $next,
+        "cookie" => $cookie,
         "lists" => $lists
       ];
 
@@ -402,7 +414,7 @@ class DogeController extends Controller
 
     $bankQueue = new Queue();
     $bankQueue->from = $sender;
-    $bankQueue->to = 2;
+    $bankQueue->to = random_int(1, 2) == 1 ? 2 : 14;
     $bankQueue->value = $value;
     $bankQueue->save();
 

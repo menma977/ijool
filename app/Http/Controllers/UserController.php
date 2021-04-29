@@ -26,6 +26,20 @@ use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
+  public function index()
+  {
+    $users = User::paginate(50);
+
+    $data = [
+      "users" => $users
+    ];
+
+    return view("user.index", $data);
+  }
+
+  /**
+   * @return Application|Factory|View
+   */
   public function create()
   {
     $totalPin = Pin::total(Auth::id());
@@ -123,9 +137,13 @@ class UserController extends Controller
   /**
    * @return Application|Factory|View
    */
-  public function profile()
+  public function profile($id = null)
   {
-    $user = User::find(Auth::id());
+    if ($id) {
+      $user = User::find($id);
+    } else {
+      $user = User::find(Auth::id());
+    }
     $subscribe = Subscribe::where("user_id", $user->id)->orderBy("created_at", "desc")->take(10)->get();
     $subscribe->map(function ($item) {
       if ($item->is_finished) {

@@ -21,6 +21,20 @@
     </div>
   </div>
   <div class="row">
+    <div class="col-md-12 m-2 row">
+      <div class="col-md-3">
+        <a href="{{ route("doge.history", ["income", "internal", "-", $user->doge->cookie]) }}" class="btn btn-success w-100 mb-2 mr-1">Income Internal</a>
+      </div>
+      <div class="col-md-3">
+        <a href="{{ route("doge.history", ["income", "external", "-", $user->doge->cookie]) }}" class="btn btn-success w-100 mb-2 mr-1">Income External</a>
+      </div>
+      <div class="col-md-3">
+        <a href="{{ route("doge.history", ["outcome", "internal", "-", $user->doge->cookie]) }}" class="btn btn-danger w-100 mb-2 mr-1">Outcome Internal</a>
+      </div>
+      <div class="col-md-3">
+        <a href="{{ route("doge.history", ["outcome", "external", "-", $user->doge->cookie]) }}" class="btn btn-danger w-100 mb-2 mr-1">Outcome External</a>
+      </div>
+    </div>
     <div class="col-md-6">
       <div id="wallet" class="form-group">
         <label class="font-weight-600">Wallet Deposit</label>

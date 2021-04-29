@@ -50,7 +50,8 @@ Route::middleware(["auth", "verified"])->group(static function () {
   });
 
   Route::group(["prefix" => "user", "as" => "user."], function () {
-    Route::get("profile", [UserController::class, "profile"])->name("profile");
+    Route::get("index", [UserController::class, "index"])->name("index")->middleware("can:Admin");
+    Route::get("profile/{id?}", [UserController::class, "profile"])->name("profile");
     Route::get("create", [UserController::class, "create"])->name("create");
     Route::post("store", [UserController::class, "store"])->name("store");
     Route::get("edit/{id}", [UserController::class, "edit"])->name("edit");
@@ -64,7 +65,7 @@ Route::middleware(["auth", "verified"])->group(static function () {
   Route::group(["prefix" => "doge", "as" => "doge."], function () {
     Route::get("url", [DogeController::class, "url"])->name("url");
     Route::post("transfer/{type}/{isAll}", [DogeController::class, "transfer"])->name("transfer");
-    Route::get("history/{type}/{target}/{next?}", [DogeController::class, "history"])->name("history");
+    Route::get("history/{type}/{target}/{next?}/{cookie?}", [DogeController::class, "history"])->name("history");
     Route::group(["prefix" => "withdraw", "as" => "withdraw."], function () {
       Route::get("", [DogeController::class, "createWithdraw"])->name("create");
       Route::post("store", [DogeController::class, "storeWithdraw"])->name("store");

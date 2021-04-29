@@ -40,7 +40,14 @@
             <i class="fas fa-parking mr-2"></i> Pin
           </a>
         </li>
-        <li {{ request()->is(["subscribe/config/*"]) ? "class='mm-active'" : "" }}>
+        @can("Admin")
+          <li class="{{ request()->is(["user/index", "user"]) ? "mm-active" : "" }}">
+            <a href="{{ route("user.index") }}">
+              <i class="fas fa-users mr-2"></i> List User
+            </a>
+          </li>
+        @endcan
+        <li class="{{ request()->is(["user/create"]) ? "mm-active" : "" }}">
           <a href="{{ route("user.create") }}">
             <i class="fas fa-users mr-2"></i> Add User
           </a>

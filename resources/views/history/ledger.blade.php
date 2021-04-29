@@ -23,12 +23,12 @@
   <div class="row">
     @if($next)
       <div class="col-sm-12 p-2">
-        <a href="{{ route("doge.history", [$type, $target]) }}">
+        <a href="{{ route("doge.history", [$type, $target, "-", $cookie]) }}">
           <button type="button" class="btn btn-labeled btn-info mb-2 mr-1">
             <span class="btn-label"><i class="fas fa-redo-alt"></i></span>Refresh
           </button>
         </a>
-        <a href="{{ route("doge.history", [$type, $target, $next]) }}">
+        <a href="{{ route("doge.history", [$type, $target, $next, $cookie]) }}">
           <button type="button" class="btn btn-labeled btn-primary mb-2 mr-1">
             <span class="btn-label"><i class="fas fa-chevron-right"></i></span>Next
           </button>
@@ -57,10 +57,10 @@
           @foreach($lists as $list)
             <tr>
               @if($type == "income")
-              <td>{{ \Carbon\Carbon::parse($list["Date"])->format("Y-m-d H:i:s") }}</td>
+                <td>{{ \Carbon\Carbon::parse($list["Date"])->format("Y-m-d H:i:s") }}</td>
               @else
-              <td>{{ \Carbon\Carbon::parse($list["Requested"])->format("Y-m-d H:i:s") }}</td>
-              <td>{{ \Carbon\Carbon::parse($list["Completed"])->format("Y-m-d H:i:s") }}</td>
+                <td>{{ \Carbon\Carbon::parse($list["Requested"])->format("Y-m-d H:i:s") }}</td>
+                <td>{{ \Carbon\Carbon::parse($list["Completed"])->format("Y-m-d H:i:s") }}</td>
               @endif
               <td>{{ $list["Address"] }}</td>
               @if($target == "external")
