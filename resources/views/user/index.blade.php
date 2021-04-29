@@ -44,7 +44,7 @@
                 <img src="{{ $user->profile->image ? asset("storage/profile/".$user->profile->image) : asset("dist/img/logo_bg.png") }}"
                      class="img-fluid rounded-circle"
                      alt="{{ $user->name }}"
-                     style="width: 25px">
+                     style="width: 25px;height: 25px">
               </td>
               <td>
                 <a href="{{ route("user.profile", $user->id) }}">

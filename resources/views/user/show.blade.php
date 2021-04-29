@@ -65,7 +65,7 @@
           </div>
           <p class="card-category text-uppercase fs-10 font-weight-bold text-muted">Your Balance</p>
           <h3 class="card-title fs-18 font-weight-bold">
-            <label id="balanceDoge" class="dogeBalance">-</label>
+            <label id="balanceDoge">-</label>
             <small>DOGE</small>
           </h3>
         </div>
@@ -82,7 +82,7 @@
           </div>
           <p class="card-category text-uppercase fs-10 font-weight-bold text-muted">BOT Balance</p>
           <h3 class="card-title fs-18 font-weight-bold">
-            <label id="balanceBot" class="botBalance">-</label>
+            <label id="balanceBot">-</label>
             <small>DOGE</small>
           </h3>
         </div>

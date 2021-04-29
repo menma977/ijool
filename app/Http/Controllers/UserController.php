@@ -28,7 +28,7 @@ class UserController extends Controller
 {
   public function index()
   {
-    $users = User::paginate(50);
+    $users = User::simplePaginate(50);
 
     $data = [
       "users" => $users
