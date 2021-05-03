@@ -39,7 +39,7 @@
           <tbody>
           @foreach($users as $user)
             <tr>
-              <th scope="row">{{ ($users->currentpage() - 1) * $users->perpage() + $loop->index + 1 }}.</th>
+              <td scope="row">{{ ($users->currentpage() - 1) * $users->perpage() + $loop->index + 1 }}.</td>
               <td style="width: 45px">
                 <img src="{{ $user->profile->image ? asset("storage/profile/".$user->profile->image) : asset("dist/img/logo_bg.png") }}"
                      class="img-fluid rounded-circle"
