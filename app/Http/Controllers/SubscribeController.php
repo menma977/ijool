@@ -112,7 +112,7 @@ class SubscribeController extends Controller
 
         $subscribe = new Subscribe();
         $subscribe->user_id = $user->id;
-        $subscribe->price = $settingSubscribe->price;
+        $subscribe->price = $price;
         $subscribe->is_finished = false;
         $subscribe->expired_at = Carbon::now()->addMonth();
         $subscribe->save();
