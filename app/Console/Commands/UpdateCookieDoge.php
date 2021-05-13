@@ -37,6 +37,7 @@ class UpdateCookieDoge extends Command
         $post = DogeController::login($doge->username, $doge->password);
         if ($post->code < 400) {
           $doge->cookie = $post->data->cookie;
+          $doge->updated_at = Carbon::now()->addMonth();
           $doge->save();
         }
       } catch (Exception $e) {
