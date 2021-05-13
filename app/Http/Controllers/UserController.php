@@ -29,6 +29,10 @@ class UserController extends Controller
   public function index()
   {
     $users = User::simplePaginate(50);
+    $users->getCollection()->transform(function ($item) {
+      $item->pin = Pin::total($item->id);
+      return $item;
+    });
 
     $data = [
       "users" => $users

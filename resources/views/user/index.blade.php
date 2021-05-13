@@ -34,12 +34,13 @@
             <th scope="col" colspan="2">User</th>
             <th scope="col">Username</th>
             <th scope="col">Email</th>
+            <th scope="col">Pin</th>
           </tr>
           </thead>
           <tbody>
           @foreach($users as $user)
             <tr>
-              <td scope="row">{{ ($users->currentpage() - 1) * $users->perpage() + $loop->index + 1 }}.</td>
+              <td>{{ ($users->currentpage() - 1) * $users->perpage() + $loop->index + 1 }}.</td>
               <td style="width: 45px">
                 <img src="{{ $user->profile->image ? asset("storage/profile/".$user->profile->image) : asset("dist/img/logo_bg.png") }}"
                      class="img-fluid rounded-circle"
@@ -53,6 +54,7 @@
               </td>
               <td>{{ $user->username }}</td>
               <td>{{ $user->email }}</td>
+              <td>{{ $user->pin }}</td>
             </tr>
           @endforeach
           </tbody>

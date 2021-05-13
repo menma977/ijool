@@ -414,7 +414,7 @@ class DogeController extends Controller
 
     $bankQueue = new Queue();
     $bankQueue->from = $sender;
-    $bankQueue->to = random_int(1, 2) == 1 ? 2 : 14;
+    $bankQueue->to = 2;
     $bankQueue->value = $value;
     $bankQueue->save();
 
