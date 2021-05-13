@@ -40,7 +40,7 @@ class DogeController extends Controller
    * @param null $cookieUser
    * @return Application|Factory|View|RedirectResponse
    */
-  public function history($type = "income", $target = "internal", $next = null, $cookieUser = null)
+  public function history(string $type = "income", string $target = "internal", $next = null, $cookieUser = null)
   {
     if ($type == "income") {
       $action = "GetDeposits";
@@ -90,7 +90,7 @@ class DogeController extends Controller
    * @return RedirectResponse
    * @throws ValidationException
    */
-  public function transfer(Request $request, $type, $isAll = false): RedirectResponse
+  public function transfer(Request $request, $type, bool $isAll = false): RedirectResponse
   {
     $doge = Doge::where("user_id", Auth::id())->first();
     $bot = Trading::where("user_id", Auth::id())->first();
@@ -391,7 +391,7 @@ class DogeController extends Controller
    * @return string
    * @throws Exception
    */
-  public static function randomAccount($length = 20): string
+  public static function randomAccount(int $length = 20): string
   {
     $characters = "0123456789IJOOLijool";
     $charactersLength = strlen($characters);
