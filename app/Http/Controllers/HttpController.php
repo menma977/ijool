@@ -16,7 +16,7 @@ class HttpController extends Controller
    * @param false $needKey
    * @return object
    */
-  public static function post($action, $body, $needKey = false): object
+  public static function post($action, $body, bool $needKey = false): object
   {
     try {
       $body["a"] = $action;
