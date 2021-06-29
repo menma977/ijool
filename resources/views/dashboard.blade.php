@@ -19,6 +19,13 @@
 
 @section("content")
   <div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-warning">
+        <strong>New Change!</strong>
+        <p class="m-0"><b>#</b>NEW <b>App</b> and NEW <b>Robot</b></p>
+        <p class=m-0><b>#</b>when <b>renew subscription</b> get <b>1 PIN</b></p>
+      </div>
+    </div>
     <div class="col-md-4">
       <div class="card card-stats statistic-box mb-4">
         <div class="card-header card-header-info card-header-icon position-relative border-0 text-right px-3 py-0">

@@ -1,6 +1,5 @@
 <nav class="navbar-custom-menu navbar navbar-expand-lg m-0">
-  <div class="sidebar-toggle-icon" id="sidebarCollapse">
-    sidebar toggle<span></span>
+  <div class="sidebar-toggle-icon" id="sidebarCollapse">sidebar toggle<span></span>
   </div><!--/.sidebar toggle icon-->
   <div class="d-flex flex-grow-1">
     <ul class="navbar-nav flex-row align-items-center ml-auto">

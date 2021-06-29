@@ -7,6 +7,7 @@ use App\Models\Bank;
 use App\Models\Bill;
 use App\Models\Doge;
 use App\Models\Line;
+use App\Models\Pin;
 use App\Models\Queue;
 use App\Models\SettingSubscribe;
 use App\Models\Subscribe;
@@ -28,7 +29,7 @@ class BillHandler extends Command
    *
    * @var string
    */
-  protected $description = "Command description";
+  protected $description = "bill";
 
   /**
    * Execute the console command.
@@ -68,6 +69,12 @@ class BillHandler extends Command
         $subscribe->is_finished = false;
         $subscribe->expired_at = Carbon::now()->addMonth();
         $subscribe->save();
+
+        $pin = new Pin();
+        $pin->user_id = $bill->from;
+        $pin->description = "bonus PIN from renew subscribe";
+        $pin->debit = 1;
+        $pin->save();
 
         $bill->status = true;
       } else {
