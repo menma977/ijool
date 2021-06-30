@@ -33,7 +33,7 @@
               <a href="{{ asset("download/apk/app-release.apk") }}" target="_blank" class="btn btn-success mb-2">
                 Android APK
               </a>
-              <a href="{{ url("https://play.google.com/store/apps/details?id=net.ijool") }}" target="_blank" class="btn btn-primary disabled mb-2">
+              <a href="{{ url("https://play.google.com/store/apps/details?id=net.ijool.v2") }}" target="_blank" class="btn btn-primary mb-2">
                 Google Play
               </a>
               <div class="row">
