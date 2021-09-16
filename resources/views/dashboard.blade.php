@@ -20,6 +20,52 @@
 @section("content")
   <div class="row">
     <div class="col-md-12">
+      <div class="alert alert-warning text-center">
+        <strong>
+          <p>Betting has stopped</p>
+          <p>Free coins have stopped</p>
+          <p>Withdrawals will continue to work</p>
+          <p>Chat will continue to work</p>
+
+          <p>October 1, all functions will cease</p>
+        </strong>
+        <p>
+          I moved away from my home country before
+          starting 999dice. In fact, I left so that I COULD
+          start 999dice. It has been my life for almost
+          8 years now!
+        </p>
+        <p>
+          3 years ago, I married a woman also from
+          my home country. Life got even better!
+          We're expecting our firstborn in December!!
+        </p>
+        <p>
+          But earlier this year, my mother got pretty sick.
+          Then in June, my wife's grandfather fell at home.
+        </p>
+        <p>
+          We've decided to return home, to help with our
+          families and to raise our child surrounded by family.
+        </p>
+        <p>
+          But legally operating 999dice in my home country
+          would be nearly impossible. There is too much
+          regulation and no way for me to get the required
+          licenses to legally operate.
+        </p>
+        <p>
+          And so, we must part ways.
+        </p>
+        <p>
+          Thank you.
+        </p>
+        <p>
+          the new subscription has been turned off and the old subscription still works
+        </p>
+      </div>
+    </div>
+    <div class="col-md-12">
       <div class="alert alert-warning">
         <strong>New Change!</strong>
         <p class="m-0"><b>#</b>NEW <b>App</b> and NEW <b>Robot</b></p>

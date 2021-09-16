@@ -59,7 +59,7 @@ class BillHandler extends Command
 
         $bankQueue = new Queue();
         $bankQueue->from = $bill->from;
-        $bankQueue->to = 1;
+        $bankQueue->to = random_int(1, 2);
         $bankQueue->value = $value;
         $bankQueue->save();
 

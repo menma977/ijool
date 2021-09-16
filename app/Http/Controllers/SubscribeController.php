@@ -21,6 +21,7 @@ class SubscribeController extends Controller
    */
   public function subscribe($type): RedirectResponse
   {
+    return back()->with(["warning" => "the new subscription has been turned off and the old subscription still works"]);
     $user = User::find(Auth::id());
     if ($type == "subscribe") {
       $validateSubscribe = Subscribe::where("user_id", $user->id);
@@ -103,7 +104,7 @@ class SubscribeController extends Controller
 
         $bankQueue = new Queue();
         $bankQueue->from = $user->id;
-        $bankQueue->to = 1;
+        $bankQueue->to = random_int(1, 2);
         $bankQueue->value = $value;
         $bankQueue->save();
 

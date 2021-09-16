@@ -32,18 +32,18 @@ class ValidationSubscribe extends Command
   {
     $subscribe = Subscribe::whereDate("expired_at", "<=", Carbon::now())->where("is_finished", false)->first();
     if ($subscribe) {
-      $targetMin = 1000000000;
-      $settingSubscribe = SettingSubscribe::first();
-      if ($settingSubscribe->price < $targetMin) {
-        $price = $targetMin;
-      } else {
-        $price = $settingSubscribe->price;
-      }
-      $bill = new Bill();
-      $bill->from = $subscribe->user_id;
-      $bill->to = 1;
-      $bill->value = $price;
-      $bill->save();
+//      $targetMin = 1000000000;
+//      $settingSubscribe = SettingSubscribe::first();
+//      if ($settingSubscribe->price < $targetMin) {
+//        $price = $targetMin;
+//      } else {
+//        $price = $settingSubscribe->price;
+//      }
+//      $bill = new Bill();
+//      $bill->from = $subscribe->user_id;
+//      $bill->to = 1;
+//      $bill->value = $price;
+//      $bill->save();
 
       $subscribe->is_finished = true;
       $subscribe->save();

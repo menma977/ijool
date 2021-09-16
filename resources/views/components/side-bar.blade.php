@@ -13,19 +13,19 @@
       <span>{{ $user->code }}</span>
     </div>
   </div>
-  <div class="search sidebar-form">
-    <div class="search__inner">
-      @if($user->subscribe)
-        <button type="button" class="btn btn-warning btn-block rounded-pill" id="unsubscribe">
-          unsubscribe
-        </button>
-      @else
-        <button type="button" class="btn btn-danger btn-block rounded-pill" data-toggle="modal" data-target="#modal_subscribe">
-          subscribe
-        </button>
-      @endif
-    </div>
-  </div>
+{{--  <div class="search sidebar-form">--}}
+{{--    <div class="search__inner">--}}
+{{--      @if($user->subscribe)--}}
+{{--        <button type="button" class="btn btn-warning btn-block rounded-pill" id="unsubscribe">--}}
+{{--          unsubscribe--}}
+{{--        </button>--}}
+{{--      @else--}}
+{{--        <button type="button" class="btn btn-danger btn-block rounded-pill" data-toggle="modal" data-target="#modal_subscribe">--}}
+{{--          subscribe--}}
+{{--        </button>--}}
+{{--      @endif--}}
+{{--    </div>--}}
+{{--  </div>--}}
   <div class="sidebar-body">
     <nav class="sidebar-nav">
       <ul class="metismenu">
